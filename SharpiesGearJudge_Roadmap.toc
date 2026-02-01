@@ -1,0 +1,11 @@
+## Interface: 20504
+## Title: Sharpie's Gear Judge |cff00ff00[Roadmap]|r
+## Notes: Finds the best upgrades for you.
+## Author: Supersharpie
+## Version: 1.0
+## Dependencies: SharpiesGearJudge
+
+D1_Items.lua
+D2_Items.lua
+D3_Items.lua
+Roadmap.lua

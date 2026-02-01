@@ -1,0 +1,31 @@
+# Changelog - Roadmap Plugin
+
+## [v2.0.1]
+
+### Features
+* **Chain Mode:** Introduced a persistent "Virtual Gear" system.
+    * Users can now simulate progression by "equipping" dungeon drops virtually.
+    * Subsequent scans compare loot against the virtual set, allowing for accurate "step-by-step" gearing plans.
+* **Export to Lab:** Added an **Export** button that generates a string compatible with *The Lab* plugin.
+    * Supports exporting both real gear and virtual "Chain Mode" gear.
+* **Hover Summaries:** The dungeon leaderboard now displays a tooltip listing the top 3 upgrades and their score gains when hovering over a dungeon name.
+* **Dungeon Icons:** Added boss/item icons to the sidebar leaderboard for better visual clarity.
+
+### Improvements
+* **Math Engine:** * Upgraded the simulation engine to use `SGJ:GetTotalCharacterScore` directly from the core addon.
+    * Added logic to handle "Simple Slots" (Wrists, Back, etc.) correctly in Chain Mode, defaulting to the highest score item when no conflicts exist.
+* **UI Layout:**
+    * Moved "Filter Level" and "Heroic Only" checkboxes to prevent overlap.
+    * Moved "Chain Mode" checkbox to a safe location to fix click-through issues.
+    * Increased the Frame Level of the **Reset (R)** button so it is always clickable, even over the 3D model.
+* **Visual Feedback:**
+    * Added a chat message confirmation when Chain Mode updates your virtual gear (`SGJ Chain: Equipped [Item]...`).
+    * Items in the roadmap view now stay "lit up" (saturated) if they are part of your virtual set, even if the current dungeon offers no upgrades for that slot.
+
+### Bug Fixes
+* **Dual Wield Display:** Fixed an issue where the 3D model would not display off-hand weapons correctly by forcing an ordered refresh (Main Hand first, then Off-Hand).
+* **Persistence Bug:** Fixed a bug where clicking a new dungeon would accidentally revert non-conflicting slots (like Bracers) back to the player's real gear.
+* **Global Access:** Fixed an issue where the plugin could not find the main addon's scoring function if loaded separately.
+
+## [v2.0.0
+* ** Split from main addon after testing and building, now set as a plugin.
