@@ -2,8 +2,9 @@
 ## Title: Sharpie's Gear Judge |cff00ff00[Roadmap]|r
 ## Notes: Finds the best upgrades for you.
 ## Author: Supersharpie
-## Version: 1.0
+## Version: 2.0.0
 ## Dependencies: SharpiesGearJudge
+## X-Curse-Project-ID: 1451473
 
 D1_Items.lua
 D2_Items.lua
