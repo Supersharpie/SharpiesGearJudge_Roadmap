@@ -1,5 +1,19 @@
 # Changelog - Roadmap Plugin
 
+## [v2.0.2]
+
+### Performance
+* **Snapshot Optimization:** Completely rewrote the scanning engine to calculate character stats once per zone instead of per item.
+    * *Impact:* Reduces CPU load during "Calculate Roadmap" by ~95%, making scans nearly instant after the initial cache build.
+
+### Improvements
+* **Smart Tooltips:** The "Calculate Roadmap" button tooltip now dynamically displays your active settings (Chain Mode status, Level Filter status) and includes a "First Run" notice for new users.
+* **Auto-Retry Logic:** The scanner now automatically detects if item data is missing (server lag) and queues a silent retry after 1 second, reducing the need for manual re-clicking.
+* **UI Polish:** Added a descriptive tooltip to the "Filter Level" checkbox to explain its functionality clearly.
+* **Fixed Exporting: Made the Export window much more user-friendly with a working "Select All" button.
+
+-------------------------------------------------------------------------
+
 ## [v2.0.1]
 
 ### Features
@@ -27,5 +41,7 @@
 * **Persistence Bug:** Fixed a bug where clicking a new dungeon would accidentally revert non-conflicting slots (like Bracers) back to the player's real gear.
 * **Global Access:** Fixed an issue where the plugin could not find the main addon's scoring function if loaded separately.
 
-## [v2.0.0
+-------------------------------------------------------------------------
+
+## [v2.0.0]
 * ** Split from main addon after testing and building, now set as a plugin.

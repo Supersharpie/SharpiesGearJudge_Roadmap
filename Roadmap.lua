@@ -147,7 +147,37 @@ function Roadmap.InitView(parent)
     smartBtn:SetPoint("TOP", f.Title, "BOTTOM", 0, -8); smartBtn:SetText("Calculate Roadmap")
     smartBtn:SetFrameStrata("HIGH"); smartBtn:SetFrameLevel(100)
     smartBtn:SetScript("OnClick", function() Roadmap:PerformSmartScan() end)
-    smartBtn:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_RIGHT"); GameTooltip:SetText("Calculate Roadmap"); GameTooltip:AddLine("Scans ALL dungeons to find your best path.", 1, 1, 1); GameTooltip:AddLine("Updates the leaderboard on the right.", 0, 1, 0); GameTooltip:Show() end)
+
+    -- [[ UPDATED TOOLTIP ]]
+    smartBtn:SetScript("OnEnter", function(self) 
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:SetText("Calculate Roadmap")
+        GameTooltip:AddLine("Scans all dungeons to find upgrades.", 1, 1, 1)
+        
+        -- Configuration Section
+        GameTooltip:AddLine(" ") 
+        GameTooltip:AddLine("Current Settings:", 1, 0.82, 0)
+
+        if Roadmap.UseLevelFilter then
+            GameTooltip:AddLine("- Level Filter: |cff00ff00ON|r (Hiding high level items)", 1, 1, 1)
+        else
+            GameTooltip:AddLine("- Level Filter: |cffaaaaaaOFF|r (Showing all items)", 1, 1, 1)
+        end
+
+        if Roadmap.ChainMode then
+            GameTooltip:AddLine("- Chain Mode: |cff00ff00ON|r (Building virtual set)", 1, 1, 1)
+        else
+            GameTooltip:AddLine("- Chain Mode: |cffaaaaaaOFF|r (Using equipped gear)", 1, 1, 1)
+        end
+        
+        -- The "First Run" Warning
+        GameTooltip:AddLine(" ") 
+        GameTooltip:AddLine("First Run Note:", 1, 0.5, 0)
+        GameTooltip:AddLine("Building the item cache may take a moment.", 1, 0.82, 0)
+        GameTooltip:AddLine("If the bar pauses, click again to finish.", 1, 0.82, 0)
+        
+        GameTooltip:Show() 
+    end)
     smartBtn:SetScript("OnLeave", GameTooltip_Hide)
 
     -- RESET BUTTON
@@ -182,6 +212,14 @@ function Roadmap.InitView(parent)
     lvlCheck:SetChecked(Roadmap.UseLevelFilter)
     lvlCheck:SetFrameStrata("HIGH"); lvlCheck:SetFrameLevel(100); SetCheckLabel(lvlCheck, "Filter Level") 
     lvlCheck:SetScript("OnClick", function(self) Roadmap.UseLevelFilter = self:GetChecked(); end)
+	lvlCheck:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+        GameTooltip:SetText("Filter by Level")
+        GameTooltip:AddLine("If checked, the roadmap will ignore items", 1, 1, 1)
+        GameTooltip:AddLine("that require a higher level than you are.", 1, 1, 1)
+        GameTooltip:Show()
+    end)
+    lvlCheck:SetScript("OnLeave", GameTooltip_Hide)
 
     local chainCheck = CreateFrame("CheckButton", "SGJ_RoadmapChainCheck", f, "ChatConfigCheckButtonTemplate")
     -- [[ FIX: YOUR CUSTOM PLACEMENT ]]
@@ -474,7 +512,7 @@ end
 -- =============================================================
 -- 5. MATH ENGINE (VISUAL PAIRING LOGIC)
 -- =============================================================
-function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, gapFillerMH, gapFillerOH)
+function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, gapFillerMH, gapFillerOH, baseGear, baseScore)
     local results = {} 
     
     local slotsToCheck = { defaultSlotID }
@@ -488,19 +526,8 @@ function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, 
     local itemID = tonumber(itemLink:match("item:(%d+)"))
 
     for _, targetSlot in ipairs(slotsToCheck) do
-        -- 1. BASELINE: GET GEAR (Virtual or Real)
-        local gear = {}
-        for i=1, 18 do 
-            local raw = Roadmap:GetBaselineItem(i)
-            if raw then gear[i] = raw end 
-        end
-        local baseScore = SGJ:GetTotalCharacterScore(gear, weights, specName)
-        
-        -- 2. CREATE SIM GEAR SET
         local simGear = {}
-        for k,v in pairs(gear) do simGear[k] = v end 
-        
-        -- 3. EQUIP NEW ITEM (Raw Link)
+        for k,v in pairs(baseGear) do simGear[k] = v end
         simGear[targetSlot] = itemLink
         
         local mh = simGear[16]
@@ -556,7 +583,6 @@ function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, 
         local newScore = SGJ:GetTotalCharacterScore(simGear, weights, specName)
         local gain = newScore - baseScore
         
-        -- [[ KEPT: YOUR FILTER (Hide Downgrades) ]]
         if gain > 0.1 then 
             results[targetSlot] = { gain = gain, pair = pairedItem } 
         end
@@ -733,6 +759,15 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
     local zoneTotalScore = 0
     local zoneItems = {} -- [NEW] For Tooltip Summary
     
+	-- Build the gear table once per zone scan
+    local baseGear = {}
+    for i=1, 18 do 
+        local raw = Roadmap:GetBaselineItem(i)
+        if raw then baseGear[i] = raw end 
+    end
+    -- Calculate the score once per zone scan
+    local baseScore = SGJ:GetTotalCharacterScore(baseGear, weights, specName)
+	
     if Roadmap.SelectedZone == zoneKey then
         Roadmap.ScanResults = {}
         Roadmap.MissingItems = {}
@@ -755,11 +790,11 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
              local name, link, _, _, _, _, _, _, equipLoc = SafeGetItemInfo(itemID)
              if link and SGJ.IsItemUsable(link) then
                   local defaultSlot = Roadmap:GetSlotFromLoc(equipLoc)
-                  if defaultSlot then
-                      -- Pass fillers to Sim Engine
-                      local results = Roadmap:GetSimulationGains(link, defaultSlot, weights, specName, fillMH, fillOH)
-                      
-                      for slotID, res in pairs(results) do
+        if defaultSlot then
+            -- Pass baseGear and baseScore at the end
+            local results = Roadmap:GetSimulationGains(link, defaultSlot, weights, specName, fillMH, fillOH, baseGear, baseScore)
+            
+            for slotID, res in pairs(results) do
                           local gain = res.gain
                           if gain > zoneTotalScore then zoneTotalScore = gain end 
                           
@@ -804,7 +839,17 @@ function Roadmap:FinalizeScan()
     Roadmap:RefreshUI()
     
     if #Roadmap.MissingItems > 0 then
-        print("SGJ: Scan Complete. " .. #Roadmap.MissingItems .. " items were queued for server retrieval. Please scan again in a moment.")
+        -- Auto-retry logic
+        print("|cff00ccffSGJ:|r Waiting for server data (" .. #Roadmap.MissingItems .. " items)... Retrying automatically.")
+        C_Timer.After(1.0, function() 
+             -- Only retry if the user hasn't closed the window or changed zones
+             if SGJ.ViewRoadmap:IsShown() and Roadmap.SelectedZone then
+                 Roadmap:ScanZoneData(Roadmap.SelectedZone, Roadmap.UseLevelFilter)
+                 Roadmap:FinalizeScan()
+             end
+        end)
+    else
+        -- Only print "Scan Complete" if strictly needed, or just keep it silent/update UI
     end
 end
 
@@ -942,16 +987,32 @@ function Roadmap:ShowExportPopup()
     if not Roadmap.ExportFrame then
         local f = CreateFrame("Frame", "SGJ_RoadmapExport", UIParent, "BackdropTemplate"); f:SetSize(400, 200); f:SetPoint("CENTER"); f:SetFrameStrata("DIALOG"); f:EnableMouse(true)
         f:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8", edgeFile="Interface\\Buttons\\WHITE8X8", edgeSize=1}); f:SetBackdropColor(0,0,0,0.9); f:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+        
         f.Title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"); f.Title:SetPoint("TOP", 0, -10); f.Title:SetText("Export to The Lab")
+        
         local scroll = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate"); scroll:SetPoint("TOPLEFT", 20, -40); scroll:SetPoint("BOTTOMRIGHT", -40, 40)
         local eb = CreateFrame("EditBox", nil, scroll); eb:SetSize(340, 200); eb:SetMultiLine(true); eb:SetFontObject("GameFontHighlight"); eb:SetAutoFocus(false); scroll:SetScrollChild(eb); f.EditBox = eb
-        local close = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); close:SetSize(80, 22); close:SetPoint("BOTTOM", 0, 10); close:SetText("Close"); close:SetScript("OnClick", function() f:Hide() end)
+        
+        -- CLOSE BUTTON
+        local close = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); close:SetSize(80, 22); close:SetPoint("BOTTOM", 45, 10); close:SetText("Close"); 
+        close:SetScript("OnClick", function() f:Hide() end)
+        
+        -- SELECT ALL BUTTON (The "Helper" Copy Button)
+        local selectBtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); selectBtn:SetSize(80, 22); selectBtn:SetPoint("RIGHT", close, "LEFT", -10, 0); selectBtn:SetText("Select All")
+        selectBtn:SetScript("OnClick", function() 
+            print("SGJ: Text selected. Press Ctrl+C to copy.")
+			Roadmap.ExportFrame.EditBox:SetCursorPosition(0)
+        end)
+        
         Roadmap.ExportFrame = f
     end
+    
     local s = Roadmap:GenerateExportString()
-    Roadmap.ExportFrame.EditBox:SetText(s)
-    Roadmap.ExportFrame.EditBox:HighlightText()
+    
     Roadmap.ExportFrame:Show()
+    Roadmap.ExportFrame.EditBox:SetText(s) 
+    Roadmap.ExportFrame.EditBox:SetFocus() 
+    Roadmap.ExportFrame.EditBox:HighlightText()
 end
 
 -- =============================================================
