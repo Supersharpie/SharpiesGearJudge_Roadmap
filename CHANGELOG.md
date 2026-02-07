@@ -1,6 +1,10 @@
 # Changelog - Roadmap Plugin
+
 ## [v2.1.0]
 
+* **Introduce IgnoredSlots support so users can right-click slots to toggle them out of scans.**
+* **Adds Roadmap.IgnoredSlots state, right-click handler to dim/restore slot icons and print status, and skips ignored slots during scanning.**
+* **Also adds a small help text under the title and re-anchors the "Calculate Roadmap" button beneath it.** 
 
 -------------------------------------------------------------------------
 
