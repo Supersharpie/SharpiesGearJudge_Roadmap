@@ -112,6 +112,7 @@ Roadmap.MissingItems = {}
 Roadmap.ZoneRankings = {} 
 Roadmap.ForcedPairs = {} 
 Roadmap.VirtualGear = {} 
+Roadmap.IgnoredSlots = {}
 
 -- =============================================================
 -- 3. UI INITIALIZATION
@@ -142,9 +143,16 @@ function Roadmap.InitView(parent)
     end
 
     f.Title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"); f.Title:SetPoint("TOP", -100, -10); f.Title:SetText("Upgrade Roadmap"); f.Title:SetTextColor(1, 0.82, 0)
+
+    -- [[ NEW INSTRUCTION TEXT ]]
+    f.HelpText = f:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    f.HelpText:SetPoint("TOP", f.Title, "BOTTOM", 0, -5)
+    f.HelpText:SetText("(Left-Click Slot: View | Right-Click Slot: Ignore)")
+    f.HelpText:SetTextColor(0.6, 0.6, 0.6)
     
     local smartBtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); smartBtn:SetSize(140, 26)
-    smartBtn:SetPoint("TOP", f.Title, "BOTTOM", 0, -8); smartBtn:SetText("Calculate Roadmap")
+    -- [[ UPDATED ANCHOR: Now sits below the help text ]]
+    smartBtn:SetPoint("TOP", f.HelpText, "BOTTOM", 0, -5); smartBtn:SetText("Calculate Roadmap")
     smartBtn:SetFrameStrata("HIGH"); smartBtn:SetFrameLevel(100)
     smartBtn:SetScript("OnClick", function() Roadmap:PerformSmartScan() end)
 
@@ -256,10 +264,29 @@ function Roadmap.InitView(parent)
         local ag = up:CreateAnimationGroup(); local a1 = ag:CreateAnimation("Alpha"); a1:SetFromAlpha(0.5); a1:SetToAlpha(1.0); a1:SetDuration(0.8); a1:SetSmoothing("IN_OUT"); a1:SetOrder(1); local a2 = ag:CreateAnimation("Alpha"); a2:SetFromAlpha(1.0); a2:SetToAlpha(0.5); a2:SetDuration(0.8); a2:SetSmoothing("IN_OUT"); a2:SetOrder(2); ag:SetLooping("REPEAT"); btn.Anim = ag
         btn.SlotID = s.id; btn.SlotName = s.name
         btn:RegisterForClicks("AnyUp")
-        btn:SetScript("OnClick", Roadmap.OnSlotClick); btn:SetScript("OnEnter", Roadmap.OnSlotEnter); btn:SetScript("OnLeave", GameTooltip_Hide)
-        f.Slots[s.id] = btn
-    end
-
+		btn:SetScript("OnClick", function(self, button)
+		if button == "RightButton" then
+        -- Toggle the ignore status
+        Roadmap.IgnoredSlots[self.SlotID] = not Roadmap.IgnoredSlots[self.SlotID]
+			if Roadmap.IgnoredSlots[self.SlotID] then
+				-- Visual: Dim the slot to show it is disabled
+				self.icon:SetVertexColor(0.3, 0.3, 0.3) 
+				print("SGJ: Ignoring " .. self.SlotName .. ".")
+			else
+				-- Visual: Restore color
+				self.icon:SetVertexColor(1, 1, 1)
+				print("SGJ: Tracking " .. self.SlotName .. ".")
+			end
+			-- Force a refresh so the scanner knows immediately (optional, but good)
+			Roadmap:RefreshUI()
+			else
+				-- If Left-Click, do the normal thing (Show Upgrades)
+				Roadmap.OnSlotClick(self)
+			end
+		end)
+		f.Slots[s.id] = btn
+	end
+	
     Roadmap:InitSidebar(f)
 
     f:SetScript("OnShow", function() 
@@ -790,7 +817,7 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
              local name, link, _, _, _, _, _, _, equipLoc = SafeGetItemInfo(itemID)
              if link and SGJ.IsItemUsable(link) then
                   local defaultSlot = Roadmap:GetSlotFromLoc(equipLoc)
-        if defaultSlot then
+        if defaultSlot and not Roadmap.IgnoredSlots[defaultSlot] then
             -- Pass baseGear and baseScore at the end
             local results = Roadmap:GetSimulationGains(link, defaultSlot, weights, specName, fillMH, fillOH, baseGear, baseScore)
             
@@ -1103,6 +1130,14 @@ end
 
 function Roadmap.OnSlotEnter(self)
     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+	if Roadmap.IgnoredSlots[self.SlotID] then
+        GameTooltip:SetText(self.SlotName)
+        GameTooltip:AddLine("|cffff0000(IGNORED)|r", 1, 0, 0)
+        GameTooltip:AddLine("Right-click to re-enable scanning.", 1, 1, 1)
+        GameTooltip:Show()
+        return -- Stop here, don't show anything else
+    end
+	
     if self.FilteredItems then
         local idx = self.DisplayIndex or 1
         local best = self.FilteredItems[idx]
