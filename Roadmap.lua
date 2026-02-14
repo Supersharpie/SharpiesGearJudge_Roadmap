@@ -20,6 +20,18 @@ SGJ.DungeonDB = SGJ.DungeonDB or ns.DungeonDB or {}
 local Roadmap = {}
 SGJ.Roadmap = Roadmap
 
+-- [[ OPTIMIZATION: Localize Globals for Speed ]]
+local ipairs, pairs, next, tonumber = ipairs, pairs, next, tonumber
+local table_insert, table_sort, table_wipe = table.insert, table.sort, table.wipe
+local GetItemInfo = GetItemInfo
+local GetInventoryItemLink = GetInventoryItemLink
+local GetItemIcon = GetItemIcon
+local SetItemButtonTexture = SetItemButtonTexture
+
+-- [[ OPTIMIZATION: Recyclable Tables ]]
+local Scratch_SimGear = {} 
+local UniqueCache = {}
+
 -- =============================================================
 -- 2. LAYOUT & CONFIG
 -- =============================================================
@@ -106,6 +118,7 @@ Roadmap.UseLevelFilter = true
 Roadmap.ShowHeroic = false 
 Roadmap.ChainMode = false 
 Roadmap.SelectedZone = nil
+Roadmap.OverrideSpec = nil 
 Roadmap.ScanResults = {}
 Roadmap.BestIndices = {} 
 Roadmap.MissingItems = {} 
@@ -113,6 +126,7 @@ Roadmap.ZoneRankings = {}
 Roadmap.ForcedPairs = {} 
 Roadmap.VirtualGear = {} 
 Roadmap.IgnoredSlots = {}
+Roadmap.RealGearStats = {} 
 
 -- =============================================================
 -- 3. UI INITIALIZATION
@@ -144,49 +158,41 @@ function Roadmap.InitView(parent)
 
     f.Title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"); f.Title:SetPoint("TOP", -100, -10); f.Title:SetText("Upgrade Roadmap"); f.Title:SetTextColor(1, 0.82, 0)
 
-    -- [[ NEW INSTRUCTION TEXT ]]
     f.HelpText = f:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     f.HelpText:SetPoint("TOP", f.Title, "BOTTOM", 0, -5)
     f.HelpText:SetText("(Left-Click Slot: View | Right-Click Slot: Ignore)")
     f.HelpText:SetTextColor(0.6, 0.6, 0.6)
     
+    -- CALCULATE BUTTON (Shifted left to center the group)
     local smartBtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); smartBtn:SetSize(140, 26)
-    -- [[ UPDATED ANCHOR: Now sits below the help text ]]
-    smartBtn:SetPoint("TOP", f.HelpText, "BOTTOM", 0, -5); smartBtn:SetText("Calculate Roadmap")
+    smartBtn:SetPoint("TOP", f.HelpText, "BOTTOM", -50, -5); 
+    smartBtn:SetText("Calculate Roadmap")
     smartBtn:SetFrameStrata("HIGH"); smartBtn:SetFrameLevel(100)
     smartBtn:SetScript("OnClick", function() Roadmap:PerformSmartScan() end)
 
-    -- [[ UPDATED TOOLTIP ]]
     smartBtn:SetScript("OnEnter", function(self) 
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
         GameTooltip:SetText("Calculate Roadmap")
         GameTooltip:AddLine("Scans all dungeons to find upgrades.", 1, 1, 1)
-        
-        -- Configuration Section
-        GameTooltip:AddLine(" ") 
-        GameTooltip:AddLine("Current Settings:", 1, 0.82, 0)
-
-        if Roadmap.UseLevelFilter then
-            GameTooltip:AddLine("- Level Filter: |cff00ff00ON|r (Hiding high level items)", 1, 1, 1)
-        else
-            GameTooltip:AddLine("- Level Filter: |cffaaaaaaOFF|r (Showing all items)", 1, 1, 1)
-        end
-
-        if Roadmap.ChainMode then
-            GameTooltip:AddLine("- Chain Mode: |cff00ff00ON|r (Building virtual set)", 1, 1, 1)
-        else
-            GameTooltip:AddLine("- Chain Mode: |cffaaaaaaOFF|r (Using equipped gear)", 1, 1, 1)
-        end
-        
-        -- The "First Run" Warning
-        GameTooltip:AddLine(" ") 
-        GameTooltip:AddLine("First Run Note:", 1, 0.5, 0)
-        GameTooltip:AddLine("Building the item cache may take a moment.", 1, 0.82, 0)
-        GameTooltip:AddLine("If the bar pauses, click again to finish.", 1, 0.82, 0)
-        
         GameTooltip:Show() 
     end)
     smartBtn:SetScript("OnLeave", GameTooltip_Hide)
+
+    -- [[ Progress Bar ]]
+    f.ProgressBar = CreateFrame("StatusBar", nil, f)
+    f.ProgressBar:SetSize(200, 15)
+    f.ProgressBar:SetPoint("BOTTOM", -50, 280)
+    f.ProgressBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+    f.ProgressBar:GetStatusBarTexture():SetHorizTile(false)
+    f.ProgressBar:SetMinMaxValues(0, 100)
+    f.ProgressBar:SetValue(0)
+    f.ProgressBar:SetStatusBarColor(0, 1, 0)
+    f.ProgressBar:Hide()
+    
+    f.ProgressBar.Bg = f.ProgressBar:CreateTexture(nil, "OVERLAY")
+    f.ProgressBar.Bg:SetAllPoints(true)
+    f.ProgressBar.Bg:SetTexture("Interface\\TargetingFrame\\UI-StatusBar")
+    f.ProgressBar.Bg:SetVertexColor(0.2, 0.2, 0.2, 0.5)
 
     -- RESET BUTTON
     local resetBtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); resetBtn:SetSize(30, 26)
@@ -230,7 +236,6 @@ function Roadmap.InitView(parent)
     lvlCheck:SetScript("OnLeave", GameTooltip_Hide)
 
     local chainCheck = CreateFrame("CheckButton", "SGJ_RoadmapChainCheck", f, "ChatConfigCheckButtonTemplate")
-    -- [[ FIX: YOUR CUSTOM PLACEMENT ]]
     chainCheck:SetPoint("BOTTOMRIGHT", -150, 30); 
     chainCheck:SetChecked(Roadmap.ChainMode)
     chainCheck:SetFrameStrata("HIGH"); chainCheck:SetFrameLevel(100); SetCheckLabel(chainCheck, "Chain Mode") 
@@ -246,7 +251,17 @@ function Roadmap.InitView(parent)
     chainCheck:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT"); GameTooltip:SetText("Chain Mode"); GameTooltip:AddLine("If enabled, clicking a dungeon 'equips' the upgrades virtually.", 1, 1, 1); GameTooltip:AddLine("The next dungeon will compare against this new virtual set.", 0, 1, 0); GameTooltip:Show() end)
     chainCheck:SetScript("OnLeave", GameTooltip_Hide)
 
-    f.ProfileText = f:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"); f.ProfileText:SetPoint("BOTTOM", -100, 5); f.ProfileText:SetText("Active Profile: None"); f.ProfileText:SetTextColor(0.6, 0.6, 0.6)
+    -- [[ STANDARD PROFILE DROPDOWN UI ]]
+    local dropDown = CreateFrame("Frame", "SGJ_RoadmapProfileDropDown", f, "UIDropDownMenuTemplate")
+    -- Anchored to 'smartBtn' (Calculate button) but shifted right +50 to center under the button group
+    dropDown:SetPoint("TOP", smartBtn, "BOTTOM", 50, -10)
+    UIDropDownMenu_SetWidth(dropDown, 180) 
+    
+    UIDropDownMenu_Initialize(dropDown, function(self, level)
+        Roadmap:InitDropDownMenu(self, level)
+    end)
+    
+    f.ProfileDropDown = dropDown
 
     local _, playerClass = UnitClass("player")
     local relicTexture = "Relic"
@@ -284,6 +299,10 @@ function Roadmap.InitView(parent)
 				Roadmap.OnSlotClick(self)
 			end
 		end)
+
+		btn:SetScript("OnEnter", function(self) Roadmap.OnSlotEnter(self) end)
+		btn:SetScript("OnLeave", GameTooltip_Hide)
+		
 		f.Slots[s.id] = btn
 	end
 	
@@ -291,12 +310,7 @@ function Roadmap.InitView(parent)
 
     f:SetScript("OnShow", function() 
         if f.Model then f.Model:SetUnit("player") end; 
-        local weights, specName = SGJ.GetCurrentWeights(); 
-        if not weights and SGJ.CurrentClass and SGJ.CurrentClass.Weights then specName = next(SGJ.CurrentClass.Weights) end; 
-        if specName then 
-            local prettyName = Roadmap:GetPrettyName(specName)
-            f.ProfileText:SetText("Active Profile: |cff00ff00" .. prettyName .. "|r") 
-        end; 
+        Roadmap:RefreshProfileDisplay() -- Updates the DropDown Text
         Roadmap:InitializeVirtualGear() 
         Roadmap:RefreshUI() 
     end)
@@ -307,7 +321,7 @@ function Roadmap.InitView(parent)
 end
 
 -- =============================================================
--- 3.5 THE ROADMAP SIDEBAR
+-- 3.5 THE ROADMAP SIDEBAR & PROFILE HELPERS
 -- =============================================================
 function Roadmap:InitSidebar(parent)
     local sb = CreateFrame("Frame", nil, parent, "BackdropTemplate")
@@ -429,14 +443,117 @@ function Roadmap:UpdateSidebar()
 end
 
 -- =============================================================
--- 4. UTILITIES & CHAIN MODE LOGIC
+-- 4. UTILITIES & MATH (PROFILE SUPPORT)
 -- =============================================================
-function Roadmap:InitializeVirtualGear()
-    if not next(Roadmap.VirtualGear) then
-        for i=1, 18 do 
-            Roadmap.VirtualGear[i] = GetInventoryItemLink("player", i) 
+function Roadmap:GetActiveProfile()
+    if Roadmap.OverrideSpec and SGJ.CurrentClass then
+        -- 1. Check Standard Weights
+        if SGJ.CurrentClass.Weights and SGJ.CurrentClass.Weights[Roadmap.OverrideSpec] then
+            return SGJ.CurrentClass.Weights[Roadmap.OverrideSpec], Roadmap.OverrideSpec
+        end
+        -- 2. Check Leveling Brackets
+        if SGJ.CurrentClass.LevelingBrackets and SGJ.CurrentClass.LevelingBrackets[Roadmap.OverrideSpec] then
+            return SGJ.CurrentClass.LevelingBrackets[Roadmap.OverrideSpec], Roadmap.OverrideSpec
         end
     end
+    return SGJ.GetCurrentWeights()
+end
+
+function Roadmap:InitDropDownMenu(self, level)
+    local info = UIDropDownMenu_CreateInfo()
+    local list = {}
+    local seen = {} -- Deduplication
+    
+    local function AddToList(sourceTable)
+        if sourceTable then
+            for k, _ in pairs(sourceTable) do
+                if not seen[k] then
+                    table.insert(list, {id=k, name=Roadmap:GetPrettyName(k)})
+                    seen[k] = true
+                end
+            end
+        end
+    end
+
+    -- 1. Scan Weights & Leveling
+    if SGJ.CurrentClass then
+        AddToList(SGJ.CurrentClass.Weights)
+        AddToList(SGJ.CurrentClass.LevelingBrackets)
+    end
+    
+    -- 2. Fallback Scan (if CurrentClass incomplete)
+    if #list == 0 and SGJ.ClassProfiles then
+        local _, class = UnitClass("player")
+        if SGJ.ClassProfiles[class] then
+            AddToList(SGJ.ClassProfiles[class].Weights)
+            AddToList(SGJ.ClassProfiles[class].LevelingBrackets)
+        end
+    end
+    
+    table.sort(list, function(a,b) return tostring(a.name) < tostring(b.name) end)
+    
+    -- Option: Auto
+    local _, currentSpec = SGJ.GetCurrentWeights()
+    info.text = "Auto (" .. (Roadmap:GetPrettyName(currentSpec) or "Unknown") .. ")"
+    info.value = nil
+    info.checked = (Roadmap.OverrideSpec == nil)
+    info.func = function()
+        Roadmap.OverrideSpec = nil
+        Roadmap:RefreshProfileDisplay()
+        print("SGJ: Profile set to Auto. Recalculating...")
+        Roadmap:PerformSmartScan() 
+    end
+    UIDropDownMenu_AddButton(info, level)
+    
+    -- Options: Profiles
+    if #list == 0 then
+        info = UIDropDownMenu_CreateInfo()
+        info.text = "(No Profiles Found)"
+        info.disabled = true
+        info.notCheckable = true
+        UIDropDownMenu_AddButton(info, level)
+    end
+
+    for _, entry in ipairs(list) do
+        info = UIDropDownMenu_CreateInfo()
+        info.text = entry.name
+        info.value = entry.id
+        info.checked = (Roadmap.OverrideSpec == entry.id)
+        info.func = function()
+            Roadmap.OverrideSpec = entry.id
+            Roadmap:RefreshProfileDisplay()
+            print("SGJ: Profile set to " .. entry.name .. ". Recalculating...")
+            Roadmap:PerformSmartScan() 
+        end
+        UIDropDownMenu_AddButton(info, level)
+    end
+end
+
+function Roadmap:RefreshProfileDisplay()
+    local dd = SGJ.ViewRoadmap.ProfileDropDown
+    if not dd then return end
+    
+    if Roadmap.OverrideSpec then
+        UIDropDownMenu_SetText(dd, "Profile: " .. Roadmap:GetPrettyName(Roadmap.OverrideSpec))
+    else
+        local _, name = SGJ.GetCurrentWeights()
+        UIDropDownMenu_SetText(dd, "Profile: " .. Roadmap:GetPrettyName(name) .. " (Auto)")
+    end
+end
+
+function Roadmap:InitializeVirtualGear()
+    if not next(Roadmap.VirtualGear) then
+        for i=1, 18 do Roadmap.VirtualGear[i] = GetInventoryItemLink("player", i) end
+    end
+    Roadmap:UpdateRealGearCache()
+end
+
+function Roadmap:UpdateRealGearCache()
+    local realGear = {}
+    for i=1, 18 do realGear[i] = GetInventoryItemLink("player", i) end
+    local weights = Roadmap:GetActiveProfile()
+    local _, stats = SGJ:GetTotalCharacterScore(realGear, weights)
+    Roadmap.RealGearStats = stats or {}
 end
 
 function Roadmap:ResetVirtualGear()
@@ -444,13 +561,12 @@ function Roadmap:ResetVirtualGear()
     for i=1, 18 do 
         Roadmap.VirtualGear[i] = GetInventoryItemLink("player", i) 
     end
+    Roadmap:UpdateRealGearCache()
     Roadmap:RefreshUI()
 end
 
 function Roadmap:GetBaselineItem(slotID)
-    if Roadmap.ChainMode then
-        return Roadmap.VirtualGear[slotID]
-    end
+    if Roadmap.ChainMode then return Roadmap.VirtualGear[slotID] end
     return GetInventoryItemLink("player", slotID)
 end
 
@@ -489,7 +605,7 @@ function Roadmap:GetPrettyName(specKey)
     if not specKey then return "Unknown" end
     if SGJ.PrettyNames and SGJ.PrettyNames[specKey] then return SGJ.PrettyNames[specKey] end
     if SGJ.CurrentClass and SGJ.CurrentClass.PrettyNames and SGJ.CurrentClass.PrettyNames[specKey] then return SGJ.CurrentClass.PrettyNames[specKey] end
-    return specKey 
+    return tostring(specKey) 
 end
 
 function Roadmap:GetSlotFromLoc(equipLoc)
@@ -535,10 +651,65 @@ function Roadmap:IsStrictTwoHandSpec(specName)
     return false
 end
 
+-- [[ OPTIMIZATION: Tooltip Caching ]]
+local scannerTip = CreateFrame("GameTooltip", "SGJ_RoadmapScanner", nil, "GameTooltipTemplate")
+scannerTip:SetOwner(WorldFrame, "ANCHOR_NONE")
 
--- =============================================================
--- 5. MATH ENGINE (VISUAL PAIRING LOGIC)
--- =============================================================
+function Roadmap:IsUnique(link)
+    if not link then return false end
+    local itemID = tonumber(link:match("item:(%d+)"))
+    if itemID and UniqueCache[itemID] ~= nil then return UniqueCache[itemID] end
+    
+    scannerTip:ClearLines()
+    scannerTip:SetHyperlink(link)
+    for i=1, scannerTip:NumLines() do
+        local txt = _G["SGJ_RoadmapScannerTextLeft"..i]:GetText()
+        if txt and (txt == ITEM_UNIQUE or txt == ITEM_UNIQUE_EQUIPPED or txt:find(ITEM_UNIQUE) or txt:find(ITEM_UNIQUE_EQUIPPED)) then
+            if itemID then UniqueCache[itemID] = true end
+            return true
+        end
+    end
+    if itemID then UniqueCache[itemID] = false end
+    return false
+end
+
+-- [[ OPTIMIZATION: Global Caps Access ]]
+function Roadmap:GetAdjustedScore(gearTable, weights, specName)
+    local score, stats = SGJ:GetTotalCharacterScore(gearTable, weights, specName)
+    local _, playerClass = UnitClass("player")
+    local safetyCaps = SGJ.SAFETY_CAPS or {} 
+
+    if safetyCaps[playerClass] then
+        for _, rule in ipairs(safetyCaps[playerClass]) do
+            local currentVal = 0
+            if rule.stat == "DEFENSE_FLOOR" then 
+                 local b, m = UnitDefense("player"); currentVal = b + m
+            else
+                 currentVal = SGJ:GetPlayerStat(rule.stat == "ITEM_MOD_HIT_RATING_SHORT" and "HIT" or "SPELL_HIT")
+            end
+
+            local realGearVal = Roadmap.RealGearStats[rule.stat] or 0
+            local proposedGearVal = stats[rule.stat] or 0
+            
+            if rule.stat == "DEFENSE_FLOOR" and SGJ.IsTBC then
+                 realGearVal = (Roadmap.RealGearStats["ITEM_MOD_DEFENSE_SKILL_RATING_SHORT"] or 0) / 2.36
+                 proposedGearVal = (stats["ITEM_MOD_DEFENSE_SKILL_RATING_SHORT"] or 0) / 2.36
+            end
+
+            local futureVal = currentVal - realGearVal + proposedGearVal
+            local trueCap = rule.base
+            if rule.talent then trueCap = trueCap - (SGJ:GetTalentRank(rule.talent) * (rule.tVal or 0)) end
+            
+            local isCurrentlyCapped = (currentVal >= trueCap)
+            if isCurrentlyCapped and futureVal < (trueCap - 0.1) then
+                score = score - rule.penalty
+            end
+        end
+    end
+    return score
+end
+
+-- [[ OPTIMIZATION: Scratch Table Recycling ]]
 function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, gapFillerMH, gapFillerOH, baseGear, baseScore)
     local results = {} 
     
@@ -550,91 +721,67 @@ function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, 
         if equipLoc == "INVTYPE_WEAPON" and Roadmap:CanDualWield() then table.insert(slotsToCheck, 17) end 
     end
 
-    local itemID = tonumber(itemLink:match("item:(%d+)"))
+    local newItemID = tonumber(itemLink:match("item:(%d+)"))
 
     for _, targetSlot in ipairs(slotsToCheck) do
-        local simGear = {}
-        for k,v in pairs(baseGear) do simGear[k] = v end
-        simGear[targetSlot] = itemLink
+        -- Wipe and Rebuild Scratch Table
+        table_wipe(Scratch_SimGear)
+        for k,v in pairs(baseGear) do Scratch_SimGear[k] = v end
+        Scratch_SimGear[targetSlot] = itemLink
         
-        local mh = simGear[16]
+        local mh = Scratch_SimGear[16]
         local mhLoc = mh and select(9, GetItemInfo(mh))
         local mhIs2H = (mhLoc == "INVTYPE_2HWEAPON")
-
         local newItemLoc = select(9, GetItemInfo(itemLink))
         local newItemIs2H = (newItemLoc == "INVTYPE_2HWEAPON")
-        
         local pairedItem = nil 
 
-        -- [[ STRICT WEAPON SLOTTING + VISUAL COMBO ]]
         if targetSlot == 16 then
             if newItemIs2H then
-                simGear[17] = nil -- 2H in Main, Offhand Must Clear
+                Scratch_SimGear[17] = nil 
             else
-                -- 1H in Main. If Offhand is empty (because we had 2H before), TRY TO FILL IT.
-                if not simGear[17] and gapFillerOH and gapFillerOH ~= itemLink then
-                    simGear[17] = gapFillerOH
-                    pairedItem = gapFillerOH -- STORE THIS
+                if not Scratch_SimGear[17] and gapFillerOH and gapFillerOH ~= itemLink then
+                    Scratch_SimGear[17] = gapFillerOH; pairedItem = gapFillerOH 
                 end
             end
         elseif targetSlot == 17 then
             if mhIs2H then
-                -- Try to equip OH but have 2H in Main. Must drop 2H.
-                -- Try to fill Main Hand with Context Candidate.
                 if gapFillerMH and gapFillerMH ~= itemLink then
                     local _,_,_,_,_,_,_,_,fillLoc = GetItemInfo(gapFillerMH)
                     if fillLoc ~= "INVTYPE_2HWEAPON" then
-                        simGear[16] = gapFillerMH
-                        pairedItem = gapFillerMH -- STORE THIS
+                        Scratch_SimGear[16] = gapFillerMH; pairedItem = gapFillerMH 
                     else
-                        simGear[16] = nil -- Filler was 2H? Invalid.
+                        Scratch_SimGear[16] = nil 
                     end
                 else
-                    simGear[16] = nil -- No 1H available.
+                    Scratch_SimGear[16] = nil 
                 end
             end
         end
 
-        -- Unique Conflict Check
-        local fMH = simGear[16]
-        local fOH = simGear[17]
-        if fMH and fOH then
-            local idMH = tonumber(fMH:match("item:(%d+)"))
-            local idOH = tonumber(fOH:match("item:(%d+)"))
-            if idMH == idOH and Roadmap:IsUnique(fMH) then
-                if targetSlot == 17 then simGear[16] = nil else simGear[17] = nil end
-            end
+        -- [[ STRICT UNIQUENESS CHECK (Rings, Trinkets, Weapons) ]]
+        local slotPairs = { [11]=12, [12]=11, [13]=14, [14]=13, [16]=17, [17]=16 }
+        local partner = slotPairs[targetSlot]
+        
+        if partner and Scratch_SimGear[partner] then
+             local pLink = Scratch_SimGear[partner]
+             local pID = tonumber(pLink:match("item:(%d+)"))
+             
+             if newItemID and pID and newItemID == pID and Roadmap:IsUnique(itemLink) then
+                 -- CONFLICT: Cannot wear the same Unique item in both slots.
+                 -- Solution: Remove the item from the partner slot to simulate a valid swap.
+                 Scratch_SimGear[partner] = nil
+             end
         end
 
-        -- 4. CALCULATE NEW SCORE (FULL SIM)
-        local newScore = SGJ:GetTotalCharacterScore(simGear, weights, specName)
+        local newScore = Roadmap:GetAdjustedScore(Scratch_SimGear, weights, specName)
         local gain = newScore - baseScore
         
         if gain > 0.1 then 
             results[targetSlot] = { gain = gain, pair = pairedItem } 
         end
     end
-    
     return results
-end
-
--- =============================================================
--- 6. UNIQUE & CONFLICT LOGIC (VISUAL ENFORCEMENT)
--- =============================================================
-local scannerTip = CreateFrame("GameTooltip", "SGJ_RoadmapScanner", nil, "GameTooltipTemplate")
-scannerTip:SetOwner(WorldFrame, "ANCHOR_NONE")
-
-function Roadmap:IsUnique(link)
-    if not link then return false end
-    scannerTip:ClearLines()
-    scannerTip:SetHyperlink(link)
-    for i=1, scannerTip:NumLines() do
-        local txt = _G["SGJ_RoadmapScannerTextLeft"..i]:GetText()
-        if txt and (txt == ITEM_UNIQUE or txt == ITEM_UNIQUE_EQUIPPED or txt:find(ITEM_UNIQUE) or txt:find(ITEM_UNIQUE_EQUIPPED)) then
-            return true
-        end
-    end
-    return false
 end
 
 function Roadmap:ResolveConflicts()
@@ -710,151 +857,183 @@ function Roadmap:ResolveConflicts()
 end
 
 -- =============================================================
--- 7. SCAN ENGINE (RESTORED CONTEXT FINDER)
+-- 5. THE SCANNER (Coroutines & Merged Loops)
 -- =============================================================
-local currentWeights, currentSpec
+local currentWeights, currentSpec, currentBaseGear, currentBaseScore
 
-local function SafeGetItemInfo(itemID)
-    local name, link, rarity, lvl, minLvl, type, subType, stack, equipLoc, texture, sellPrice = GetItemInfo(itemID)
-    if not name then
-        GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-        GameTooltip:SetHyperlink("item:"..itemID)
-        GameTooltip:Hide()
-        return nil
-    end
-    return name, link, rarity, lvl, minLvl, type, subType, stack, equipLoc, texture, sellPrice
+function Roadmap:PerformSmartScan()
+    local weights, specName = Roadmap:GetActiveProfile() -- [NEW] Use Selected Profile
+    if not weights then print("SGJ: No Stat Profile Found!"); return end
+    
+    currentWeights = weights
+    currentSpec = specName
+    Roadmap:UpdateRealGearCache()
+
+    -- Pre-calculate Base Gear Once
+    currentBaseGear = {}
+    for i=1, 18 do currentBaseGear[i] = Roadmap:GetBaselineItem(i) end
+    currentBaseScore = Roadmap:GetAdjustedScore(currentBaseGear, currentWeights, currentSpec)
+
+    Roadmap:RefreshProfileDisplay()
+    
+    -- [[ OPTIMIZATION: Start Coroutine Scanner ]]
+    Roadmap.ZoneRankings = {}
+    if SGJ.ViewRoadmap.ProgressBar then SGJ.ViewRoadmap.ProgressBar:Show() end
+    Roadmap:StartCoroutineScan()
 end
 
-function Roadmap:FindBestZoneCandidates(lootTable, playerLvl, applySmartFilter)
-    -- 1. BASELINE: USE CURRENT GEAR (Raw Links)
-    local bestMH = Roadmap:GetBaselineItem(16)
-    local bestOH = Roadmap:GetBaselineItem(17)
+function Roadmap:StartCoroutineScan()
+    local playerLvl = UnitLevel("player")
+    local zonesToScan = {}
     
-    -- If currently holding 2H, baseline "Candidate 1H" is nil.
-    if bestMH then
-        local _,_,_,_,_,_,_,_,loc = GetItemInfo(bestMH)
-        if loc == "INVTYPE_2HWEAPON" then bestMH = nil end
-    end
-    
-    local bestMHScore = 0
-    if bestMH then 
-        bestMHScore = SGJ:GetTotalCharacterScore({[16]=bestMH}, currentWeights, currentSpec)
-    end
+    -- Build Queue
+    for zoneKey, meta in pairs(ZONE_META) do
+        if (SGJ.DungeonDB and SGJ.DungeonDB[zoneKey]) or (ns.DungeonDB and ns.DungeonDB[zoneKey]) then
+            local isHeroicKey = string.find(zoneKey, "_HC")
+            local modeMatch = (Roadmap.ShowHeroic and isHeroicKey) or (not Roadmap.ShowHeroic and not isHeroicKey)
+            local levelMatch = (not Roadmap.UseLevelFilter) or (meta.min <= playerLvl)
 
-    local bestOHScore = 0
-    if bestOH then 
-        bestOHScore = SGJ:GetTotalCharacterScore({[17]=bestOH}, currentWeights, currentSpec)
-    end
-    
-    -- 2. SCAN ZONE FOR BETTER CANDIDATES
-    for itemID, info in pairs(lootTable) do
-        local allowed = true
-        if applySmartFilter and info.reqLevel and info.reqLevel > playerLvl then allowed = false end
-        
-        if allowed then
-            local name, link = SafeGetItemInfo(itemID)
-            if link and SGJ.IsItemUsable(link) then
-                local _,_,_,_,_,_,_,_,equipLoc = GetItemInfo(link)
-                
-                -- Is this a better 1H Candidate?
-                if equipLoc == "INVTYPE_WEAPON" or equipLoc == "INVTYPE_WEAPONMAINHAND" then
-                    local s = SGJ:GetTotalCharacterScore({[16]=link}, currentWeights, currentSpec)
-                    if s > bestMHScore then bestMHScore = s; bestMH = link end
-                end
-                
-                -- Is this a better OH Candidate?
-                if Roadmap:IsOffhandCandidate(link) then
-                     local s = SGJ:GetTotalCharacterScore({[17]=link}, currentWeights, currentSpec)
-                     if s > bestOHScore then bestOHScore = s; bestOH = link end
-                end
+            if modeMatch and levelMatch then
+                table.insert(zonesToScan, {key=zoneKey, meta=meta})
             end
         end
     end
     
-    return bestMH, bestOH
+    local total = #zonesToScan
+    local current = 0
+    
+    -- The Routine
+    local co = coroutine.create(function()
+        for _, zData in ipairs(zonesToScan) do
+            current = current + 1
+            if SGJ.ViewRoadmap.ProgressBar then SGJ.ViewRoadmap.ProgressBar:SetValue((current/total)*100) end
+            
+            -- Scan the Zone
+            local score, bestLink, topItems = Roadmap:ScanZoneData(zData.key, Roadmap.UseLevelFilter)
+            
+            if score and score > 0 then
+                table.insert(Roadmap.ZoneRankings, { 
+                    key=zData.key, name=zData.meta.name, 
+                    score=score, bestLink=bestLink, topItems=topItems 
+                })
+            end
+            
+            -- Yield every 2 zones to keep FPS smooth
+            if current % 2 == 0 then coroutine.yield() end
+        end
+        
+        -- Finish
+        Roadmap:UpdateSidebar()
+        if SGJ.ViewRoadmap.ProgressBar then SGJ.ViewRoadmap.ProgressBar:Hide() end
+        print("SGJ: Checked " .. total .. " dungeons. Leaderboard updated.")
+    end)
+    
+    -- The Ticker
+    local ticker
+    ticker = C_Timer.NewTicker(0.01, function()
+        if coroutine.status(co) == "dead" then 
+            ticker:Cancel() 
+        else
+            local ok, err = coroutine.resume(co)
+            if not ok then 
+                print("SGJ Error:", err)
+                ticker:Cancel() 
+                if SGJ.ViewRoadmap.ProgressBar then SGJ.ViewRoadmap.ProgressBar:Hide() end
+            end
+        end
+    end)
 end
-
 
 function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
     local lootTable = SGJ.DungeonDB and SGJ.DungeonDB[zoneKey]
     if not lootTable and ns.DungeonDB then lootTable = ns.DungeonDB[zoneKey] end
-    if not lootTable then print("SGJ Debug: No loot table found for " .. zoneKey); return end
+    if not lootTable then return end
+
+    if not currentWeights then
+        currentWeights, currentSpec = Roadmap:GetActiveProfile()
+        currentBaseGear = {}
+        for i=1, 18 do currentBaseGear[i] = Roadmap:GetBaselineItem(i) end
+        currentBaseScore = Roadmap:GetAdjustedScore(currentBaseGear, currentWeights, currentSpec)
+    end
 
     local playerLvl = UnitLevel("player")
-    local weights, specName = SGJ.GetCurrentWeights()
-    
     local zoneTotalScore = 0
-    local zoneItems = {} -- [NEW] For Tooltip Summary
+    local zoneItems = {} 
     
-	-- Build the gear table once per zone scan
-    local baseGear = {}
-    for i=1, 18 do 
-        local raw = Roadmap:GetBaselineItem(i)
-        if raw then baseGear[i] = raw end 
-    end
-    -- Calculate the score once per zone scan
-    local baseScore = SGJ:GetTotalCharacterScore(baseGear, weights, specName)
-	
+    -- Reset Results for selected zone
     if Roadmap.SelectedZone == zoneKey then
         Roadmap.ScanResults = {}
         Roadmap.MissingItems = {}
     end
 
-    -- [[ 1. DETERMINE CONTEXT CANDIDATES ]]
-    local fillMH, fillOH = nil, nil
-    
-    -- If spec allows combos (not strict 2H), find the best "partner" items in this zone
-    if not Roadmap:IsStrictTwoHandSpec(specName) then
-        fillMH, fillOH = Roadmap:FindBestZoneCandidates(lootTable, playerLvl, applySmartFilter)
-    end
+    -- [[ OPTIMIZATION: One Pass Loop ]]
+    local candidates1H = {}
+    local candidatesOH = {}
+    local itemsToSim = {}
 
-    -- [[ 2. RUN SIMULATION ]]
     for itemID, info in pairs(lootTable) do
         local allowed = true
         if applySmartFilter and info.reqLevel and info.reqLevel > playerLvl then allowed = false end
-
+        
         if allowed then
-             local name, link, _, _, _, _, _, _, equipLoc = SafeGetItemInfo(itemID)
-             if link and SGJ.IsItemUsable(link) then
-                  local defaultSlot = Roadmap:GetSlotFromLoc(equipLoc)
-        if defaultSlot and not Roadmap.IgnoredSlots[defaultSlot] then
-            -- Pass baseGear and baseScore at the end
-            local results = Roadmap:GetSimulationGains(link, defaultSlot, weights, specName, fillMH, fillOH, baseGear, baseScore)
-            
-            for slotID, res in pairs(results) do
-                          local gain = res.gain
-                          if gain > zoneTotalScore then zoneTotalScore = gain end 
-                          
-                          -- [NEW] Collect for Leaderboard Summary
-                          table.insert(zoneItems, { link=link, gain=gain })
-                          
-                          if Roadmap.SelectedZone == zoneKey then
-                              if not Roadmap.ScanResults[slotID] then Roadmap.ScanResults[slotID] = {} end
-                              table.insert(Roadmap.ScanResults[slotID], { 
-                                 link = link, 
-                                 gain = gain, 
-                                 pair = res.pair, -- STORE THE INVISIBLE ITEM
-                                 boss = (info.source or "Zone Drop") .. " (" .. (ZONE_META[zoneKey] and ZONE_META[zoneKey].name or zoneKey) .. ")", 
-                                 reqLevel = info.reqLevel 
-                              })
-                          end
-                      end
-                  end
-             elseif not name and Roadmap.SelectedZone == zoneKey then
+             local _, link, _, _, _, _, _, _, equipLoc = GetItemInfo(itemID)
+             if link then
+                 if SGJ.IsItemUsable(link) then
+                     -- 1. Sort Candidates
+                     if equipLoc == "INVTYPE_WEAPON" or equipLoc == "INVTYPE_WEAPONMAINHAND" then table.insert(candidates1H, link) end
+                     if Roadmap:IsOffhandCandidate(link) then table.insert(candidatesOH, link) end
+                     table.insert(itemsToSim, {id=itemID, link=link, loc=equipLoc, info=info})
+                 end
+             elseif Roadmap.SelectedZone == zoneKey then
                  table.insert(Roadmap.MissingItems, itemID)
              end
         end
     end
+
+    -- 2. Determine Gap Fillers (In Memory)
+    local fillMH, fillOH = nil, nil
+    if not Roadmap:IsStrictTwoHandSpec(currentSpec) then
+        -- Find best MH from this zone's candidates
+        local bestS = 0
+        for _, link in ipairs(candidates1H) do
+            local s = Roadmap:GetAdjustedScore({[16]=link}, currentWeights, currentSpec)
+            if s > bestS then bestS = s; fillMH = link end
+        end
+        -- Find best OH
+        bestS = 0
+        for _, link in ipairs(candidatesOH) do
+            local s = Roadmap:GetAdjustedScore({[17]=link}, currentWeights, currentSpec)
+            if s > bestS then bestS = s; fillOH = link end
+        end
+    end
     
-    -- [NEW] Calculate Leaderboard Data
-    table.sort(zoneItems, function(a,b) return a.gain > b.gain end)
+    -- 3. Batch Sim
+    for _, data in ipairs(itemsToSim) do
+        local defaultSlot = Roadmap:GetSlotFromLoc(data.loc)
+        if defaultSlot and not Roadmap.IgnoredSlots[defaultSlot] then
+            local results = Roadmap:GetSimulationGains(data.link, defaultSlot, currentWeights, currentSpec, fillMH, fillOH, currentBaseGear, currentBaseScore)
+            
+            for slotID, res in pairs(results) do
+                if res.gain > zoneTotalScore then zoneTotalScore = res.gain end 
+                table.insert(zoneItems, { link=data.link, gain=res.gain })
+                
+                if Roadmap.SelectedZone == zoneKey then
+                    if not Roadmap.ScanResults[slotID] then Roadmap.ScanResults[slotID] = {} end
+                    table.insert(Roadmap.ScanResults[slotID], { 
+                        link = data.link, gain = res.gain, pair = res.pair, 
+                        boss = (data.info.source or "Zone Drop") .. " (" .. (ZONE_META[zoneKey] and ZONE_META[zoneKey].name or zoneKey) .. ")", 
+                        reqLevel = data.info.reqLevel 
+                    })
+                end
+            end
+        end
+    end
+    
+    table_sort(zoneItems, function(a,b) return a.gain > b.gain end)
     local topItems = {}
     for i=1, 3 do if zoneItems[i] then table.insert(topItems, zoneItems[i]) end end
     
-    -- [NEW] Return the #1 Item for the Icon
-    local bestLink = (zoneItems[1] and zoneItems[1].link)
-    
-    return zoneTotalScore, bestLink, topItems
+    return zoneTotalScore, (zoneItems[1] and zoneItems[1].link), topItems
 end
 
 function Roadmap:FinalizeScan()
@@ -881,55 +1060,8 @@ function Roadmap:FinalizeScan()
 end
 
 -- =============================================================
--- 8. INTERACTION (UPDATED VISUALS)
+-- [[ RESTORED UI REFRESH HELPER ]]
 -- =============================================================
-function Roadmap:PerformSmartScan()
-    local weights, specName = SGJ.GetCurrentWeights()
-    if not weights and SGJ.CurrentClass and SGJ.CurrentClass.Weights then specName = next(SGJ.CurrentClass.Weights) end
-    if not weights then print("SGJ: No Stat Profile Found!"); return end
-    
-    currentWeights = weights; currentSpec = specName
-    if SGJ.ViewRoadmap.ProfileText then 
-        local prettyName = Roadmap:GetPrettyName(specName)
-        SGJ.ViewRoadmap.ProfileText:SetText("Active Profile: |cff00ff00" .. prettyName .. "|r") 
-    end
-
-    print("SGJ: Smart Scanning (" .. (Roadmap.ShowHeroic and "Heroic" or "Normal") .. ")...")
-    
-    Roadmap.ZoneRankings = {}
-    local playerLvl = UnitLevel("player"); local zonesScanned = 0
-    
-    for zoneKey, meta in pairs(ZONE_META) do
-        if (SGJ.DungeonDB and SGJ.DungeonDB[zoneKey]) or (ns.DungeonDB and ns.DungeonDB[zoneKey]) then
-            local isHeroicKey = string.find(zoneKey, "_HC")
-            local modeMatch = false
-            if Roadmap.ShowHeroic and isHeroicKey then modeMatch = true end
-            if not Roadmap.ShowHeroic and not isHeroicKey then modeMatch = true end
-            
-            local levelMatch = true
-            if Roadmap.UseLevelFilter and meta.min > playerLvl then levelMatch = false end
-
-            if modeMatch and levelMatch then
-                -- [NEW] Capture Icon & Top Items
-                local score, bestLink, topItems = Roadmap:ScanZoneData(zoneKey, Roadmap.UseLevelFilter)
-                if score and score > 0 then
-                    table.insert(Roadmap.ZoneRankings, { 
-                        key=zoneKey, 
-                        name=meta.name, 
-                        score=score, 
-                        bestLink=bestLink, 
-                        topItems=topItems 
-                    })
-                end
-                zonesScanned = zonesScanned + 1
-            end
-        end
-    end
-    
-    Roadmap:UpdateSidebar() 
-    print("SGJ: Checked " .. zonesScanned .. " dungeons. Leaderboard updated.")
-end
-
 function Roadmap:RefreshUI()
     local f = SGJ.ViewRoadmap
     if not f then return end
@@ -1143,15 +1275,38 @@ function Roadmap.OnSlotEnter(self)
         local best = self.FilteredItems[idx]
         if not best then best = self.FilteredItems[1] end 
         
-        GameTooltip:AddLine("Upgrades Available!", 0, 1, 0); GameTooltip:AddLine("Recommended: " .. best.link, 1, 1, 1)
-        if best.pair then GameTooltip:AddLine("With: " .. best.pair, 0.6, 0.6, 1) end
-        GameTooltip:AddLine("Source: |cffffffff" .. (best.boss or "Unknown") .. "|r", 1, 0.82, 0)
-        if best.reqLevel then local color = (UnitLevel("player") >= best.reqLevel) and "|cff00ff00" or "|cffff0000"; GameTooltip:AddLine("Req Level: " .. color .. best.reqLevel .. "|r", 1, 1, 1) end
-        if best.gain > 0 then GameTooltip:AddLine("Score Gain: " .. string.format("+%.1f", best.gain), 0, 1, 0)
-        else GameTooltip:AddLine("Score Change: " .. string.format("%.1f", best.gain), 1, 0, 0) end
-        if idx > 1 then GameTooltip:AddLine("(|cffff0000Note:|r Better item used in other slot)", 1, 1, 1, true) end
-        if SGJ.ViewRoadmap.Model then SGJ.ViewRoadmap.Model:TryOn(best.link) end
-    else GameTooltip:SetText(self.SlotName) end
+        -- [[ UPDATED TOOLTIP LOGIC: Standard Tooltip + Append ]]
+        if best.link then
+            GameTooltip:SetHyperlink(best.link)
+            
+            if best.gain > 0 then
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine("|cff00ff00[Roadmap Upgrade]|r")
+                GameTooltip:AddDoubleLine("Score Gain:", "+"..string.format("%.1f", best.gain), 1, 1, 1, 0, 1, 0)
+                GameTooltip:AddDoubleLine("Source:", best.boss or "?", 1, 1, 1, 1, 0.82, 0)
+                
+                if best.pair then
+                    GameTooltip:AddLine(" ")
+                    GameTooltip:AddLine("Paired With: " .. best.pair, 0.6, 0.6, 1)
+                end
+                
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine("<Left-Click for Options>", 0.5, 0.5, 0.5)
+            else
+                -- It's the baseline/equipped item
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine("|cffaaaaaa[Current / Virtual]|r", 0.6, 0.6, 0.6)
+            end
+        else
+            -- Fallback if link is missing
+            GameTooltip:SetText(self.SlotName)
+            GameTooltip:AddLine("Item data missing", 1, 0, 0)
+        end
+
+        if SGJ.ViewRoadmap.Model and best.link then SGJ.ViewRoadmap.Model:TryOn(best.link) end
+    else 
+        GameTooltip:SetText(self.SlotName) 
+    end
     GameTooltip:Show()
 end
 

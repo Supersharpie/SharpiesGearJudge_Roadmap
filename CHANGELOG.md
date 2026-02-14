@@ -1,5 +1,17 @@
 # Changelog - Roadmap Plugin
 
+## [v2.1.1]
+
+* **Performance and UX overhaul for the Roadmap: localize globals and add recyclable scratch tables and unique-cache for faster scans; cache tooltip scanner.** 
+* **Introduces profile override support with a dropdown (OverrideSpec) and RefreshProfileDisplay, plus UpdateRealGearCache to compute real-gear stats for safety-cap adjustments.** 
+* **Adds a progress bar, refactors Calculate button placement and tooltip, and improves slot tooltips and model TryOn behavior.** 
+* **Simulation engine: reuse Scratch_SimGear, stricter uniqueness handling, adjusted score computation that applies class safety caps/penalties, and GetAdjustedScore wrapper.** 
+* **Scan engine reworked to run as a coroutine ticker (StartCoroutineScan) with batched zone scans, candidate prefiltering, gap-filler logic, and leaderboard/top-items collection.** 
+* **Misc: InitView/InitSidebar UI reorganizations, InitializeVirtualGear now updates real gear cache, many small cleanups (tostring for pretty names, minor anchor changes, standardized dropdown init).**
+* **Overall: faster, non-blocking scans, improved profile handling and more robust simulation logic.**
+
+-------------------------------------------------------------------------
+
 ## [v2.1.0]
 
 * **Introduce IgnoredSlots support so users can right-click slots to toggle them out of scans.**
