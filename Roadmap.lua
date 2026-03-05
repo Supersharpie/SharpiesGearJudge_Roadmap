@@ -409,8 +409,11 @@ function Roadmap:UpdateSidebar()
                 
                 if Roadmap.ChainMode then
                     Roadmap:ApplyBestUpgradesToVirtual()
-                    print("SGJ Chain: Virtual Gear Updated.")
+                    print("SGJ Chain: Virtual Gear Updated. Recalculating...")
+                    -- [ADD THIS] Automatically trigger the recalculation for the sidebar
+                    Roadmap:PerformSmartScan() 
                 end
+                
                 Roadmap:RefreshUI() 
             end)
             
@@ -612,16 +615,50 @@ function Roadmap:ApplyBestUpgradesToVirtual()
             local bestItem = list[idx]
             
             if bestItem.gain > 0 then
-                Roadmap.VirtualGear[slotID] = bestItem.link
-                
-                if bestItem.pair then
-                    local partnerSlot = (slotID == 16) and 17 or 16
-                    Roadmap.VirtualGear[partnerSlot] = bestItem.pair
+                local targetSlot = slotID
+                local partners = { [11]=12, [12]=11, [13]=14, [14]=13 }
+                local partnerSlot = partners[slotID]
+
+                if partnerSlot then
+                    local currentInPartner = Roadmap.VirtualGear[partnerSlot]
+                    local currentInSelf = Roadmap.VirtualGear[slotID]
+                    
+                    -- 1. Check for Unique Conflicts
+                    local isNewUnique = Roadmap:IsUnique(bestItem.link)
+                    local isPartnerSame = false
+                    if currentInPartner then
+                        local newID = tonumber(bestItem.link:match("item:(%d+)"))
+                        local partnerID = tonumber(currentInPartner:match("item:(%d+)"))
+                        if newID == partnerID then isPartnerSame = true end
+                    end
+
+                    -- 2. Deployment Logic
+                    if isNewUnique and isPartnerSame then
+                        -- Do nothing. You already have this unique ring in the other slot.
+                        targetSlot = nil 
+                    elseif currentInSelf and not currentInPartner then
+                        -- If our current slot is full but the other is empty, move there
+                        targetSlot = partnerSlot
+                    elseif currentInSelf and currentInPartner then
+                        -- Both slots full: Replace the one that results in the smaller gain
+                        -- (In this case, we default to the simulated slotID)
+                        targetSlot = slotID
+                    end
                 end
-                
-                local _,_,_,_,_,_,_,_,loc = GetItemInfo(bestItem.link)
-                if slotID == 16 and loc == "INVTYPE_2HWEAPON" then
-                    Roadmap.VirtualGear[17] = nil
+
+                if targetSlot then
+                    Roadmap.VirtualGear[targetSlot] = bestItem.link
+                    
+                    -- Handle Weapon Logic
+                    if bestItem.pair then
+                        local partnerSlot = (slotID == 16) and 17 or 16
+                        Roadmap.VirtualGear[partnerSlot] = bestItem.pair
+                    end
+                    
+                    local _,_,_,_,_,_,_,_,loc = GetItemInfo(bestItem.link)
+                    if slotID == 16 and loc == "INVTYPE_2HWEAPON" then
+                        Roadmap.VirtualGear[17] = nil
+                    end
                 end
             end
         end
@@ -760,11 +797,12 @@ function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, 
     local newItemID = tonumber(itemLink:match("item:(%d+)"))
 
     for _, targetSlot in ipairs(slotsToCheck) do
-        table_wipe(Scratch_SimGear)
-        for k,v in pairs(baseGear) do Scratch_SimGear[k] = v end
-        Scratch_SimGear[targetSlot] = itemLink
+        -- [FIX] Instantiate a fresh table to prevent reference-caching bugs in SGJ:GetTotalCharacterScore
+        local simGear = {} 
+        for k,v in pairs(baseGear) do simGear[k] = v end
+        simGear[targetSlot] = itemLink
         
-        local mh = Scratch_SimGear[16]
+        local mh = simGear[16]
         local mhLoc = mh and select(9, GetItemInfo(mh))
         local mhIs2H = (mhLoc == "INVTYPE_2HWEAPON")
         local newItemLoc = select(9, GetItemInfo(itemLink))
@@ -773,10 +811,10 @@ function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, 
 
         if targetSlot == 16 then
             if newItemIs2H then
-                Scratch_SimGear[17] = nil 
+                simGear[17] = nil 
             else
-                if not Scratch_SimGear[17] and gapFillerOH and gapFillerOH ~= itemLink then
-                    Scratch_SimGear[17] = gapFillerOH; pairedItem = gapFillerOH 
+                if not simGear[17] and gapFillerOH and gapFillerOH ~= itemLink then
+                    simGear[17] = gapFillerOH; pairedItem = gapFillerOH 
                 end
             end
         elseif targetSlot == 17 then
@@ -784,12 +822,12 @@ function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, 
                 if gapFillerMH and gapFillerMH ~= itemLink then
                     local _,_,_,_,_,_,_,_,fillLoc = GetItemInfo(gapFillerMH)
                     if fillLoc ~= "INVTYPE_2HWEAPON" then
-                        Scratch_SimGear[16] = gapFillerMH; pairedItem = gapFillerMH 
+                        simGear[16] = gapFillerMH; pairedItem = gapFillerMH 
                     else
-                        Scratch_SimGear[16] = nil 
+                        simGear[16] = nil 
                     end
                 else
-                    Scratch_SimGear[16] = nil 
+                    simGear[16] = nil 
                 end
             end
         end
@@ -797,28 +835,27 @@ function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, 
         local slotPairs = { [11]=12, [12]=11, [13]=14, [14]=13, [16]=17, [17]=16 }
         local partner = slotPairs[targetSlot]
         
-        if partner and Scratch_SimGear[partner] then
-             local pLink = Scratch_SimGear[partner]
+        if partner and simGear[partner] then
+             local pLink = simGear[partner]
              local pID = tonumber(pLink:match("item:(%d+)"))
              
              if newItemID and pID and newItemID == pID and Roadmap:IsUnique(itemLink) then
-                 Scratch_SimGear[partner] = nil
+                 simGear[partner] = nil
              end
         end
 
-        local newScore, newStats = Roadmap:GetAdjustedScore(Scratch_SimGear, weights, specName)
+        -- Because simGear is a brand new table reference, it bypasses stale cache data
+        local newScore, newStats = Roadmap:GetAdjustedScore(simGear, weights, specName)
         local gain = newScore - baseScore
         
-        -- [[ BUG FIX: STRICT FOCUS STAT FILTER via Internal Parser ]]
         local allowedByFocus = true
         if Roadmap.FocusStat and baseStats and newStats then
             local oldVal = baseStats[Roadmap.FocusStat] or 0
             local newVal = newStats[Roadmap.FocusStat] or 0
             
             if newVal <= oldVal then
-                allowedByFocus = false -- The stat didn't go up! Trash the item.
+                allowedByFocus = false
                 
-                -- Cross-checks for generic TBC stats (e.g. Generic Hit applies to Spells)
                 if Roadmap.FocusStat == "ITEM_MOD_SPELL_DAMAGE_DONE" or Roadmap.FocusStat == "ITEM_MOD_SPELL_HEALING_DONE" then
                     if (newStats["ITEM_MOD_SPELL_POWER_SHORT"] or 0) > (baseStats["ITEM_MOD_SPELL_POWER_SHORT"] or 0) then allowedByFocus = true end
                 elseif Roadmap.FocusStat == "ITEM_MOD_HIT_SPELL_RATING_SHORT" then
@@ -836,7 +873,7 @@ end
 
 function Roadmap:ResolveConflicts()
     Roadmap.BestIndices = {}
-    Roadmap.ForcedPairs = {} 
+    Roadmap.ForcedPairs = {} -- Reset forced visuals
     
     local function ResolvePair(s1, s2)
         Roadmap.BestIndices[s1] = 1
@@ -873,6 +910,7 @@ function Roadmap:ResolveConflicts()
     ResolvePair(11, 12) 
     ResolvePair(13, 14) 
     
+    -- Weapon Visual Sync
     local mhList = Roadmap.ScanResults[16] or {}
     local ohList = Roadmap.ScanResults[17] or {}
     
@@ -880,8 +918,9 @@ function Roadmap:ResolveConflicts()
     local bestOH = ohList[1]
     
     if bestMH then
+        -- Check if MH has a forced pair
         if bestMH.pair then
-            Roadmap.ForcedPairs[17] = bestMH.pair 
+            Roadmap.ForcedPairs[17] = bestMH.pair -- Force OH slot to show pair
         end
         
         local _,_,_,_,_,_,_,_,loc = GetItemInfo(bestMH.link)
@@ -891,8 +930,9 @@ function Roadmap:ResolveConflicts()
             
             if score2H >= scoreDW then
                 Roadmap.BestIndices[17] = -1 
-                Roadmap.ForcedPairs[17] = nil 
+                Roadmap.ForcedPairs[17] = nil -- 2H wins, no forced OH
             else
+                -- DW Wins. Check if OH has a forced pair (Main Hand Filler)
                 if bestOH and bestOH.pair then
                     Roadmap.ForcedPairs[16] = bestOH.pair
                 else
@@ -1017,6 +1057,8 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
     local candidatesOH = {}
     local itemsToSim = {}
 
+    local _, playerClass = UnitClass("player")
+
     for itemID, info in pairs(lootTable) do
         local allowed = true
         if applySmartFilter and info.reqLevel and info.reqLevel > playerLvl then allowed = false end
@@ -1025,9 +1067,16 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
              local _, link, _, _, _, _, _, _, equipLoc = GetItemInfo(itemID)
              if link then
                  if SGJ.IsItemUsable(link) then
-                     if equipLoc == "INVTYPE_WEAPON" or equipLoc == "INVTYPE_WEAPONMAINHAND" then table.insert(candidates1H, link) end
-                     if Roadmap:IsOffhandCandidate(link) then table.insert(candidatesOH, link) end
-                     table.insert(itemsToSim, {id=itemID, link=link, loc=equipLoc, info=info})
+                     
+                     -- [ADD] Hard filter to prevent Hunters from simulating Thrown weapons
+                     local isHunterThrown = (playerClass == "HUNTER" and equipLoc == "INVTYPE_THROWN")
+                     
+                     if not isHunterThrown then
+                         if equipLoc == "INVTYPE_WEAPON" or equipLoc == "INVTYPE_WEAPONMAINHAND" then table.insert(candidates1H, link) end
+                         if Roadmap:IsOffhandCandidate(link) then table.insert(candidatesOH, link) end
+                         table.insert(itemsToSim, {id=itemID, link=link, loc=equipLoc, info=info})
+                     end
+                     
                  end
              elseif Roadmap.SelectedZone == zoneKey then
                  table.insert(Roadmap.MissingItems, itemID)
@@ -1088,16 +1137,24 @@ end
 
 function Roadmap:FinalizeScan()
     for slotID, list in pairs(Roadmap.ScanResults) do
-        -- [NEW] Efficiency Sort Logic
-        if Roadmap.SortByEfficiency and Roadmap.SelectedZone == "Geras_Badges" then
-            table.sort(list, function(a,b) 
-                local eA = a.gain / (a.badgeCost or 1)
-                local eB = b.gain / (b.badgeCost or 1)
-                return eA > eB 
-            end)
-        else
-            table.sort(list, function(a,b) return a.gain > b.gain end)
-        end
+        table.sort(list, function(a,b) return a.gain > b.gain end)
+    end
+    Roadmap:ResolveConflicts()
+    Roadmap:SaveHistory()
+    Roadmap:RefreshUI()
+    
+    if #Roadmap.MissingItems > 0 then
+        -- Auto-retry logic
+        print("|cff00ccffSGJ:|r Waiting for server data (" .. #Roadmap.MissingItems .. " items)... Retrying automatically.")
+        C_Timer.After(1.0, function() 
+             -- Only retry if the user hasn't closed the window or changed zones
+             if SGJ.ViewRoadmap:IsShown() and Roadmap.SelectedZone then
+                 Roadmap:ScanZoneData(Roadmap.SelectedZone, Roadmap.UseLevelFilter)
+                 Roadmap:FinalizeScan()
+             end
+        end)
+    else
+        -- Only print "Scan Complete" if strictly needed, or just keep it silent/update UI
     end
 end
 

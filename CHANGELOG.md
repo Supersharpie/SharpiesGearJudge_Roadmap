@@ -1,5 +1,18 @@
 # Changelog - Roadmap Plugin
 
+## [v2.2.0]
+
+* **Fix several simulation and scan issues: allocate a fresh simGear table to avoid reference-caching bugs when computing scores; introduce safer virtual-slot deployment logic for paired slots (rings/weapons) including unique-item checks and proper 2H/oh handling; trigger an automatic recalculation when ChainMode updates virtual gear.**  
+* **Add a Hunter-specific filter to avoid simulating thrown weapons.**  
+* **Simplify final sorting, then call ResolveConflicts, SaveHistory and RefreshUI after scans, and add an auto-retry when server item data is missing.**  
+
+* **Add a new virtual dungeon DB (D4_Badges.lua) for the G'eras badge vendor and register it in ZONE_META.** 
+* **Introduced UI and feature updates in Roadmap.lua: new ShowBadges and SortByEfficiency flags, a FocusStat dropdown to target specific stats, repositioned/stacked controls, refreshed button/tooltips, and stacked checkboxes.** 
+* **Modify scanning and scoring logic to return base stats (GetAdjustedScore), pass baseStats into simulation (GetSimulationGains), and enforce a strict focus-stat filter when evaluating upgrades.** 
+* **Update coroutine scanning to honor the badge zone toggle, save baseStats during scans, and apply several small cleanup/bugfixes and refactors (conflict resolution, forced pairs, progress bar handling, and UI refresh timing).**
+
+-------------------------------------------------------------------------
+
 ## [v2.1.1]
 
 * **Performance and UX overhaul for the Roadmap: localize globals and add recyclable scratch tables and unique-cache for faster scans; cache tooltip scanner.** 
