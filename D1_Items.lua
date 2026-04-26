@@ -925,7 +925,7 @@ SGJ.DungeonDB["Blackrock Depths"] = {
 	[11731] = { name = "Savage Gladiator Greaves", source = "Anub'shiah", slot = "Feet", type = "Mail Armor", zone = "Blackrock Depths", reqLevel = 52 },	
 	[11735] = { name = "Ragefury Eyepatch", source = "Hurley Blackbreath", slot = "Head", type = "Leather Armor", zone = "Blackrock Depths", reqLevel = 52 },
 	[11742] = { name = "Wayfarer's Knapsack", source = "Ribbly Screwspigot", slot = "Bag", type = "Bag", zone = "Blackrock Depths", reqLevel = 55 },
-    [11743] = { name = "Rockfist", source = "Phalanx", slot = "One-Hand", type = "Fist Weapon", zone = "Blackrock Depths", reqLevel = 50 }
+    [11743] = { name = "Rockfist", source = "Phalanx", slot = "One-Hand", type = "Fist Weapon", zone = "Blackrock Depths", reqLevel = 50 },
 	[11744] = { name = "Bloodfist", source = "Phalanx", slot = "One-Hand", type = "Fist Weapon", zone = "Blackrock Depths", reqLevel = 51 },
 	[11745] = { name = "Fists of Phalanx", source = "Phalanx", slot = "Hands", type = "Plate Armor", zone = "Blackrock Depths", reqLevel = 51 },
 	[11746] = { name = "Golem Skull Helm", source = "Boss Drop", slot = "Head", type = "Plate Armor", zone = "Blackrock Depths", reqLevel = 51 },
@@ -934,7 +934,7 @@ SGJ.DungeonDB["Blackrock Depths"] = {
 	[11749] = { name = "Searingscale Leggings", source = "Pyromancer Loregrain", slot = "Legs", type = "Mail Armor", zone = "Blackrock Depths", reqLevel = 48 },
 	[11750] = { name = "Kindling Stave", source = "Pyromancer Loregrain", slot = "Two-Hand", type = "Staff", zone = "Blackrock Depths", reqLevel = 48 },
 	[11755] = { name = "Verek's Collar", source = "Verek", slot = "Neck", type = "Amulet", zone = "Blackrock Depths", reqLevel = 51 },	   
-	[11764] = { name = "Cinderhide Armsplints", source = "Lord Incendius", slot = "Wrist", type = "Leather Armor", zone = "Blackrock Depths", reqLevel = 52 }    
+	[11764] = { name = "Cinderhide Armsplints", source = "Lord Incendius", slot = "Wrist", type = "Leather Armor", zone = "Blackrock Depths", reqLevel = 52 },
 	[11765] = { name = "Pyremail Wristguards", source = "Lord Incendius", slot = "Wrist", type = "Mail Armor", zone = "Blackrock Depths", reqLevel = 52 },
 	[11766] = { name = "Flameweave Cuffs", source = "Lord Incendius", slot = "Wrist", type = "Cloth Armor", zone = "Blackrock Depths", reqLevel = 52 },	
 	[11767] = { name = "Emberplate Armguards", source = "Lord Incendius", slot = "Wrist", type = "Plate Armor", zone = "Blackrock Depths", reqLevel = 52 },	
@@ -1035,7 +1035,7 @@ SGJ.DungeonDB["Blackrock Depths"] = {
     [38287] = { name = "Empty Mug of Direbrew", source = "Coren Direbrew", slot = "Trinket", type = "Trinket", zone = "Blackrock Depths", reqLevel = 70 },
     [38288] = { name = "Direbrew Hops", source = "Coren Direbrew", slot = "Trinket", type = "Trinket", zone = "Blackrock Depths", reqLevel = 70 },
     [38289] = { name = "Coren's Lucky Coin", source = "Coren Direbrew", slot = "Trinket", type = "Trinket", zone = "Blackrock Depths", reqLevel = 70 },
-    [38290] = { name = "Dark Iron Smoking Pipe", source = "Coren Direbrew", slot = "Trinket", type = "Trinket", zone = "Blackrock Depths", reqLevel = 70 },
+    [38290] = { name = "Dark Iron Smoking Pipe", source = "Coren Direbrew", slot = "Trinket", type = "Trinket", zone = "Blackrock Depths", reqLevel = 70 }
 }
 
 SGJ.DungeonDB["The Temple of Atal'Hakkar"] = {
