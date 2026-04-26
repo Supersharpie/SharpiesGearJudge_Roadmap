@@ -15,7 +15,10 @@ if not SGJ then
     return 
 end
 
-SGJ.DungeonDB = SGJ.DungeonDB or ns.DungeonDB or {}
+SGJ.DungeonDB = SGJ.DungeonDB or {}
+if ns.DungeonDB then
+    for k, v in pairs(ns.DungeonDB) do SGJ.DungeonDB[k] = v end
+end
 
 local Roadmap = {}
 SGJ.Roadmap = Roadmap
@@ -57,25 +60,25 @@ local SLOTS = {
 
 local ZONE_META = {
     -- === VANILLA ===
-    ["RagefireChasm"]    = { name="Ragefire Chasm",    min=13 },
+    ["Ragefire Chasm"]    = { name="Ragefire Chasm",    min=13 },
     ["Deadmines"]        = { name="The Deadmines",     min=17 },
-    ["WailingCaverns"]   = { name="Wailing Caverns",   min=17 },
+    ["Wailing Caverns"]   = { name="Wailing Caverns",   min=17 },
     ["ShadowfangKeep"]   = { name="Shadowfang Keep",   min=22 },
-    ["BlackfathomDeeps"] = { name="Blackfathom Deeps", min=24 },
-    ["TheStockade"]      = { name="The Stockade",      min=24 },
+    ["Blackfathom Deeps"] = { name="Blackfathom Deeps", min=24 },
+    ["The Stockade"]      = { name="The Stockade",      min=24 },
     ["Gnomeregan"]       = { name="Gnomeregan",        min=29 },
-    ["RazorfenKraul"]    = { name="Razorfen Kraul",    min=30 },
-    ["ScarletMonastery"] = { name="Scarlet Monastery", min=28 },
-    ["RazorfenDowns"]    = { name="Razorfen Downs",    min=40 },
+    ["Razorfen Kraul"]    = { name="Razorfen Kraul",    min=30 },
+    ["Scarlet Monastery"] = { name="Scarlet Monastery", min=28 },
+    ["Razorfen Downs"]    = { name="Razorfen Downs",    min=40 },
     ["Uldaman"]          = { name="Uldaman",           min=42 },
-    ["ZulFarrak"]        = { name="Zul'Farrak",        min=44 },
+    ["Zul'Farrak"]        = { name="Zul'Farrak",        min=44 },
     ["Maraudon"]         = { name="Maraudon",          min=46 },
-    ["SunkenTemple"]     = { name="Sunken Temple",     min=50 },
-    ["BlackrockDepths"]  = { name="Blackrock Depths",  min=52 },
-    ["DireMaul"]         = { name="Dire Maul",         min=55 },
+    ["The Temple of Atal'Hakkar"]  = { name="The Temple of Atal'Hakkar",     min=50 },
+    ["Blackrock Depths"]  = { name="Blackrock Depths",  min=52 },
+    ["Dire Maul"]         = { name="Dire Maul",         min=55 },
     ["Scholomance"]      = { name="Scholomance",       min=58 },
     ["Stratholme"]       = { name="Stratholme",        min=58 },
-    ["BlackrockSpire"]   = { name="Blackrock Spire",   min=58 },
+    ["Blackrock Spire"]   = { name="Blackrock Spire",   min=58 },
 
     -- === TBC NORMAL ===
     ["HellfireRamparts"] = { name="Hellfire Ramparts", min=60 },
@@ -310,9 +313,7 @@ function Roadmap.InitView(parent)
         Roadmap:InitializeVirtualGear() 
         Roadmap:RefreshUI() 
     end)
-    
-    f:RegisterEvent("GET_ITEM_INFO_RECEIVED")
-    f:SetScript("OnEvent", function(self, event, itemID) end)
+
     SGJ.ViewRoadmap = f
 end
 

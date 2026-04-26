@@ -425,6 +425,6 @@ SGJ.DungeonDB["Steamvault"] = {
     [27804] = { name = "Devilshark Cape", source = "Warlord Kalithresh", slot = "Back", type = "Cloak", zone = "The Steamvault", reqLevel = 70 },
     [27805] = { name = "Ring of the Silver Hand", source = "Warlord Kalithresh", slot = "Finger", type = "Ring", zone = "The Steamvault", reqLevel = 70 },
     [27806] = { name = "Fathomheart Gauntlets", source = "Warlord Kalithresh", slot = "Hands", type = "Mail Armor", zone = "The Steamvault", reqLevel = 70 },
-    [28203] = { name = "Beast Lord Leggings", source = "Warlord Kalithresh", slot = "Legs", type = "Mail Armor", zone = "The Steamvault", reqLevel = 70 },
-    [27874] = { name = "Breastplate of the Righteous", source = "Warlord Kalithresh", slot = "Chest", type = "Plate Armor", zone = "The Steamvault", reqLevel = 70 }
+    [27874] = { name = "Beast Lord Leggings", source = "Warlord Kalithresh", slot = "Legs", type = "Mail Armor", zone = "The Steamvault", reqLevel = 70 },
+    [28203] = { name = "Breastplate of the Righteous", source = "Warlord Kalithresh", slot = "Chest", type = "Plate Armor", zone = "The Steamvault", reqLevel = 70 }
 }

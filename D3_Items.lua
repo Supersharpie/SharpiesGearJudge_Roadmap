@@ -8,13 +8,13 @@ SGJ.DungeonDB = SGJ.DungeonDB or {}
 -- ============================================================
 
 SGJ.DungeonDB["Ramparts_HC"] = {
-    [24044] = { name = "Shadowrend Longblade", source = "Watchkeeper Gargolmar", slot = "Main Hand", type = "One-Handed Sword", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24020] = { name = "Shadowrend Longblade", source = "Watchkeeper Gargolmar", slot = "Main Hand", type = "One-Handed Sword", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24021] = { name = "Light-Touched Breastplate", source = "Watchkeeper Gargolmar", slot = "Chest", type = "Plate Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24022] = { name = "Scale Leggings of the Skirmisher", source = "Watchkeeper Gargolmar", slot = "Legs", type = "Mail Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24023] = { name = "Bracers of Finesse", source = "Watchkeeper Gargolmar", slot = "Wrist", type = "Leather Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24024] = { name = "Pauldrons of Arcane Rage", source = "Watchkeeper Gargolmar", slot = "Shoulder", type = "Cloth Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24044] = { name = "Hellreaver", source = "Reinforced Fel Iron Chest", slot = "Two-Hand", type = "Polearm", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24020] = { name = "Band of Renewal", source = "Reinforced Fel Iron Chest", slot = "Finger", type = "Ring", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24045] = { name = "Band of Renewal", source = "Reinforced Fel Iron Chest", slot = "Finger", type = "Ring", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24046] = { name = "Kilt of Rolling Thunders", source = "Reinforced Fel Iron Chest", slot = "Legs", type = "Mail Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24045] = { name = "Shifting Sash of Midnight", source = "Reinforced Fel Iron Chest", slot = "Waist", type = "Leather Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24063] = { name = "Ironsole Clompers", source = "Reinforced Fel Iron Chest", slot = "Feet", type = "Plate Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
@@ -616,5 +616,5 @@ SGJ.DungeonDB["Steamvault_HC"] = {
     [29243] = { name = "Wave-Fury Vambraces", source = "Warlord Kalithresh", slot = "Wrist", type = "Mail Armor", zone = "The Steamvault", reqLevel = 70 },
     [29351] = { name = "Wrathtide Longbow", source = "Warlord Kalithresh", slot = "Ranged", type = "Bow", zone = "The Steamvault", reqLevel = 70 },
     [29463] = { name = "Amber Bands of the Aggressor", source = "Warlord Kalithresh", slot = "Wrist", type = "Plate Armor", zone = "The Steamvault", reqLevel = 70 },
-    [30550] = { name = "Pontifex Kilt", source = "Warlord Kalithresh", slot = "Legs", type = "Cloth Armor", zone = "The Steamvault", reqLevel = 70 }
+    [30543] = { name = "Pontifex Kilt", source = "Warlord Kalithresh", slot = "Legs", type = "Cloth Armor", zone = "The Steamvault", reqLevel = 70 }
 }

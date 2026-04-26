@@ -1,5 +1,13 @@
 # Changelog - Roadmap Plugin
 
+## [v2.2.1]
+
+* **Update SGJ.DungeonDB entries to use normalized zone keys (add spaces to match ZONE_META in Roadmap.lua) and clean up inconsistent slot values.**
+* **Standardized one-handed weapon slot naming across many items (e.g. Main Hand / One-Hand) and fixed several minor data issues such as item name typos (e.g. "Scholarly" -> "Scholarly Robes").** 
+* **These changes improve consistency between the dungeon DB and roadmap metadata.**
+
+-------------------------------------------------------------------------
+
 ## [v2.2.0]
 
 * **Fix several simulation and scan issues: allocate a fresh simGear table to avoid reference-caching bugs when computing scores; introduce safer virtual-slot deployment logic for paired slots (rings/weapons) including unique-item checks and proper 2H/oh handling; trigger an automatic recalculation when ChainMode updates virtual gear.**  
