@@ -8,27 +8,27 @@ SGJ.DungeonDB = SGJ.DungeonDB or {}
 -- ============================================================
 
 SGJ.DungeonDB["HellfireRamparts"] = {
-    [24044] = { name = "Shadowrend Longblade", source = "Watchkeeper Gargolmar", slot = "Main Hand", type = "One-Handed Sword", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24020] = { name = "Shadowrend Longblade", source = "Watchkeeper Gargolmar", slot = "Main Hand", type = "One-Handed Sword", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24021] = { name = "Light-Touched Breastplate", source = "Watchkeeper Gargolmar", slot = "Chest", type = "Plate Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24022] = { name = "Scale Leggings of the Skirmisher", source = "Watchkeeper Gargolmar", slot = "Legs", type = "Mail Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24023] = { name = "Bracers of Finesse", source = "Watchkeeper Gargolmar", slot = "Wrist", type = "Leather Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24024] = { name = "Pauldrons of Arcane Rage", source = "Watchkeeper Gargolmar", slot = "Shoulder", type = "Cloth Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24044] = { name = "Hellreaver", source = "Reinforced Fel Iron Chest", slot = "Two-Hand", type = "Polearm", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24020] = { name = "Band of Renewal", source = "Reinforced Fel Iron Chest", slot = "Finger", type = "Ring", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24045] = { name = "Band of Renewal", source = "Reinforced Fel Iron Chest", slot = "Finger", type = "Ring", zone = "Hellfire Ramparts", reqLevel = 60 },
     [24046] = { name = "Kilt of Rolling Thunders", source = "Reinforced Fel Iron Chest", slot = "Legs", type = "Mail Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24045] = { name = "Shifting Sash of Midnight", source = "Reinforced Fel Iron Chest", slot = "Waist", type = "Leather Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24063] = { name = "Ironsole Clompers", source = "Reinforced Fel Iron Chest", slot = "Feet", type = "Plate Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24064] = { name = "Crystalfire Staff", source = "Omor the Unscarred", slot = "Two-Hand", type = "Staff", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24069] = { name = "Garrote-String Necklace", source = "Omor the Unscarred", slot = "Neck", type = "Amulet", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24073] = { name = "Lifegiver Britches", source = "Reinforced Fel Iron Chest", slot = "Legs", type = "Cloth Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24083] = { name = "Bloodstained Ravager Gauntlets", source = "Omor the Unscarred", slot = "Hands", type = "Mail Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24090] = { name = "Tenacious Defender", source = "Omor the Unscarred", slot = "Waist", type = "Plate Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24091] = { name = "Heart Fire Warhammer", source = "Omor the Unscarred", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24094] = { name = "Heartblood Prayer Beads", source = "Omor the Unscarred", slot = "Neck", type = "Amulet", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24096] = { name = "Mok'Nathal Wildercloak", source = "Reinforced Fel Iron Chest", slot = "Back", type = "Cloak", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24150] = { name = "Mok'Nathal Clan Ring", source = "Reinforced Fel Iron Chest", slot = "Finger", type = "Ring", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24151] = { name = "Witching Band", source = "Reinforced Fel Iron Chest", slot = "Finger", type = "Ring", zone = "Hellfire Ramparts", reqLevel = 60 },
-    [24154] = { name = "Ursol's Claw", source = "Reinforced Fel Iron Chest", slot = "Two-Hand", type = "Staff", zone = "Hellfire Ramparts", reqLevel = 60 }
+    [24063] = { name = "Shifting Sash of Midnight", source = "Reinforced Fel Iron Chest", slot = "Waist", type = "Leather Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24064] = { name = "Ironsole Clompers", source = "Reinforced Fel Iron Chest", slot = "Feet", type = "Plate Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24069] = { name = "Crystalfire Staff", source = "Omor the Unscarred", slot = "Two-Hand", type = "Staff", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24073] = { name = "Garrote-String Necklace", source = "Omor the Unscarred", slot = "Neck", type = "Amulet", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24083] = { name = "Lifegiver Britches", source = "Reinforced Fel Iron Chest", slot = "Legs", type = "Cloth Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24090] = { name = "Bloodstained Ravager Gauntlets", source = "Omor the Unscarred", slot = "Hands", type = "Mail Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24091] = { name = "Tenacious Defender", source = "Omor the Unscarred", slot = "Waist", type = "Plate Armor", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24094] = { name = "Heart Fire Warhammer", source = "Omor the Unscarred", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24096] = { name = "Heartblood Prayer Beads", source = "Omor the Unscarred", slot = "Neck", type = "Amulet", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24150] = { name = "Mok'Nathal Wildercloak", source = "Reinforced Fel Iron Chest", slot = "Back", type = "Cloak", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24151] = { name = "Mok'Nathal Clan Ring", source = "Reinforced Fel Iron Chest", slot = "Finger", type = "Ring", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24154] = { name = "Witching Band", source = "Reinforced Fel Iron Chest", slot = "Finger", type = "Ring", zone = "Hellfire Ramparts", reqLevel = 60 },
+    [24155] = { name = "Ursol's Claw", source = "Reinforced Fel Iron Chest", slot = "Two-Hand", type = "Staff", zone = "Hellfire Ramparts", reqLevel = 60 }
 }
 
 SGJ.DungeonDB["BloodFurnace"] = {
