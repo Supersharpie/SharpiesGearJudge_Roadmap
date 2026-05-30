@@ -2,9 +2,13 @@
 
 ## [v2.2.1]
 
-* **Update SGJ.DungeonDB entries to use normalized zone keys (add spaces to match ZONE_META in Roadmap.lua) and clean up inconsistent slot values.**
+* **Updated SGJ.DungeonDB entries to use normalized zone keys (add spaces to match ZONE_META in Roadmap.lua) and clean up inconsistent slot values.**
 * **Standardized one-handed weapon slot naming across many items (e.g. Main Hand / One-Hand) and fixed several minor data issues such as item name typos (e.g. "Scholarly" -> "Scholarly Robes").** 
 * **These changes improve consistency between the dungeon DB and roadmap metadata.**
+* **Added a new D5_Quests.lua containing quest reward item entries for multiple zones (Elwynn Forest, Dun Morogh, Teldrassil, Bloodmyst Isle).** 
+* **Updated Roadmap.lua to introduce GameMode state (PvE/PvP), a Mode dropdown (switches stat weights and triggers recalculation), a Focus stat dropdown, and register the new quest zones in ZONE_META.**
+* **Also minor UI layout/comments adjustments.** 
+* **Fixed ordering/IDs and some entries in D3_Items.lua (resolve duplicates and reorder entries for Hellfire Ramparts / The Steamvault).** 
 
 -------------------------------------------------------------------------
 

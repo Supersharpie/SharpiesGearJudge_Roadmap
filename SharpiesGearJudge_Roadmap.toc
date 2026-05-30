@@ -10,4 +10,5 @@ D1_Items.lua
 D2_Items.lua
 D3_Items.lua
 D4_Badges.lua
+D5_Quests.lua
 Roadmap.lua

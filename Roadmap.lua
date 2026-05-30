@@ -38,6 +38,11 @@ local UniqueCache = {}
 -- =============================================================
 -- 2. LAYOUT & CONFIG
 -- =============================================================
+
+-- [NEW] Added PvP GameMode State Tracker
+Roadmap.FocusStat = nil
+Roadmap.GameMode = "PvE" -- Default to PvE Mode
+Roadmap.SelectedZone = nil
 local SLOTS = {
     { id=1,  name="Head",      x=-260, y=140,  texture="Head" },
     { id=2,  name="Neck",      x=-260, y=95,   texture="Neck" },
@@ -118,6 +123,10 @@ local ZONE_META = {
 	
 	-- === VIRTUAL ZONES ===
     ["Geras_Badges"] = { name = "G'eras (Badge Vendor)", min = 70 },
+	["Elwynn Forest Quests"]  = { name = "Elwynn Forest Quests", min = 1 },
+	["Dun Morogh Quests"]  = { name = "Dun Morogh Quests", min = 1 },
+	["Teldrassil Quests"]  = { name = "Teldrassil Quests", min = 1 },
+	["Bloodmyst Isle Quests"]  = { name = "Bloodmyst Isle Quests", min = 1 },
 }
 
 Roadmap.UseLevelFilter = true
@@ -138,8 +147,9 @@ Roadmap.IgnoredSlots = {}
 Roadmap.RealGearStats = {} 
 
 -- =============================================================
--- 3. UI INITIALIZATION
+-- 3. UI INITIALIZATION (DROPDOWNS AND FRAMES)
 -- =============================================================
+
 local function SetCheckLabel(btn, text)
     if btn.Text then btn.Text:SetText(text)
     else local g = _G[btn:GetName().."Text"]; if g then g:SetText(text) end end
@@ -176,20 +186,50 @@ function Roadmap.InitView(parent)
     -- ==========================================
     -- TOP LEFT: DROPDOWNS 
     -- ==========================================
-    -- Bumped Y-offset down from -30 to -60 to completely clear the Help Text
+    
+    -- 1. Mode Dropdown (Top)
+    local modeDropDown = CreateFrame("Frame", "SGJ_RoadmapModeDropDown", f, "UIDropDownMenuTemplate")
+    modeDropDown:SetPoint("TOPLEFT", f, "TOPLEFT", -10, -40) 
+    UIDropDownMenu_SetWidth(modeDropDown, 140) 
+    
+    UIDropDownMenu_Initialize(modeDropDown, function(self, level) 
+        local info = UIDropDownMenu_CreateInfo()
+        local modes = {"PvE", "PvP"}
+        for _, mode in ipairs(modes) do
+            info.text = mode .. " Weights"
+            info.value = mode
+            info.checked = (Roadmap.GameMode == mode)
+            info.func = function()
+                Roadmap.GameMode = mode
+                UIDropDownMenu_SetText(modeDropDown, "Mode: " .. mode)
+                print("SGJ Roadmap: Switched to " .. mode .. " stat weights. Recalculating...")
+                if Roadmap.PerformSmartScan then
+                    Roadmap:PerformSmartScan()
+                end
+            end
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end)
+    UIDropDownMenu_SetText(modeDropDown, "Mode: PvE")
+    f.ModeDropDown = modeDropDown
+
+    -- 2. Profile Dropdown (Middle)
     local dropDown = CreateFrame("Frame", "SGJ_RoadmapProfileDropDown", f, "UIDropDownMenuTemplate")
-    dropDown:SetPoint("TOPLEFT", f, "TOPLEFT", -10, -60)
+    -- Anchors seamlessly to the bottom-left of the Mode dropdown
+    dropDown:SetPoint("TOPLEFT", modeDropDown, "BOTTOMLEFT", 0, 5) 
     UIDropDownMenu_SetWidth(dropDown, 140) 
     UIDropDownMenu_Initialize(dropDown, function(self, level) Roadmap:InitDropDownMenu(self, level) end)
     f.ProfileDropDown = dropDown
 
+    -- 3. Focus Dropdown (Bottom)
     local statDropDown = CreateFrame("Frame", "SGJ_RoadmapStatDropDown", f, "UIDropDownMenuTemplate")
+    -- Anchors seamlessly to the bottom-left of the Profile dropdown
     statDropDown:SetPoint("TOPLEFT", dropDown, "BOTTOMLEFT", 0, 5) 
     UIDropDownMenu_SetWidth(statDropDown, 140) 
     UIDropDownMenu_Initialize(statDropDown, function(self, level) Roadmap:InitStatDropDownMenu(self, level) end)
     UIDropDownMenu_SetText(statDropDown, "Focus: None (Default)")
     f.StatDropDown = statDropDown
-
+	
     -- ==========================================
     -- TOP RIGHT: ACTION BUTTONS
     -- ==========================================
@@ -446,17 +486,31 @@ end
 -- 4. UTILITIES & MATH (PROFILE SUPPORT)
 -- =============================================================
 function Roadmap:GetActiveProfile()
+    local weights, spec = nil, nil
+
     if Roadmap.OverrideSpec and SGJ.CurrentClass then
         -- 1. Check Standard Weights
         if SGJ.CurrentClass.Weights and SGJ.CurrentClass.Weights[Roadmap.OverrideSpec] then
-            return SGJ.CurrentClass.Weights[Roadmap.OverrideSpec], Roadmap.OverrideSpec
-        end
+            weights = SGJ.CurrentClass.Weights[Roadmap.OverrideSpec]
+            spec = Roadmap.OverrideSpec
         -- 2. Check Leveling Brackets
-        if SGJ.CurrentClass.LevelingBrackets and SGJ.CurrentClass.LevelingBrackets[Roadmap.OverrideSpec] then
-            return SGJ.CurrentClass.LevelingBrackets[Roadmap.OverrideSpec], Roadmap.OverrideSpec
+        elseif SGJ.CurrentClass.LevelingBrackets and SGJ.CurrentClass.LevelingBrackets[Roadmap.OverrideSpec] then
+            weights = SGJ.CurrentClass.LevelingBrackets[Roadmap.OverrideSpec]
+            spec = Roadmap.OverrideSpec
         end
     end
-    return SGJ.GetCurrentWeights()
+    
+    if not weights and SGJ.GetCurrentWeights then 
+        weights, spec = SGJ.GetCurrentWeights() 
+    end
+
+    -- 3. Check if the profile has split PvE/PvP contexts
+    if weights and weights[Roadmap.GameMode] then
+        return weights[Roadmap.GameMode], spec
+    end
+
+    -- Fallback for legacy flat weight tables (pre-PvP upgrade)
+    return weights, spec
 end
 
 function Roadmap:InitDropDownMenu(self, level)
@@ -529,7 +583,7 @@ function Roadmap:InitDropDownMenu(self, level)
     end
 end
 
--- [NEW] Focus Stat Dropdown Menu
+-- Focus Stat Dropdown Menu (Added Spell Pen and Resilience)
 function Roadmap:InitStatDropDownMenu(self, level)
     local info = UIDropDownMenu_CreateInfo()
     
@@ -542,17 +596,18 @@ function Roadmap:InitStatDropDownMenu(self, level)
         { id = "ITEM_MOD_HASTE_RATING_SHORT", name = "Melee/Ranged Haste" },
         { id = "ITEM_MOD_SPELL_HASTE_RATING_SHORT", name = "Spell Haste" },
         { id = "ITEM_MOD_ARMOR_PENETRATION_RATING_SHORT", name = "Armor Penetration" },
-        { id = "ITEM_MOD_SPELL_PENETRATION_SHORT", name = "Spell Penetration" },
+        { id = "ITEM_MOD_SPELL_PENETRATION_SHORT", name = "Spell Penetration" }, -- PvP Added
+        { id = "ITEM_MOD_RESILIENCE_RATING_SHORT", name = "Resilience Rating" }, -- PvP Added
         { id = "ITEM_MOD_ATTACK_POWER_SHORT", name = "Attack Power" },
-        { id = "ITEM_MOD_RANGED_ATTACK_POWER_SHORT", name = "Ranged Attack Power" },
-        { id = "ITEM_MOD_FERAL_ATTACK_POWER_SHORT", name = "Feral Attack Power" },
-        { id = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT", name = "Defense Rating" },
-        { id = "ITEM_MOD_DODGE_RATING_SHORT", name = "Dodge Rating" },
-        { id = "ITEM_MOD_BLOCK_RATING_SHORT", name = "Block Rating" },
-        { id = "ITEM_MOD_BLOCK_VALUE_SHORT", name = "Block Value" },
-        { id = "ITEM_MOD_PARRY_RATING_SHORT", name = "Parry Rating" },
         { id = "ITEM_MOD_SPELL_POWER_SHORT", name = "Spell Power / Damage" },
         { id = "ITEM_MOD_SPELL_HEALING_DONE_SHORT", name = "Healing Power" }
+		-- [Tanks & Melee Caps]
+        { id = "ITEM_MOD_EXPERTISE_RATING_SHORT", name = "Expertise Rating" },
+        { id = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT", name = "Defense Rating" },
+        { id = "ITEM_MOD_BLOCK_VALUE_SHORT", name = "Block Value" },
+        -- [Survival & Sustain]
+        { id = "ITEM_MOD_STAMINA_SHORT", name = "Stamina" },
+        { id = "ITEM_MOD_POWER_REGEN0_SHORT", name = "Mana Per 5 (MP5)" },
     }
     
     for _, stat in ipairs(stats) do
@@ -561,8 +616,10 @@ function Roadmap:InitStatDropDownMenu(self, level)
         info.checked = (Roadmap.FocusStat == stat.id)
         info.func = function()
             Roadmap.FocusStat = stat.id
-            UIDropDownMenu_SetText(SGJ.ViewRoadmap.StatDropDown, "Focus: " .. stat.name)
-            print("SGJ: Stat Focus set to " .. stat.name .. ". Click Calculate!")
+            if SGJ.ViewRoadmap and SGJ.ViewRoadmap.StatDropDown then
+                UIDropDownMenu_SetText(SGJ.ViewRoadmap.StatDropDown, "Focus: " .. stat.name)
+            end
+            print("SGJ Roadmap: Stat Focus set to " .. stat.name .. ". Click Calculate!")
         end
         UIDropDownMenu_AddButton(info, level)
     end
