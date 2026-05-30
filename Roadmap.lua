@@ -600,7 +600,7 @@ function Roadmap:InitStatDropDownMenu(self, level)
         { id = "ITEM_MOD_RESILIENCE_RATING_SHORT", name = "Resilience Rating" }, -- PvP Added
         { id = "ITEM_MOD_ATTACK_POWER_SHORT", name = "Attack Power" },
         { id = "ITEM_MOD_SPELL_POWER_SHORT", name = "Spell Power / Damage" },
-        { id = "ITEM_MOD_SPELL_HEALING_DONE_SHORT", name = "Healing Power" }
+        { id = "ITEM_MOD_SPELL_HEALING_DONE_SHORT", name = "Healing Power" },
 		-- [Tanks & Melee Caps]
         { id = "ITEM_MOD_EXPERTISE_RATING_SHORT", name = "Expertise Rating" },
         { id = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT", name = "Defense Rating" },
