@@ -101,7 +101,7 @@ local ZONE_META = {
     ["Botanica"]         = { name="The Botanica",      min=70 },
     ["Arcatraz"]         = { name="The Arcatraz",      min=70 },
     ["BlackMorass"]      = { name="The Black Morass",  min=70 },
-    ["MagistersTerrace"] = { name="Magisters' Terrace", min=70 },
+    ["MagistersTerrace"] = { name="Magisters' Terrace", min=70, phase=5 },
 
     -- === TBC HEROIC ===
     ["Ramparts_HC"]      = { name="Heroic: Ramparts",   min=70 },
@@ -119,15 +119,32 @@ local ZONE_META = {
     ["Botanica_HC"]      = { name="Heroic: Botanica",   min=70 },
     ["Arcatraz_HC"]      = { name="Heroic: Arcatraz",   min=70 },
     ["BlackMorass_HC"]   = { name="Heroic: Morass",     min=70 },
-    ["Magisters_HC"]     = { name="Heroic: MgT",        min=70 },
+    ["Magisters_HC"]     = { name="Heroic: MgT",        min=70, phase=5 },
 	
 	-- === VIRTUAL ZONES ===
-    ["Geras_Badges"] = { name = "G'eras (Badge Vendor)", min = 70 },
+    ["Geras_Badges"] = { name = "G'eras (Badge Vendor)", min = 70, phase = 1 },
 	["Elwynn Forest Quests"]  = { name = "Elwynn Forest Quests", min = 1 },
 	["Dun Morogh Quests"]  = { name = "Dun Morogh Quests", min = 1 },
 	["Teldrassil Quests"]  = { name = "Teldrassil Quests", min = 1 },
 	["Bloodmyst Isle Quests"]  = { name = "Bloodmyst Isle Quests", min = 1 },
 }
+
+-- Default TBC launch dungeons to phase 1 (MgT explicitly set to 5 above)
+local TBC_LAUNCH_KEYS = {
+    HellfireRamparts=true, BloodFurnace=true, SlavePens=true, Underbog=true, ManaTombs=true,
+    AuchenaiCrypts=true, OldHillsbrad=true, SethekkHalls=true, ShadowLabyrinth=true,
+    ShatteredHalls=true, Steamvault=true, Mechanar=true, Botanica=true, Arcatraz=true,
+    BlackMorass=true, Ramparts_HC=true, BloodFurnace_HC=true, SlavePens_HC=true,
+    Underbog_HC=true, ManaTombs_HC=true, AuchenaiCrypts_HC=true, OldHillsbrad_HC=true,
+    SethekkHalls_HC=true, ShadowLab_HC=true, ShatteredHalls_HC=true, Steamvault_HC=true,
+    Mechanar_HC=true, Botanica_HC=true, Arcatraz_HC=true, BlackMorass_HC=true,
+}
+for key, meta in pairs(ZONE_META) do
+    if not meta.phase then
+        if TBC_LAUNCH_KEYS[key] then meta.phase = 1
+        else meta.phase = 0 end -- vanilla + quest zones
+    end
+end
 
 Roadmap.UseLevelFilter = true
 Roadmap.ShowHeroic = false 
@@ -153,6 +170,48 @@ Roadmap.RealGearStats = {}
 local function SetCheckLabel(btn, text)
     if btn.Text then btn.Text:SetText(text)
     else local g = _G[btn:GetName().."Text"]; if g then g:SetText(text) end end
+end
+
+function Roadmap:GetContentPhase()
+    if SGJ_Settings and SGJ_Settings.ContentPhase then return SGJ_Settings.ContentPhase end
+    return 1
+end
+
+function Roadmap:InitContentPhaseDropDown(parent, anchorFrame)
+    local phaseDrop = CreateFrame("Frame", "SGJ_RoadmapPhaseDropDown", parent, "UIDropDownMenuTemplate")
+    phaseDrop:SetPoint("TOPLEFT", anchorFrame, "BOTTOMLEFT", 0, 5)
+    UIDropDownMenu_SetWidth(phaseDrop, 140)
+    local phases = {
+        { val = 1, text = "P1: Kara / Gruul" },
+        { val = 2, text = "P2: SSC / TK" },
+        { val = 3, text = "P3: BT / Hyjal" },
+        { val = 4, text = "P4: Zul'Aman" },
+        { val = 5, text = "P5: Sunwell / MgT" },
+    }
+    UIDropDownMenu_Initialize(phaseDrop, function(self, level)
+        local info = UIDropDownMenu_CreateInfo()
+        for _, p in ipairs(phases) do
+            info.text = p.text; info.value = p.val
+            info.checked = (Roadmap:GetContentPhase() == p.val)
+            info.func = function()
+                if not SGJ_Settings then SGJ_Settings = {} end
+                SGJ_Settings.ContentPhase = p.val
+                UIDropDownMenu_SetText(phaseDrop, "Phase: " .. p.text)
+                Roadmap.ZoneRankings = {}
+                if MSC and MSC.BuildGemOptionsForPhase then
+                    MSC:BuildGemOptionsForPhase(p.val)
+                    if MSC.BumpScoringRevision then MSC:BumpScoringRevision() end
+                end
+                print("SGJ Roadmap: Content phase set to " .. p.text .. ". Click Calculate to refresh.")
+            end
+            UIDropDownMenu_AddButton(info, level)
+        end
+    end)
+    local cur = Roadmap:GetContentPhase()
+    local label = "Phase: P1"
+    for _, p in ipairs(phases) do if p.val == cur then label = "Phase: " .. p.text break end end
+    UIDropDownMenu_SetText(phaseDrop, label)
+    parent.PhaseDropDown = phaseDrop
 end
 
 function Roadmap.InitView(parent)
@@ -229,6 +288,8 @@ function Roadmap.InitView(parent)
     UIDropDownMenu_Initialize(statDropDown, function(self, level) Roadmap:InitStatDropDownMenu(self, level) end)
     UIDropDownMenu_SetText(statDropDown, "Focus: None (Default)")
     f.StatDropDown = statDropDown
+
+    if MSC.IsTBC then Roadmap:InitContentPhaseDropDown(f, statDropDown) end
 	
     -- ==========================================
     -- TOP RIGHT: ACTION BUTTONS
@@ -487,16 +548,17 @@ end
 -- =============================================================
 function Roadmap:GetActiveProfile()
     local weights, spec = nil, nil
+    local usedOverride = false
 
     if Roadmap.OverrideSpec and SGJ.CurrentClass then
-        -- 1. Check Standard Weights
         if SGJ.CurrentClass.Weights and SGJ.CurrentClass.Weights[Roadmap.OverrideSpec] then
             weights = SGJ.CurrentClass.Weights[Roadmap.OverrideSpec]
             spec = Roadmap.OverrideSpec
-        -- 2. Check Leveling Brackets
+            usedOverride = true
         elseif SGJ.CurrentClass.LevelingBrackets and SGJ.CurrentClass.LevelingBrackets[Roadmap.OverrideSpec] then
             weights = SGJ.CurrentClass.LevelingBrackets[Roadmap.OverrideSpec]
             spec = Roadmap.OverrideSpec
+            usedOverride = true
         end
     end
     
@@ -504,13 +566,21 @@ function Roadmap:GetActiveProfile()
         weights, spec = SGJ.GetCurrentWeights() 
     end
 
-    -- 3. Check if the profile has split PvE/PvP contexts
-    if weights and weights[Roadmap.GameMode] then
-        return weights[Roadmap.GameMode], spec
+    local flat = weights
+    if weights and weights[Roadmap.GameMode] and type(weights[Roadmap.GameMode]) == "table" then
+        flat = weights[Roadmap.GameMode]
     end
 
-    -- Fallback for legacy flat weight tables (pre-PvP upgrade)
-    return weights, spec
+    if flat and usedOverride and SGJ.CurrentClass and SGJ.CurrentClass.ApplyScalers then
+        local w = {}
+        for k, v in pairs(flat) do w[k] = v end
+        flat = select(1, SGJ.CurrentClass:ApplyScalers(w, spec))
+        if SGJ.BuffEngine and SGJ.BuffEngine.ApplyStatSynergy then
+            SGJ.BuffEngine:ApplyStatSynergy(flat, spec)
+        end
+    end
+
+    return flat, spec
 end
 
 function Roadmap:InitDropDownMenu(self, level)
@@ -1043,8 +1113,9 @@ function Roadmap:StartCoroutineScan()
             end
 
             local levelMatch = (not Roadmap.UseLevelFilter) or (meta.min <= playerLvl)
+            local phaseMatch = (not meta.phase) or (meta.phase <= Roadmap:GetContentPhase())
 
-            if modeMatch and levelMatch then
+            if modeMatch and levelMatch and phaseMatch then
                 table.insert(zonesToScan, {key=zoneKey, meta=meta})
             end
         end

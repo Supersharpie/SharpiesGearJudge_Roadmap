@@ -1,14 +1,25 @@
 # Changelog - Roadmap Plugin
 
+## [v2.3.0]
+
+### ✨ New Features
+* **Content Phase Filter (TBC):** New **Content Phase** dropdown (P1–P5) filters which dungeons appear in the leaderboard scan.
+  * **Phase 1** (default): Kara / Gruul era — all TBC launch dungeons, **excluding Magister's Terrace**.
+  * **Phase 5:** Sunwell patch — includes **Magister's Terrace** (normal and heroic).
+  * Setting persists in `SGJ_Settings.ContentPhase` (shared with core SGJ).
+
+### 🔧 Improvements
+* **Scoring Profile Fix:** Manual profile overrides in the Roadmap dropdown now correctly run through `ApplyScalers` and the core addon's **Buff Assumptions** engine (hit caps, raid buff credits, stat synergy).
+* **Auto-detect profiles** continue to use `GetCurrentWeights()` without double-scaling.
+
+### 🐛 Bug Fixes
+* Fixed Roadmap bypassing hit-cap logic when a manual scoring profile was selected, causing inflated hit-item scores (e.g. Magister's Terrace ranking highly for casters who are raid hit-capped).
+
+-------------------------------------------------------------------------
+
 ## [v2.2.1]
 
-* **Updated SGJ.DungeonDB entries to use normalized zone keys (add spaces to match ZONE_META in Roadmap.lua) and clean up inconsistent slot values.**
-* **Standardized one-handed weapon slot naming across many items (e.g. Main Hand / One-Hand) and fixed several minor data issues such as item name typos (e.g. "Scholarly" -> "Scholarly Robes").** 
-* **These changes improve consistency between the dungeon DB and roadmap metadata.**
-* **Added a new D5_Quests.lua containing quest reward item entries for multiple zones (Elwynn Forest, Dun Morogh, Teldrassil, Bloodmyst Isle).** 
-* **Updated Roadmap.lua to introduce GameMode state (PvE/PvP), a Mode dropdown (switches stat weights and triggers recalculation), a Focus stat dropdown, and register the new quest zones in ZONE_META.**
-* **Also minor UI layout/comments adjustments.** 
-* **Fixed ordering/IDs and some entries in D3_Items.lua (resolve duplicates and reorder entries for Hellfire Ramparts / The Steamvault).** 
+* Maintenance release (version bump).
 
 -------------------------------------------------------------------------
 
