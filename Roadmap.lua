@@ -1187,10 +1187,22 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
     local itemsToSim = {}
 
     local _, playerClass = UnitClass("player")
+    local currentPhase = Roadmap:GetContentPhase()
 
     for itemID, info in pairs(lootTable) do
         local allowed = true
         if applySmartFilter and info.reqLevel and info.reqLevel > playerLvl then allowed = false end
+        
+        if allowed then
+            local itemPhase = info.phase
+            if not itemPhase and zoneKey == "Geras_Badges" then
+                itemPhase = 1
+                if itemID >= 34000 then itemPhase = 5
+                elseif itemID >= 33000 then itemPhase = 4
+                end
+            end
+            if itemPhase and itemPhase > currentPhase then allowed = false end
+        end
         
         if allowed then
              local _, link, _, _, _, _, _, _, equipLoc = GetItemInfo(itemID)

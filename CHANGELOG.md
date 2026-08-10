@@ -1,5 +1,12 @@
 # Changelog - Roadmap Plugin
 
+## [v2.3.1]
+
+### dY?> Bug Fixes
+* Fixed an issue where the Roadmap would display Badge of Justice rewards from future patches (e.g. Zul'Aman or Sunwell) when a lower Content Phase was selected.
+
+-------------------------------------------------------------------------
+
 ## [v2.3.0]
 
 ### ✨ New Features
