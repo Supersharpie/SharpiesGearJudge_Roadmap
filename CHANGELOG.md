@@ -2,7 +2,7 @@
 
 ## [v2.3.1]
 
-### dY?> Bug Fixes
+### Bug Fixes
 * Fixed an issue where the Roadmap would display Badge of Justice rewards from future patches (e.g. Zul'Aman or Sunwell) when a lower Content Phase was selected.
 
 -------------------------------------------------------------------------
