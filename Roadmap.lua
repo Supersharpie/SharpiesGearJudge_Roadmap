@@ -898,7 +898,11 @@ function Roadmap:GetAdjustedScore(gearTable, weights, specName)
 
             local futureVal = currentVal - realGearVal + proposedGearVal
             local trueCap = rule.base
-            if rule.talent then trueCap = trueCap - (SGJ:GetTalentRank(rule.talent) * (rule.tVal or 0)) end
+            if SGJ.BuffEngine and (rule.stat == "ITEM_MOD_HIT_SPELL_RATING_SHORT" or rule.stat == "ITEM_MOD_HIT_RATING_SHORT") then
+                trueCap = SGJ.BuffEngine:GetEffectiveHitRatingBase(rule.stat, rule.talent, rule.tVal, specName)
+            elseif rule.talent then
+                trueCap = trueCap - (SGJ:GetTalentRank(rule.talent) * (rule.tVal or 0))
+            end
             
             local isCurrentlyCapped = (currentVal >= trueCap)
             if isCurrentlyCapped and futureVal < (trueCap - 0.1) then

@@ -1,5 +1,16 @@
 # Changelog - Roadmap Plugin
 
+## [v2.3.2]
+
+### 🐛 Bug Fixes & Improvements
+* **Hit Cap Engine Synchronization**: Evaluates hit caps using `SGJ.BuffEngine:GetEffectiveHitRatingBase` to ensure full alignment with core addon talent modifiers (e.g. Shaman `Totem of Wrath`, `Elemental Precision`, `Nature's Guidance`) and raid buff assumptions during upgrade simulations.
+* **Dungeon Loot Table Audits & Corrections**: Audited and corrected dungeon drop item IDs in:
+  * **The Mechanar (`D2_Items.lua` & `D3_Items.lua`)**: Fixed full loot list alignments including `Helm of the Righteous (ID 28285)`, `Telescopic Sharprifle (ID 28286)`, `Abacus of Violent Odds (ID 28288)`, `Totem of the Void (ID 28248)`, `Capacitus' Cloak of Calibration (ID 28249)`, `Tunic of Assassination (ID 28204)`, `Moonglade Robe (ID 28202)`, and `Vestia's Pauldrons of Inner Grace (ID 28250)`.
+  * **The Steamvault (`D2_Items.lua` & `D3_Items.lua`)**: Set `Breastplate of the Righteous (ID 28203)`.
+  * **Scholomance (`D1_Items.lua`)**: Corrected `Totem of Sustaining (ID 23200)` and `Lord Blackwood's Blade (ID 23132)`.
+
+-------------------------------------------------------------------------
+
 ## [v2.3.1]
 
 ### dY?> Bug Fixes
