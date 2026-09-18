@@ -23,13 +23,17 @@ end
 local Roadmap = {}
 SGJ.Roadmap = Roadmap
 
+local _, _, _, interfaceVersion = GetBuildInfo()
+Roadmap.IsEra = (SGJ.IsEra or SGJ.IsForever)
+Roadmap.IsTBC = SGJ.IsTBC
+
 -- [[ OPTIMIZATION: Localize Globals for Speed ]]
 local ipairs, pairs, next, tonumber = ipairs, pairs, next, tonumber
 local table_insert, table_sort, table_wipe = table.insert, table.sort, table.wipe
-local GetItemInfo = GetItemInfo
+local GetItemInfo = GetItemInfo or (C_Item and C_Item.GetItemInfo)
 local GetInventoryItemLink = GetInventoryItemLink
-local GetItemIcon = GetItemIcon
-local SetItemButtonTexture = SetItemButtonTexture
+local GetItemIcon = GetItemIcon or (C_Item and C_Item.GetItemIconByID)
+local SetItemButtonTexture = function(btn, tex) if not btn.icon then btn.icon = btn:CreateTexture(nil, "BACKGROUND"); btn.icon:SetAllPoints() end btn.icon:SetTexture(tex) end
 
 -- [[ OPTIMIZATION: Recyclable Tables ]]
 local Scratch_SimGear = {} 
@@ -68,7 +72,7 @@ local ZONE_META = {
     ["Ragefire Chasm"]    = { name="Ragefire Chasm",    min=13 },
     ["Deadmines"]        = { name="The Deadmines",     min=17 },
     ["Wailing Caverns"]   = { name="Wailing Caverns",   min=17 },
-    ["ShadowfangKeep"]   = { name="Shadowfang Keep",   min=22 },
+    ["Shadowfang Keep"]   = { name="Shadowfang Keep",   min=22 },
     ["Blackfathom Deeps"] = { name="Blackfathom Deeps", min=24 },
     ["The Stockade"]      = { name="The Stockade",      min=24 },
     ["Gnomeregan"]       = { name="Gnomeregan",        min=29 },
@@ -84,6 +88,8 @@ local ZONE_META = {
     ["Scholomance"]      = { name="Scholomance",       min=58 },
     ["Stratholme"]       = { name="Stratholme",        min=58 },
     ["Blackrock Spire"]   = { name="Blackrock Spire",   min=58 },
+    ["Zul'Gurub"]         = { name="Zul'Gurub (20-Man)",         min=60, phase=0 },
+    ["Ruins of Ahn'Qiraj"]= { name="Ruins of Ahn'Qiraj (AQ20)", min=60, phase=0 },
 
     -- === TBC NORMAL ===
     ["HellfireRamparts"] = { name="Hellfire Ramparts", min=60 },
@@ -289,7 +295,9 @@ function Roadmap.InitView(parent)
     UIDropDownMenu_SetText(statDropDown, "Focus: None (Default)")
     f.StatDropDown = statDropDown
 
-    if MSC.IsTBC then Roadmap:InitContentPhaseDropDown(f, statDropDown) end
+    if not Roadmap.IsEra and (MSC.IsTBC or Roadmap.IsTBC) then 
+        Roadmap:InitContentPhaseDropDown(f, statDropDown) 
+    end
 	
     -- ==========================================
     -- TOP RIGHT: ACTION BUTTONS
@@ -330,38 +338,49 @@ function Roadmap.InitView(parent)
     -- ==========================================
     -- BOTTOM LEFT: STACKED CHECKBOXES
     -- ==========================================
-    local heroicCheck = CreateFrame("CheckButton", "SGJ_RoadmapHeroicCheck", f, "ChatConfigCheckButtonTemplate")
-    heroicCheck:SetPoint("BOTTOMLEFT", 20, 20); heroicCheck:SetChecked(Roadmap.ShowHeroic)
-    heroicCheck:SetFrameStrata("HIGH"); heroicCheck:SetFrameLevel(100); SetCheckLabel(heroicCheck, "Heroic Only") 
-    heroicCheck:SetScript("OnClick", function(self) Roadmap.ShowHeroic = self:GetChecked(); Roadmap.ZoneRankings = {}; Roadmap:UpdateSidebar() end)
-
     local lvlCheck = CreateFrame("CheckButton", "SGJ_RoadmapLevelFilter", f, "ChatConfigCheckButtonTemplate")
-    lvlCheck:SetPoint("BOTTOMLEFT", 20, 50); 
     lvlCheck:SetChecked(Roadmap.UseLevelFilter)
     lvlCheck:SetFrameStrata("HIGH"); lvlCheck:SetFrameLevel(100); SetCheckLabel(lvlCheck, "Filter Level") 
     lvlCheck:SetScript("OnClick", function(self) Roadmap.UseLevelFilter = self:GetChecked(); end)
 
-    local badgeCheck = CreateFrame("CheckButton", "SGJ_RoadmapBadgeCheck", f, "ChatConfigCheckButtonTemplate")
-    badgeCheck:SetPoint("BOTTOMLEFT", 20, 80); 
-    badgeCheck:SetChecked(Roadmap.ShowBadges)
-    badgeCheck:SetFrameStrata("HIGH"); badgeCheck:SetFrameLevel(100); SetCheckLabel(badgeCheck, "Include Badges") 
-    badgeCheck:SetScript("OnClick", function(self) Roadmap.ShowBadges = self:GetChecked(); Roadmap.ZoneRankings = {}; Roadmap:UpdateSidebar() end)
-
-    local effCheck = CreateFrame("CheckButton", "SGJ_RoadmapEffCheck", f, "ChatConfigCheckButtonTemplate")
-    effCheck:SetPoint("BOTTOMLEFT", 20, 110); 
-    effCheck:SetChecked(Roadmap.SortByEfficiency)
-    effCheck:SetFrameStrata("HIGH"); effCheck:SetFrameLevel(100); SetCheckLabel(effCheck, "Sort by Efficiency") 
-    effCheck:SetScript("OnClick", function(self) Roadmap.SortByEfficiency = self:GetChecked(); if Roadmap.SelectedZone == "Geras_Badges" then Roadmap:PerformSmartScan() end end)
-    effCheck:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT"); GameTooltip:SetText("Badge Efficiency"); GameTooltip:AddLine("Sorts badge items by Score gained per Badge spent.", 1, 1, 1); GameTooltip:Show() end)
-    effCheck:SetScript("OnLeave", GameTooltip_Hide)
-
     local chainCheck = CreateFrame("CheckButton", "SGJ_RoadmapChainCheck", f, "ChatConfigCheckButtonTemplate")
-    chainCheck:SetPoint("BOTTOMLEFT", 20, 140);  
     chainCheck:SetChecked(Roadmap.ChainMode)
     chainCheck:SetFrameStrata("HIGH"); chainCheck:SetFrameLevel(100); SetCheckLabel(chainCheck, "Chain Mode") 
     chainCheck:SetScript("OnClick", function(self) Roadmap.ChainMode = self:GetChecked(); if Roadmap.ChainMode then Roadmap:InitializeVirtualGear(); print("SGJ: Chain Mode ON. Click dungeons to build your set.") else print("SGJ: Chain Mode OFF.") end end)
     chainCheck:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT"); GameTooltip:SetText("Chain Mode"); GameTooltip:AddLine("If enabled, clicking a dungeon 'equips' the upgrades virtually.", 1, 1, 1); GameTooltip:AddLine("The next dungeon will compare against this new virtual set.", 0, 1, 0); GameTooltip:Show() end)
     chainCheck:SetScript("OnLeave", GameTooltip_Hide)
+
+    if Roadmap.IsEra then
+        -- Classic Era layout: No Heroic or Badge systems
+        Roadmap.ShowHeroic = false
+        Roadmap.ShowBadges = false
+        lvlCheck:SetPoint("BOTTOMLEFT", 20, 20)
+        chainCheck:SetPoint("BOTTOMLEFT", 20, 50)
+    else
+        -- TBC layout: Full normal/heroic and badge vendor stack
+        local heroicCheck = CreateFrame("CheckButton", "SGJ_RoadmapHeroicCheck", f, "ChatConfigCheckButtonTemplate")
+        heroicCheck:SetPoint("BOTTOMLEFT", 20, 20); heroicCheck:SetChecked(Roadmap.ShowHeroic)
+        heroicCheck:SetFrameStrata("HIGH"); heroicCheck:SetFrameLevel(100); SetCheckLabel(heroicCheck, "Heroic Only") 
+        heroicCheck:SetScript("OnClick", function(self) Roadmap.ShowHeroic = self:GetChecked(); Roadmap.ZoneRankings = {}; Roadmap:UpdateSidebar() end)
+
+        lvlCheck:SetPoint("BOTTOMLEFT", 20, 50)
+
+        local badgeCheck = CreateFrame("CheckButton", "SGJ_RoadmapBadgeCheck", f, "ChatConfigCheckButtonTemplate")
+        badgeCheck:SetPoint("BOTTOMLEFT", 20, 80); 
+        badgeCheck:SetChecked(Roadmap.ShowBadges)
+        badgeCheck:SetFrameStrata("HIGH"); badgeCheck:SetFrameLevel(100); SetCheckLabel(badgeCheck, "Include Badges") 
+        badgeCheck:SetScript("OnClick", function(self) Roadmap.ShowBadges = self:GetChecked(); Roadmap.ZoneRankings = {}; Roadmap:UpdateSidebar() end)
+
+        local effCheck = CreateFrame("CheckButton", "SGJ_RoadmapEffCheck", f, "ChatConfigCheckButtonTemplate")
+        effCheck:SetPoint("BOTTOMLEFT", 20, 110); 
+        effCheck:SetChecked(Roadmap.SortByEfficiency)
+        effCheck:SetFrameStrata("HIGH"); effCheck:SetFrameLevel(100); SetCheckLabel(effCheck, "Sort by Efficiency") 
+        effCheck:SetScript("OnClick", function(self) Roadmap.SortByEfficiency = self:GetChecked(); if Roadmap.SelectedZone == "Geras_Badges" then Roadmap:PerformSmartScan() end end)
+        effCheck:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT"); GameTooltip:SetText("Badge Efficiency"); GameTooltip:AddLine("Sorts badge items by Score gained per Badge spent.", 1, 1, 1); GameTooltip:Show() end)
+        effCheck:SetScript("OnLeave", GameTooltip_Hide)
+
+        chainCheck:SetPoint("BOTTOMLEFT", 20, 140)
+    end
 	
     local _, playerClass = UnitClass("player")
     local relicTexture = "Relic"
@@ -369,7 +388,7 @@ function Roadmap.InitView(parent)
 
     f.Slots = {}
     for _, s in ipairs(SLOTS) do
-        local btn = CreateFrame("Button", nil, f, "ItemButtonTemplate"); btn:SetSize(37, 37); btn:SetPoint("CENTER", s.x, s.y)
+        local btn = CreateFrame("Button", nil, f, nil); btn:SetSize(37, 37); btn:SetPoint("CENTER", s.x, s.y)
         btn:SetFrameStrata("HIGH"); btn:SetFrameLevel(100)
         local bg = btn:CreateTexture(nil, "BACKGROUND", nil, -1); bg:SetAllPoints()
         local texName = s.texture
@@ -657,28 +676,47 @@ end
 function Roadmap:InitStatDropDownMenu(self, level)
     local info = UIDropDownMenu_CreateInfo()
     
-    local stats = {
-        { id = nil, name = "None (Default)" },
-        { id = "ITEM_MOD_HIT_RATING_SHORT", name = "Melee/Ranged Hit" },
-        { id = "ITEM_MOD_HIT_SPELL_RATING_SHORT", name = "Spell Hit" },
-        { id = "ITEM_MOD_CRIT_RATING_SHORT", name = "Melee/Ranged Crit" },
-        { id = "ITEM_MOD_SPELL_CRIT_RATING_SHORT", name = "Spell Crit" },
-        { id = "ITEM_MOD_HASTE_RATING_SHORT", name = "Melee/Ranged Haste" },
-        { id = "ITEM_MOD_SPELL_HASTE_RATING_SHORT", name = "Spell Haste" },
-        { id = "ITEM_MOD_ARMOR_PENETRATION_RATING_SHORT", name = "Armor Penetration" },
-        { id = "ITEM_MOD_SPELL_PENETRATION_SHORT", name = "Spell Penetration" }, -- PvP Added
-        { id = "ITEM_MOD_RESILIENCE_RATING_SHORT", name = "Resilience Rating" }, -- PvP Added
-        { id = "ITEM_MOD_ATTACK_POWER_SHORT", name = "Attack Power" },
-        { id = "ITEM_MOD_SPELL_POWER_SHORT", name = "Spell Power / Damage" },
-        { id = "ITEM_MOD_SPELL_HEALING_DONE_SHORT", name = "Healing Power" },
-		-- [Tanks & Melee Caps]
-        { id = "ITEM_MOD_EXPERTISE_RATING_SHORT", name = "Expertise Rating" },
-        { id = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT", name = "Defense Rating" },
-        { id = "ITEM_MOD_BLOCK_VALUE_SHORT", name = "Block Value" },
-        -- [Survival & Sustain]
-        { id = "ITEM_MOD_STAMINA_SHORT", name = "Stamina" },
-        { id = "ITEM_MOD_POWER_REGEN0_SHORT", name = "Mana Per 5 (MP5)" },
-    }
+    local stats
+    if Roadmap.IsEra then
+        stats = {
+            { id = nil, name = "None (Default)" },
+            { id = "ITEM_MOD_HIT_RATING_SHORT", name = "Melee/Ranged Hit" },
+            { id = "ITEM_MOD_HIT_SPELL_RATING_SHORT", name = "Spell Hit" },
+            { id = "ITEM_MOD_CRIT_RATING_SHORT", name = "Melee/Ranged Crit" },
+            { id = "ITEM_MOD_SPELL_CRIT_RATING_SHORT", name = "Spell Crit" },
+            { id = "ITEM_MOD_WEAPON_SKILL_RATING_SHORT", name = "Weapon Skill" },
+            { id = "ITEM_MOD_ATTACK_POWER_SHORT", name = "Attack Power" },
+            { id = "ITEM_MOD_SPELL_POWER_SHORT", name = "Spell Power / Damage" },
+            { id = "ITEM_MOD_SPELL_HEALING_DONE_SHORT", name = "Healing Power" },
+            { id = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT", name = "Defense" },
+            { id = "ITEM_MOD_BLOCK_VALUE_SHORT", name = "Block Value" },
+            { id = "ITEM_MOD_STAMINA_SHORT", name = "Stamina" },
+            { id = "ITEM_MOD_SPIRIT_SHORT", name = "Spirit" },
+            { id = "ITEM_MOD_POWER_REGEN0_SHORT", name = "Mana Per 5 (MP5)" },
+            { id = "ITEM_MOD_HEALTH_REGENERATION_SHORT", name = "HP Per 5 (HP5)" },
+        }
+    else
+        stats = {
+            { id = nil, name = "None (Default)" },
+            { id = "ITEM_MOD_HIT_RATING_SHORT", name = "Melee/Ranged Hit" },
+            { id = "ITEM_MOD_HIT_SPELL_RATING_SHORT", name = "Spell Hit" },
+            { id = "ITEM_MOD_CRIT_RATING_SHORT", name = "Melee/Ranged Crit" },
+            { id = "ITEM_MOD_SPELL_CRIT_RATING_SHORT", name = "Spell Crit" },
+            { id = "ITEM_MOD_HASTE_RATING_SHORT", name = "Melee/Ranged Haste" },
+            { id = "ITEM_MOD_SPELL_HASTE_RATING_SHORT", name = "Spell Haste" },
+            { id = "ITEM_MOD_ARMOR_PENETRATION_RATING_SHORT", name = "Armor Penetration" },
+            { id = "ITEM_MOD_SPELL_PENETRATION_SHORT", name = "Spell Penetration" },
+            { id = "ITEM_MOD_RESILIENCE_RATING_SHORT", name = "Resilience Rating" },
+            { id = "ITEM_MOD_ATTACK_POWER_SHORT", name = "Attack Power" },
+            { id = "ITEM_MOD_SPELL_POWER_SHORT", name = "Spell Power / Damage" },
+            { id = "ITEM_MOD_SPELL_HEALING_DONE_SHORT", name = "Healing Power" },
+            { id = "ITEM_MOD_EXPERTISE_RATING_SHORT", name = "Expertise Rating" },
+            { id = "ITEM_MOD_DEFENSE_SKILL_RATING_SHORT", name = "Defense Rating" },
+            { id = "ITEM_MOD_BLOCK_VALUE_SHORT", name = "Block Value" },
+            { id = "ITEM_MOD_STAMINA_SHORT", name = "Stamina" },
+            { id = "ITEM_MOD_POWER_REGEN0_SHORT", name = "Mana Per 5 (MP5)" },
+        }
+    end
     
     for _, stat in ipairs(stats) do
         info.text = stat.name
@@ -883,7 +921,7 @@ function Roadmap:GetAdjustedScore(gearTable, weights, specName)
         for _, rule in ipairs(safetyCaps[playerClass]) do
             local currentVal = 0
             if rule.stat == "DEFENSE_FLOOR" then 
-                 local b, m = UnitDefense("player"); currentVal = b + m
+                 local b, m = 0, 0; if type(UnitDefense) == "function" then b, m = UnitDefense("player") end; currentVal = (b or 0) + (m or 0)
             else
                  currentVal = SGJ:GetPlayerStat(rule.stat == "ITEM_MOD_HIT_RATING_SHORT" and "HIT" or "SPELL_HIT")
             end
@@ -1078,9 +1116,66 @@ end
 -- =============================================================
 -- 5. THE SCANNER (Coroutines & Merged Loops)
 -- =============================================================
+-- =============================================================
+-- INJECT DATAMINED ITEMS
+-- =============================================================
+local dataminedInjected = false
+local function InjectDataminer()
+    if dataminedInjected or not SharpiesGearJudgeDB then return end
+    if not SharpiesGearJudgeDB.EnableDataminer then return end
+    dataminedInjected = true
+    
+    if not SGJ.DungeonDB then SGJ.DungeonDB = {} end
+    if ns.DungeonDB then
+        for k, v in pairs(ns.DungeonDB) do SGJ.DungeonDB[k] = v end
+    end
+    
+    -- 1. Drops
+    if SharpiesGearJudgeDB.DropDatabase then
+        for npcID, data in pairs(SharpiesGearJudgeDB.DropDatabase) do
+            local zone = data.zone or "Datamined Drops"
+            if not ZONE_META[zone] then
+                ZONE_META[zone] = { name = zone, min = 1, phase = Roadmap.IsEra and 0 or 1 }
+            end
+            if not SGJ.DungeonDB[zone] then SGJ.DungeonDB[zone] = {} end
+            
+            for itemID, _ in pairs(data.drops) do
+                if not SGJ.DungeonDB[zone][itemID] then
+                    SGJ.DungeonDB[zone][itemID] = {
+                        source = data.name,
+                        zone = zone
+                    }
+                end
+            end
+        end
+    end
+    
+    -- 2. Quests
+    if SharpiesGearJudgeDB.QuestDatabase then
+        for questID, data in pairs(SharpiesGearJudgeDB.QuestDatabase) do
+            local zone = (data.zone or "Unknown Zone") .. " Quests"
+            if not ZONE_META[zone] then
+                ZONE_META[zone] = { name = zone, min = 1, phase = Roadmap.IsEra and 0 or 1 }
+            end
+            if not SGJ.DungeonDB[zone] then SGJ.DungeonDB[zone] = {} end
+            
+            for itemID, _ in pairs(data.rewards) do
+                if not SGJ.DungeonDB[zone][itemID] then
+                    SGJ.DungeonDB[zone][itemID] = {
+                        source = "Quest: " .. (data.name or "Unknown"),
+                        zone = zone
+                    }
+                end
+            end
+        end
+    end
+end
+
 local currentWeights, currentSpec, currentBaseGear, currentBaseScore, currentBaseStats
 
 function Roadmap:PerformSmartScan()
+    InjectDataminer()
+
     local weights, specName = Roadmap:GetActiveProfile() 
     if not weights then print("SGJ: No Stat Profile Found!"); return end
     
@@ -1110,14 +1205,18 @@ function Roadmap:StartCoroutineScan()
             local isBadgeKey = (zoneKey == "Geras_Badges")
             local modeMatch = false
             
-            if isBadgeKey then
-                modeMatch = Roadmap.ShowBadges
+            if Roadmap.IsEra then
+                modeMatch = (not isHeroicKey) and (not isBadgeKey) and ((meta.phase or 0) == 0)
             else
-                modeMatch = (Roadmap.ShowHeroic and isHeroicKey) or (not Roadmap.ShowHeroic and not isHeroicKey and not isBadgeKey)
+                if isBadgeKey then
+                    modeMatch = Roadmap.ShowBadges
+                else
+                    modeMatch = (Roadmap.ShowHeroic and isHeroicKey) or (not Roadmap.ShowHeroic and not isHeroicKey and not isBadgeKey)
+                end
             end
 
             local levelMatch = (not Roadmap.UseLevelFilter) or (meta.min <= playerLvl)
-            local phaseMatch = (not meta.phase) or (meta.phase <= Roadmap:GetContentPhase())
+            local phaseMatch = Roadmap.IsEra or (not meta.phase) or (meta.phase <= Roadmap:GetContentPhase())
 
             if modeMatch and levelMatch and phaseMatch then
                 table.insert(zonesToScan, {key=zoneKey, meta=meta})
@@ -1289,17 +1388,20 @@ function Roadmap:FinalizeScan()
     Roadmap:RefreshUI()
     
     if #Roadmap.MissingItems > 0 then
-        -- Auto-retry logic
-        print("|cff00ccffSGJ:|r Waiting for server data (" .. #Roadmap.MissingItems .. " items)... Retrying automatically.")
-        C_Timer.After(1.0, function() 
-             -- Only retry if the user hasn't closed the window or changed zones
-             if SGJ.ViewRoadmap:IsShown() and Roadmap.SelectedZone then
-                 Roadmap:ScanZoneData(Roadmap.SelectedZone, Roadmap.UseLevelFilter)
-                 Roadmap:FinalizeScan()
-             end
-        end)
+        Roadmap.RetryAttempts = (Roadmap.RetryAttempts or 0) + 1
+        if Roadmap.RetryAttempts <= 3 then
+            print("|cff00ccffSGJ:|r Waiting for server data (" .. #Roadmap.MissingItems .. " items)... Retrying automatically (" .. Roadmap.RetryAttempts .. "/3).")
+            C_Timer.After(1.0, function() 
+                 if SGJ.ViewRoadmap and SGJ.ViewRoadmap:IsShown() and Roadmap.SelectedZone then
+                     Roadmap:ScanZoneData(Roadmap.SelectedZone, Roadmap.UseLevelFilter)
+                     Roadmap:FinalizeScan()
+                 end
+            end)
+        else
+            Roadmap.RetryAttempts = 0
+        end
     else
-        -- Only print "Scan Complete" if strictly needed, or just keep it silent/update UI
+        Roadmap.RetryAttempts = 0
     end
 end
 

@@ -1,4 +1,26 @@
+## 🚀 v3.0.0
+
+### 🧪 Dynamic Dataminer Integration
+- **Live Injection Hook**: The Roadmap scanner now dynamically injects items discovered by the core `SharpiesGearJudge` Dataminer engine.
+- **Auto-Zone Generation**: Quest rewards and unknown boss drops will now instantly generate custom Roadmap categories on the fly, accurately labeling the source of the drop.
+- **Modern Engine Crash Fix**: Removed legacy API dependencies (`UnitDefense`, etc.) that were triggering fatal UI crashes on the WoW: Forever hybrid client.
+---
 # Changelog - Roadmap Plugin
+
+## [v2.3.3]
+
+### ✨ Classic Era Native Support & Dual TOC
+* **Dedicated Multi-Client Architecture**: Added `SharpiesGearJudge_Roadmap_Vanilla.toc` (`Interface: 11508`) and `SharpiesGearJudge_Roadmap_TBC.toc` (`Interface: 20505`) matching the core addon. The Era client now loads Roadmap without out-of-date warnings or missing data dependencies.
+* **Era Endgame Raids Added**: Integrated **Zul'Gurub** and **Ruins of Ahn'Qiraj (AQ20)** into the Era progression database (`D1_Items.lua` & `ZONE_META`) with full drop tables across all bosses.
+* **Context-Aware UI**:
+  * On Classic Era: automatically hides TBC-specific UI elements (**Heroic Only**, **Include Badges**, **Badge Efficiency**, and **Content Phase** dropdown).
+  * Focus Stat dropdown dynamically serves Era stats (**Weapon Skill**, **Spirit**, **HP5**) while removing TBC-only ratings (**Resilience**, **Expertise**, **Spell Penetration**).
+* **Item ID Audit & Cache Safety**:
+  * Guarded seasonal TBC Coren Direbrew items (`37127`–`38290`) and TBC pre-patch items (`24101`) in Vanilla tables, preventing permanent `GetItemInfo` cache stalls on Era clients.
+  * Added a 3-attempt safety limit on missing item queries in `FinalizeScan` to eliminate infinite retry loops.
+  * Fixed `Shadowfang Keep` key discrepancy between `ZONE_META` and `D1_Items.lua`.
+
+-------------------------------------------------------------------------
 
 ## [v2.3.2]
 
@@ -13,7 +35,7 @@
 
 ## [v2.3.1]
 
-### Bug Fixes
+### dY?> Bug Fixes
 * Fixed an issue where the Roadmap would display Badge of Justice rewards from future patches (e.g. Zul'Aman or Sunwell) when a lower Content Phase was selected.
 
 -------------------------------------------------------------------------
