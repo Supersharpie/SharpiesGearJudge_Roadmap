@@ -1,4 +1,4 @@
-﻿## Interface: 20505
+## Interface: 20505
 ## Title: |cff00ccffSharpie's Gear Judge|r |cff00ff00[Roadmap]|r (TBC Edition)
 ## Notes: Finds the best upgrades for you.
 ## Author: Supersharpie

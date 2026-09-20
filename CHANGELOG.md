@@ -1,11 +1,20 @@
+# Changelog - Roadmap Plugin
+
 ## 🚀 v3.0.0
 
 ### 🧪 Dynamic Dataminer Integration
 - **Live Injection Hook**: The Roadmap scanner now dynamically injects items discovered by the core `SharpiesGearJudge` Dataminer engine.
 - **Auto-Zone Generation**: Quest rewards and unknown boss drops will now instantly generate custom Roadmap categories on the fly, accurately labeling the source of the drop.
 - **Modern Engine Crash Fix**: Removed legacy API dependencies (`UnitDefense`, etc.) that were triggering fatal UI crashes on the WoW: Forever hybrid client.
----
-# Changelog - Roadmap Plugin
+
+### 🛠️ Modern API Support
+- **MouseIsOver Crash**: Fixed a fatal engine error on the interactive UI popup caused by the removal of the global `MouseIsOver()` API in WoW 11.0+. Converted all logic to the native `frame:IsMouseOver()` method.
+
+### 🗺️ Pure Dynamic Exploration
+- **Legacy Database Wipe**: The hardcoded Vanilla/TBC fallback databases (`D1_Items_Forever.lua`, `D5_Quests_Forever.lua`) have been completely wiped. 
+- **100% Organic Injection**: The Roadmap will now load as a completely blank slate. The only items that will populate the UI are those genuinely discovered by testers in the wild via the Dataminer hook.
+
+-------------------------------------------------------------------------
 
 ## [v2.3.3]
 
