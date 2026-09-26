@@ -72,6 +72,8 @@ local ZONE_META = {
     ["Ragefire Chasm"]    = { name="Ragefire Chasm",    min=13 },
     ["Deadmines"]        = { name="The Deadmines",     min=17 },
     ["Wailing Caverns"]   = { name="Wailing Caverns",   min=17 },
+    ["Hall of Thanes"]    = { name="Hall of Thanes",    min=13 }, -- Forever only
+    ["Ruins of Lordaeron"]= { name="Ruins of Lordaeron", min=15 }, -- Forever only
     ["Shadowfang Keep"]   = { name="Shadowfang Keep",   min=22 },
     ["Blackfathom Deeps"] = { name="Blackfathom Deeps", min=24 },
     ["The Stockade"]      = { name="The Stockade",      min=24 },
@@ -1130,10 +1132,15 @@ local function InjectDataminer()
         for k, v in pairs(ns.DungeonDB) do SGJ.DungeonDB[k] = v end
     end
     
+    -- Map in-game zone names ("The Deadmines") onto existing keys ("Deadmines")
+    local keyByName = {}
+    for key, meta in pairs(ZONE_META) do keyByName[meta.name] = key end
+
     -- 1. Drops
     if SharpiesGearJudgeDB.DropDatabase then
         for npcID, data in pairs(SharpiesGearJudgeDB.DropDatabase) do
             local zone = data.zone or "Datamined Drops"
+            zone = keyByName[zone] or zone
             if not ZONE_META[zone] then
                 ZONE_META[zone] = { name = zone, min = 1, phase = Roadmap.IsEra and 0 or 1 }
             end

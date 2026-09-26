@@ -2,7 +2,7 @@
 ## Title: |cff00ccffSharpie's Gear Judge|r |cff00ff00[Roadmap]|r (Forever Edition)
 ## Notes: Finds the best upgrades for you.
 ## Author: Supersharpie
-## Version: 3.0.0-Forever
+## Version: 3.0.1-Forever
 ## Dependencies: SharpiesGearJudge
 ## X-Curse-Project-ID: 1451473
 

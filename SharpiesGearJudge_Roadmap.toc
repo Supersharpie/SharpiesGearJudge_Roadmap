@@ -1,14 +1,11 @@
-## Interface: 20505
+## Interface: 16001
 ## Title: Sharpie's Gear Judge |cff00ff00[Roadmap]|r
 ## Notes: Finds the best upgrades for you.
 ## Author: Supersharpie
-## Version: 3.0.0
+## Version: 3.0.1-Forever
 ## Dependencies: SharpiesGearJudge
 ## X-Curse-Project-ID: 1451473
 
-D1_Items.lua
-D2_Items.lua
-D3_Items.lua
-D4_Badges.lua
-D5_Quests.lua
+D1_Items_Forever.lua
+D5_Quests_Forever.lua
 Roadmap.lua

@@ -1,8 +1,8 @@
-## Interface: 20505
+## Interface: 20506
 ## Title: |cff00ccffSharpie's Gear Judge|r |cff00ff00[Roadmap]|r (TBC Edition)
 ## Notes: Finds the best upgrades for you.
 ## Author: Supersharpie
-## Version: 3.0.0-TBC
+## Version: 3.0.1-TBC
 ## Dependencies: SharpiesGearJudge
 ## X-Curse-Project-ID: 1451473
 

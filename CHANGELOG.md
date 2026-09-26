@@ -1,5 +1,13 @@
 # Changelog - Roadmap Plugin
 
+## 🚀 v3.0.1
+
+### 🗺️ Forever Dungeon Loot
+- **Starter Dungeons Seeded**: The Forever database (`D1_Items_Forever.lua`) is no longer blank. It now carries the beta loot tables for Hall of Thanes, Ragefire Chasm, Ruins of Lordaeron, Wailing Caverns and The Deadmines. That's 112 equippable drops with boss sources and required levels. Quest items, keys, bags, pets and recipes are left out. Hall of Thanes (13+) and Ruins of Lordaeron (15+) are new Roadmap zones.
+- **No Duplicate Datamined Zones**: Datamined drops now go into the matching dungeon row when the in-game zone name matches its display name. Before, a Deadmines drop recorded as "The Deadmines" created a second row next to the "Deadmines" entry.
+
+-------------------------------------------------------------------------
+
 ## 🚀 v3.0.0
 
 ### 🧪 Dynamic Dataminer Integration
