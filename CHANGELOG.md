@@ -1,5 +1,23 @@
 # Changelog - Roadmap Plugin
 
+## 🚀 v3.0.3
+
+### 🖼️ Window Redesign
+- **Three Columns**: The Roadmap window is now laid out as scan settings on the left, your character and gear slots in the middle, and the dungeon leaderboard on the right. Nothing sits on top of the character model any more, and the help text no longer runs into the title.
+- **Scan Settings Column**: Mode, Profile, Focus (and Phase on TBC), the level range, and the Chain Mode, Heroic, Badges and Efficiency toggles are stacked in the order you use them. Calculate Roadmap, Reset (was "R") and Export sit at the bottom of the column.
+- **Balanced Gear Slots**: Seven slots on each side of the model (Hands moved to the left column), with the weapon slots in a centred row under the feet.
+- **Relic Slot Visible**: Paladins, Shamans and Druids now see their empty relic slot next to the weapons. It used a Libram or Totem texture that Classic clients don't have, so the slot drew as nothing.
+- **Uses the Bigger Window**: With the main window now wider (Gear Judge 3.2.0), the settings and leaderboard columns are wider too, so dropdown text and long dungeon names are no longer cut short.
+- **Upgrade Summary**: A line under the title shows the dungeon you're viewing, how many upgrades it has and their total score gain.
+- **Leaderboard**: Rows show the dungeon name on one line and the score under it, so long names are no longer cut short. The dungeon you're viewing is highlighted. Before your first scan it tells you to press Calculate Roadmap, and it says so when a scan finds no upgrades. The progress bar now shows at the top of the leaderboard.
+
+### 🎚️ Dungeon Level Range
+- **Level Range Bar**: A bar under "Filter by Level" sets the lowest and highest dungeon level to check. Drag either gold handle, or click the bar to move the nearer one. Right-click resets it to 1 through your level. Under the bar, a live count shows how many dungeons the next Calculate will check. For example, a level 70 player can set the low end to 60 to see Outland dungeons only.
+- **Plan Ahead**: The high end starts at your level and follows you as you level. Raise it to include dungeons and items above your level. Items that need a higher level than the high end are still skipped.
+- The low end is saved between sessions. The Calculate Roadmap tooltip shows the active range.
+
+-------------------------------------------------------------------------
+
 ## 🚀 v3.0.2
 
 ### 🗺️ Forever Dungeon Loot

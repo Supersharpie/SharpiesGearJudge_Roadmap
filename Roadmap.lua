@@ -47,24 +47,25 @@ local UniqueCache = {}
 Roadmap.FocusStat = nil
 Roadmap.GameMode = "PvE" -- Default to PvE Mode
 Roadmap.SelectedZone = nil
+-- col: L/R = columns beside the model (row 1 at top), W = weapon row under the feet
 local SLOTS = {
-    { id=1,  name="Head",      x=-260, y=140,  texture="Head" },
-    { id=2,  name="Neck",      x=-260, y=95,   texture="Neck" },
-    { id=3,  name="Shoulder",  x=-260, y=50,   texture="Shoulder" },
-    { id=15, name="Back",      x=-260, y=5,    texture="Chest" }, 
-    { id=5,  name="Chest",     x=-260, y=-40,  texture="Chest" },
-    { id=9,  name="Wrist",     x=-260, y=-85,  texture="Wrists" },
-    { id=10, name="Hands",     x=80,   y=140,  texture="Hands" },
-    { id=6,  name="Waist",     x=80,   y=95,   texture="Waist" },
-    { id=7,  name="Legs",      x=80,   y=50,   texture="Legs" },
-    { id=8,  name="Feet",      x=80,   y=5,    texture="Feet" },
-    { id=11, name="Ring 1",    x=80,   y=-40,  texture="Finger" },
-    { id=12, name="Ring 2",    x=80,   y=-85,  texture="Finger" },
-    { id=13, name="Trinket 1", x=80,   y=-130, texture="Trinket" },
-    { id=14, name="Trinket 2", x=80,   y=-175, texture="Trinket" },
-    { id=16, name="Main Hand", x=-100, y=-230, texture="MainHand" },
-    { id=17, name="Off Hand",  x=-60,  y=-230, texture="SecondaryHand" },
-    { id=18, name="Ranged",    x=-20,  y=-230, texture="Ranged" },
+    { id=1,  name="Head",      col="L", row=1, texture="Head" },
+    { id=2,  name="Neck",      col="L", row=2, texture="Neck" },
+    { id=3,  name="Shoulder",  col="L", row=3, texture="Shoulder" },
+    { id=15, name="Back",      col="L", row=4, texture="Chest" },
+    { id=5,  name="Chest",     col="L", row=5, texture="Chest" },
+    { id=9,  name="Wrist",     col="L", row=6, texture="Wrists" },
+    { id=10, name="Hands",     col="L", row=7, texture="Hands" },
+    { id=6,  name="Waist",     col="R", row=1, texture="Waist" },
+    { id=7,  name="Legs",      col="R", row=2, texture="Legs" },
+    { id=8,  name="Feet",      col="R", row=3, texture="Feet" },
+    { id=11, name="Ring 1",    col="R", row=4, texture="Finger" },
+    { id=12, name="Ring 2",    col="R", row=5, texture="Finger" },
+    { id=13, name="Trinket 1", col="R", row=6, texture="Trinket" },
+    { id=14, name="Trinket 2", col="R", row=7, texture="Trinket" },
+    { id=16, name="Main Hand", col="W", row=1, texture="MainHand" },
+    { id=17, name="Off Hand",  col="W", row=2, texture="SecondaryHand" },
+    { id=18, name="Ranged",    col="W", row=3, texture="Ranged" },
 }
 
 local ZONE_META = {
@@ -156,7 +157,9 @@ for key, meta in pairs(ZONE_META) do
 end
 
 Roadmap.UseLevelFilter = true
-Roadmap.ShowHeroic = false 
+Roadmap.LevelFloor = nil   -- loaded from SharpiesGearJudgeDB.RoadmapLevelFloor on first use (default 1)
+Roadmap.LevelCeiling = nil -- nil = follow the player's level
+Roadmap.ShowHeroic = false
 Roadmap.ChainMode = false
 Roadmap.ShowBadges = true
 Roadmap.SortByEfficiency = false
@@ -181,6 +184,159 @@ local function SetCheckLabel(btn, text)
     else local g = _G[btn:GetName().."Text"]; if g then g:SetText(text) end end
 end
 
+-- [[ LEVEL RANGE: floor/ceiling for the dungeon list ]]
+-- The floor is saved between sessions. The ceiling follows your level until you move it.
+function Roadmap:GetLevelSliderCap() return Roadmap.IsTBC and 70 or 60 end
+
+function Roadmap:GetLevelRange()
+    local cap = Roadmap:GetLevelSliderCap()
+    if Roadmap.LevelFloor == nil then
+        Roadmap.LevelFloor = (SharpiesGearJudgeDB and SharpiesGearJudgeDB.RoadmapLevelFloor) or 1
+    end
+    local hi = math.max(1, math.min(cap, Roadmap.LevelCeiling or UnitLevel("player")))
+    local lo = math.max(1, math.min(hi, Roadmap.LevelFloor))
+    return lo, hi
+end
+
+function Roadmap:SetLevelRange(lo, hi)
+    local cap = Roadmap:GetLevelSliderCap()
+    lo = math.max(1, math.min(cap, math.floor(lo + 0.5)))
+    hi = math.max(lo, math.min(cap, math.floor(hi + 0.5)))
+    Roadmap.LevelFloor = lo
+    if hi == math.min(cap, UnitLevel("player")) then Roadmap.LevelCeiling = nil else Roadmap.LevelCeiling = hi end
+    if SharpiesGearJudgeDB then SharpiesGearJudgeDB.RoadmapLevelFloor = lo end
+end
+
+-- Zones the next Calculate will check (mode, level range and phase filters applied).
+function Roadmap:GetZonesToScan()
+    local minLvl, maxLvl = Roadmap:GetLevelRange()
+    local zones = {}
+    for zoneKey, meta in pairs(ZONE_META) do
+        if (SGJ.DungeonDB and SGJ.DungeonDB[zoneKey]) or (ns.DungeonDB and ns.DungeonDB[zoneKey]) then
+            local isHeroicKey = string.find(zoneKey, "_HC")
+            local isBadgeKey = (zoneKey == "Geras_Badges")
+            local modeMatch = false
+
+            if Roadmap.IsEra then
+                modeMatch = (not isHeroicKey) and (not isBadgeKey) and ((meta.phase or 0) == 0)
+            else
+                if isBadgeKey then
+                    modeMatch = Roadmap.ShowBadges
+                else
+                    modeMatch = (Roadmap.ShowHeroic and isHeroicKey) or (not Roadmap.ShowHeroic and not isHeroicKey and not isBadgeKey)
+                end
+            end
+
+            local levelMatch = (not Roadmap.UseLevelFilter) or (meta.min >= minLvl and meta.min <= maxLvl)
+            local phaseMatch = Roadmap.IsEra or (not meta.phase) or (meta.phase <= Roadmap:GetContentPhase())
+
+            if modeMatch and levelMatch and phaseMatch then
+                table.insert(zones, {key=zoneKey, meta=meta})
+            end
+        end
+    end
+    return zones
+end
+
+-- Level bar: drag either handle, click the bar to move the nearer one, right-click to reset.
+-- Dragging one handle past the other pushes it along.
+function Roadmap:CreateLevelRangeSlider(parent, width)
+    local W, THUMB_W = width or 140, 7
+    local cap = Roadmap:GetLevelSliderCap()
+
+    local holder = CreateFrame("Frame", "SGJ_RoadmapLevelRange", parent)
+    holder:SetSize(W, 36)
+
+    local track = CreateFrame("Button", nil, holder)
+    track:SetSize(W, 20); track:SetPoint("TOPLEFT")
+    track:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+    local edge = track:CreateTexture(nil, "BACKGROUND", nil, -1); edge:SetPoint("TOPLEFT", -1, 1); edge:SetPoint("BOTTOMRIGHT", 1, -1); edge:SetColorTexture(0.33, 0.33, 0.33, 1)
+    local bg = track:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetColorTexture(0.1, 0.1, 0.1, 1)
+    local fill = track:CreateTexture(nil, "ARTWORK"); fill:SetColorTexture(1, 0.82, 0, 0.3)
+
+    -- Label sits on its own layer so the handles never cover it
+    local textLayer = CreateFrame("Frame", nil, track)
+    textLayer:SetAllPoints(); textLayer:SetFrameLevel(track:GetFrameLevel() + 3)
+    local text = textLayer:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"); text:SetPoint("CENTER")
+
+    local count = holder:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    count:SetPoint("TOPLEFT", track, "BOTTOMLEFT", 0, -3); count:SetTextColor(0.6, 0.6, 0.6)
+
+    local span = W - THUMB_W
+    local function XForValue(v) return THUMB_W / 2 + (v - 1) / math.max(1, cap - 1) * span end
+    local function ValueAtCursor()
+        local x = GetCursorPosition() / track:GetEffectiveScale()
+        local frac = (x - track:GetLeft() - THUMB_W / 2) / span
+        return 1 + math.max(0, math.min(1, frac)) * (cap - 1)
+    end
+
+    local thumbs = {}
+    function holder:Refresh()
+        local lo, hi = Roadmap:GetLevelRange()
+        local x1, x2 = XForValue(lo), XForValue(hi)
+        thumbs[1]:SetPoint("CENTER", track, "LEFT", x1, 0)
+        thumbs[2]:SetPoint("CENTER", track, "LEFT", x2, 0)
+        fill:ClearAllPoints()
+        fill:SetPoint("TOPLEFT", track, "TOPLEFT", x1, 0)
+        fill:SetPoint("BOTTOMLEFT", track, "BOTTOMLEFT", x1, 0)
+        fill:SetWidth(math.max(1, x2 - x1))
+        local n = #Roadmap:GetZonesToScan()
+        if Roadmap.UseLevelFilter then
+            text:SetText("Levels " .. lo .. " - " .. hi)
+            track:SetAlpha(1)
+        else
+            text:SetText("All levels")
+            track:SetAlpha(0.45)
+        end
+        count:SetText(n .. (n == 1 and " dungeon" or " dungeons") .. " to check")
+    end
+
+    local function MoveThumb(which, v)
+        local lo, hi = Roadmap:GetLevelRange()
+        if which == 1 then Roadmap:SetLevelRange(v, math.max(hi, v))
+        else Roadmap:SetLevelRange(math.min(lo, v), v) end
+        holder:Refresh()
+    end
+
+    for i = 1, 2 do
+        local t = CreateFrame("Button", nil, track)
+        t:SetSize(THUMB_W, 24); t:SetFrameLevel(track:GetFrameLevel() + 2)
+        local tex = t:CreateTexture(nil, "OVERLAY"); tex:SetAllPoints(); tex:SetColorTexture(0.85, 0.68, 0.0, 1)
+        t:SetScript("OnEnter", function() tex:SetColorTexture(1, 0.85, 0.1, 1) end)
+        t:SetScript("OnLeave", function() tex:SetColorTexture(0.85, 0.68, 0.0, 1) end)
+        t:SetScript("OnMouseDown", function(self)
+            self:SetScript("OnUpdate", function() MoveThumb(i, ValueAtCursor()) end)
+        end)
+        t:SetScript("OnMouseUp", function(self) self:SetScript("OnUpdate", nil) end)
+        t:SetScript("OnHide", function(self) self:SetScript("OnUpdate", nil) end)
+        thumbs[i] = t
+    end
+
+    track:SetScript("OnClick", function(self, button)
+        if button == "RightButton" then
+            Roadmap:SetLevelRange(1, UnitLevel("player")); holder:Refresh(); return
+        end
+        local v = ValueAtCursor()
+        local lo, hi = Roadmap:GetLevelRange()
+        MoveThumb((math.abs(v - lo) <= math.abs(v - hi)) and 1 or 2, v)
+    end)
+    track:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT"); GameTooltip:SetText("Dungeon Levels")
+        GameTooltip:AddLine("Only dungeons whose minimum level is inside this range are checked,", 1, 1, 1)
+        GameTooltip:AddLine("and items that require a higher level than the top value are skipped.", 1, 1, 1)
+        GameTooltip:AddLine("Raise the low end to focus on endgame dungeons.", 0, 1, 0)
+        GameTooltip:AddLine("Raise the high end to plan upgrades ahead of your level.", 0, 1, 0)
+        GameTooltip:AddLine("Right-click to reset to 1 - your level.", 0.6, 0.6, 0.6)
+        GameTooltip:Show()
+    end)
+    track:SetScript("OnLeave", GameTooltip_Hide)
+
+    holder:SetScript("OnShow", function(self) self:Refresh() end)
+    holder:Refresh()
+    Roadmap.LevelBar = holder
+    return holder
+end
+
 function Roadmap:GetContentPhase()
     if SGJ_Settings and SGJ_Settings.ContentPhase then return SGJ_Settings.ContentPhase end
     return 1
@@ -189,7 +345,7 @@ end
 function Roadmap:InitContentPhaseDropDown(parent, anchorFrame)
     local phaseDrop = CreateFrame("Frame", "SGJ_RoadmapPhaseDropDown", parent, "UIDropDownMenuTemplate")
     phaseDrop:SetPoint("TOPLEFT", anchorFrame, "BOTTOMLEFT", 0, 5)
-    UIDropDownMenu_SetWidth(phaseDrop, 140)
+    UIDropDownMenu_SetWidth(phaseDrop, 150)
     local phases = {
         { val = 1, text = "P1: Kara / Gruul" },
         { val = 2, text = "P2: SSC / TK" },
@@ -223,13 +379,57 @@ function Roadmap:InitContentPhaseDropDown(parent, anchorFrame)
     parent.PhaseDropDown = phaseDrop
 end
 
+-- Layout: scan settings (left) | character and gear slots (centre) | dungeon leaderboard (right)
+local LEFT_W, RIGHT_W = 190, 210
+local SLOT_SIZE, SLOT_TOP, SLOT_STEP = 37, -56, 54
+
+local function AddTooltip(frame, title, ...)
+    local lines = { ... }
+    frame:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT"); GameTooltip:SetText(title)
+        for _, l in ipairs(lines) do GameTooltip:AddLine(l, 1, 1, 1, true) end
+        GameTooltip:Show()
+    end)
+    frame:SetScript("OnLeave", GameTooltip_Hide)
+end
+
+local function MakeCheck(parent, name, label, checked, onClick)
+    local cb = CreateFrame("CheckButton", name, parent, "ChatConfigCheckButtonTemplate")
+    cb:SetChecked(checked); SetCheckLabel(cb, label)
+    cb:SetScript("OnClick", onClick)
+    return cb
+end
+
 function Roadmap.InitView(parent)
     local f = CreateFrame("Frame", "SGJ_RoadmapFrame", parent)
     f:SetAllPoints(); f:Hide()
 
+    -- ==========================================
+    -- COLUMNS
+    -- ==========================================
+    f.LeftCol = CreateFrame("Frame", nil, f)
+    f.LeftCol:SetPoint("TOPLEFT"); f.LeftCol:SetPoint("BOTTOMLEFT"); f.LeftCol:SetWidth(LEFT_W)
+    f.RightCol = CreateFrame("Frame", nil, f)
+    f.RightCol:SetPoint("TOPRIGHT"); f.RightCol:SetPoint("BOTTOMRIGHT"); f.RightCol:SetWidth(RIGHT_W)
+    f.Center = CreateFrame("Frame", nil, f)
+    f.Center:SetPoint("TOPLEFT", f.LeftCol, "TOPRIGHT"); f.Center:SetPoint("BOTTOMRIGHT", f.RightCol, "BOTTOMLEFT")
+
+    for _, col in ipairs({ f.LeftCol, f.RightCol }) do
+        local shade = col:CreateTexture(nil, "BACKGROUND"); shade:SetAllPoints(); shade:SetColorTexture(0, 0, 0, 0.25)
+    end
+    local function Divider(col, side)
+        local t = col:CreateTexture(nil, "BORDER"); t:SetColorTexture(1, 1, 1, 0.08); t:SetWidth(1)
+        t:SetPoint("TOP" .. side, 0, 0); t:SetPoint("BOTTOM" .. side, 0, 0)
+    end
+    Divider(f.LeftCol, "RIGHT"); Divider(f.RightCol, "LEFT")
+
+    -- ==========================================
+    -- CENTRE: CHARACTER MODEL
+    -- ==========================================
     local modelSuccess = pcall(function()
-        f.Model = CreateFrame("DressUpModel", "SGJ_RoadmapModel", f, "ModelWithControlsTemplate")
-        f.Model:SetPoint("TOPLEFT", 0, -20); f.Model:SetPoint("BOTTOMRIGHT", -200, 0)
+        f.Model = CreateFrame("DressUpModel", "SGJ_RoadmapModel", f.Center, "ModelWithControlsTemplate")
+        f.Model:SetPoint("TOPLEFT", f.Center, "TOPLEFT", SLOT_SIZE + 10, -50)
+        f.Model:SetPoint("BOTTOMRIGHT", f.Center, "BOTTOMRIGHT", -(SLOT_SIZE + 10), 80)
         f.Model:SetUnit("player")
         f.Model:SetLight(true, false, 0, 0, 0, 1.0, 1.0, 1.0, 1.0)
         f.Model:SetFrameStrata("BACKGROUND"); f.Model:SetFrameLevel(1)
@@ -239,28 +439,35 @@ function Roadmap.InitView(parent)
     end)
 
     if not modelSuccess or not f.Model then
-        f.Bg = f:CreateTexture(nil, "BACKGROUND"); f.Bg:SetPoint("TOPLEFT", 0, -20); f.Bg:SetPoint("BOTTOMRIGHT", -200, 0)
+        f.Bg = f.Center:CreateTexture(nil, "BACKGROUND")
+        f.Bg:SetPoint("TOPLEFT", f.Center, "TOPLEFT", SLOT_SIZE + 10, -50)
+        f.Bg:SetPoint("BOTTOMRIGHT", f.Center, "BOTTOMRIGHT", -(SLOT_SIZE + 10), 80)
         f.Bg:SetTexture("Interface\\DressUpFrame\\DressUpBackground-Mage"); f.Bg:SetVertexColor(0.4, 0.4, 0.4)
     end
 
-	f.Title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"); 
-    f.Title:SetPoint("TOP", -100, -10); f.Title:SetText("Upgrade Roadmap"); f.Title:SetTextColor(1, 0.82, 0)
+    f.Title = f.Center:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+    f.Title:SetPoint("TOP", 0, -10); f.Title:SetText("Upgrade Roadmap"); f.Title:SetTextColor(1, 0.82, 0)
 
-    f.HelpText = f:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    f.HelpText:SetPoint("TOP", f.Title, "BOTTOM", 0, -5)
-    f.HelpText:SetText("(Left-Click Slot: View | Right-Click Slot: Ignore)")
-    f.HelpText:SetTextColor(0.6, 0.6, 0.6)
+    f.Summary = f.Center:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    f.Summary:SetPoint("TOP", f.Title, "BOTTOM", 0, -4); f.Summary:SetWidth(LEFT_W + 80); f.Summary:SetWordWrap(false)
+
+    f.HelpText = f.Center:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    f.HelpText:SetPoint("BOTTOM", 0, 12)
+    f.HelpText:SetText("Click a slot: upgrades  |  Right-click: ignore")
+    f.HelpText:SetTextColor(0.5, 0.5, 0.5)
 
     -- ==========================================
-    -- TOP LEFT: DROPDOWNS 
+    -- LEFT: SCAN SETTINGS (top to bottom in the order you use them)
     -- ==========================================
-    
-    -- 1. Mode Dropdown (Top)
-    local modeDropDown = CreateFrame("Frame", "SGJ_RoadmapModeDropDown", f, "UIDropDownMenuTemplate")
-    modeDropDown:SetPoint("TOPLEFT", f, "TOPLEFT", -10, -40) 
-    UIDropDownMenu_SetWidth(modeDropDown, 140) 
-    
-    UIDropDownMenu_Initialize(modeDropDown, function(self, level) 
+    local L = f.LeftCol
+    local header = L:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    header:SetPoint("TOPLEFT", 12, -12); header:SetText("Scan Settings")
+
+    -- 1. Mode
+    local modeDropDown = CreateFrame("Frame", "SGJ_RoadmapModeDropDown", L, "UIDropDownMenuTemplate")
+    modeDropDown:SetPoint("TOPLEFT", L, "TOPLEFT", -6, -30)
+    UIDropDownMenu_SetWidth(modeDropDown, 150)
+    UIDropDownMenu_Initialize(modeDropDown, function(self, level)
         local info = UIDropDownMenu_CreateInfo()
         local modes = {"PvE", "PvP"}
         for _, mode in ipairs(modes) do
@@ -281,117 +488,107 @@ function Roadmap.InitView(parent)
     UIDropDownMenu_SetText(modeDropDown, "Mode: PvE")
     f.ModeDropDown = modeDropDown
 
-    -- 2. Profile Dropdown (Middle)
-    local dropDown = CreateFrame("Frame", "SGJ_RoadmapProfileDropDown", f, "UIDropDownMenuTemplate")
-    -- Anchors seamlessly to the bottom-left of the Mode dropdown
-    dropDown:SetPoint("TOPLEFT", modeDropDown, "BOTTOMLEFT", 0, 5) 
-    UIDropDownMenu_SetWidth(dropDown, 140) 
+    -- 2. Profile
+    local dropDown = CreateFrame("Frame", "SGJ_RoadmapProfileDropDown", L, "UIDropDownMenuTemplate")
+    dropDown:SetPoint("TOPLEFT", modeDropDown, "BOTTOMLEFT", 0, 5)
+    UIDropDownMenu_SetWidth(dropDown, 150)
     UIDropDownMenu_Initialize(dropDown, function(self, level) Roadmap:InitDropDownMenu(self, level) end)
     f.ProfileDropDown = dropDown
 
-    -- 3. Focus Dropdown (Bottom)
-    local statDropDown = CreateFrame("Frame", "SGJ_RoadmapStatDropDown", f, "UIDropDownMenuTemplate")
-    -- Anchors seamlessly to the bottom-left of the Profile dropdown
-    statDropDown:SetPoint("TOPLEFT", dropDown, "BOTTOMLEFT", 0, 5) 
-    UIDropDownMenu_SetWidth(statDropDown, 140) 
+    -- 3. Focus
+    local statDropDown = CreateFrame("Frame", "SGJ_RoadmapStatDropDown", L, "UIDropDownMenuTemplate")
+    statDropDown:SetPoint("TOPLEFT", dropDown, "BOTTOMLEFT", 0, 5)
+    UIDropDownMenu_SetWidth(statDropDown, 150)
     UIDropDownMenu_Initialize(statDropDown, function(self, level) Roadmap:InitStatDropDownMenu(self, level) end)
     UIDropDownMenu_SetText(statDropDown, "Focus: None (Default)")
     f.StatDropDown = statDropDown
 
-    if not Roadmap.IsEra and (MSC.IsTBC or Roadmap.IsTBC) then 
-        Roadmap:InitContentPhaseDropDown(f, statDropDown) 
+    -- 4. Content phase (TBC)
+    local lastDrop = statDropDown
+    if not Roadmap.IsEra and (MSC.IsTBC or Roadmap.IsTBC) then
+        Roadmap:InitContentPhaseDropDown(L, statDropDown)
+        lastDrop = L.PhaseDropDown
     end
-	
-    -- ==========================================
-    -- TOP RIGHT: ACTION BUTTONS
-    -- ==========================================
-    -- Moved to the right side, matching the height of the dropdowns (-60)
-    local smartBtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); smartBtn:SetSize(140, 26)
-    smartBtn:SetPoint("TOPRIGHT", f, "TOPRIGHT", -220, -60); 
-    smartBtn:SetText("Calculate Roadmap")
-    smartBtn:SetFrameStrata("HIGH"); smartBtn:SetFrameLevel(100)
-    smartBtn:SetScript("OnClick", function() Roadmap:PerformSmartScan() end)
-    smartBtn:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_RIGHT"); GameTooltip:SetText("Calculate Roadmap"); GameTooltip:AddLine("Scans all dungeons to find upgrades.", 1, 1, 1); GameTooltip:Show() end)
-    smartBtn:SetScript("OnLeave", GameTooltip_Hide)
 
-    -- Tucked directly under the Calculate Button
-    local resetBtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); resetBtn:SetSize(30, 26)
-    resetBtn:SetPoint("TOPLEFT", smartBtn, "BOTTOMLEFT", 0, -5); resetBtn:SetText("R")
-    resetBtn:SetFrameStrata("HIGH"); resetBtn:SetFrameLevel(200) 
-    resetBtn:SetScript("OnClick", function() Roadmap:ResetVirtualGear(); Roadmap.ScanResults = {}; Roadmap.SelectedZone = nil; Roadmap:RefreshUI(); print("SGJ: Roadmap & Chain Mode Hard Reset.") end)
-    resetBtn:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_RIGHT"); GameTooltip:SetText("Reset All"); GameTooltip:AddLine("Clears chain progress and resets to current gear.", 1, 1, 1); GameTooltip:Show() end)
-    resetBtn:SetScript("OnLeave", GameTooltip_Hide)
+    -- 5. Level range
+    local levelRange
+    local lvlCheck = MakeCheck(L, "SGJ_RoadmapLevelFilter", "Filter by Level", Roadmap.UseLevelFilter, function(self)
+        Roadmap.UseLevelFilter = self:GetChecked(); levelRange:Refresh()
+    end)
+    lvlCheck:SetPoint("TOPLEFT", lastDrop, "BOTTOMLEFT", 16, -4)
+    levelRange = Roadmap:CreateLevelRangeSlider(L, LEFT_W - 24)
+    levelRange:SetPoint("TOPLEFT", lvlCheck, "BOTTOMLEFT", 2, -2)
 
-    local exportBtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate"); exportBtn:SetSize(60, 26)
-    exportBtn:SetPoint("LEFT", resetBtn, "RIGHT", 5, 0); exportBtn:SetText("Export")
-    exportBtn:SetFrameStrata("HIGH"); exportBtn:SetFrameLevel(200)
-    exportBtn:SetScript("OnClick", function() Roadmap:ShowExportPopup() end)
-    exportBtn:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_RIGHT"); GameTooltip:SetText("Export to Lab"); GameTooltip:AddLine("Copy current set to clipboard for use in The Lab.", 1, 1, 1); GameTooltip:Show() end)
-    exportBtn:SetScript("OnLeave", GameTooltip_Hide)
-
-    -- [[ Progress Bar ]]
-    f.ProgressBar = CreateFrame("StatusBar", nil, f)
-    f.ProgressBar:SetSize(200, 15)
-    f.ProgressBar:SetPoint("BOTTOM", -50, 280)
-    f.ProgressBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
-    f.ProgressBar:GetStatusBarTexture():SetHorizTile(false)
-    f.ProgressBar:SetMinMaxValues(0, 100); f.ProgressBar:SetValue(0); f.ProgressBar:SetStatusBarColor(0, 1, 0); f.ProgressBar:Hide()
-    f.ProgressBar.Bg = f.ProgressBar:CreateTexture(nil, "OVERLAY"); f.ProgressBar.Bg:SetAllPoints(true); f.ProgressBar.Bg:SetTexture("Interface\\TargetingFrame\\UI-StatusBar"); f.ProgressBar.Bg:SetVertexColor(0.2, 0.2, 0.2, 0.5)
-
-    -- ==========================================
-    -- BOTTOM LEFT: STACKED CHECKBOXES
-    -- ==========================================
-    local lvlCheck = CreateFrame("CheckButton", "SGJ_RoadmapLevelFilter", f, "ChatConfigCheckButtonTemplate")
-    lvlCheck:SetChecked(Roadmap.UseLevelFilter)
-    lvlCheck:SetFrameStrata("HIGH"); lvlCheck:SetFrameLevel(100); SetCheckLabel(lvlCheck, "Filter Level") 
-    lvlCheck:SetScript("OnClick", function(self) Roadmap.UseLevelFilter = self:GetChecked(); end)
-
-    local chainCheck = CreateFrame("CheckButton", "SGJ_RoadmapChainCheck", f, "ChatConfigCheckButtonTemplate")
-    chainCheck:SetChecked(Roadmap.ChainMode)
-    chainCheck:SetFrameStrata("HIGH"); chainCheck:SetFrameLevel(100); SetCheckLabel(chainCheck, "Chain Mode") 
-    chainCheck:SetScript("OnClick", function(self) Roadmap.ChainMode = self:GetChecked(); if Roadmap.ChainMode then Roadmap:InitializeVirtualGear(); print("SGJ: Chain Mode ON. Click dungeons to build your set.") else print("SGJ: Chain Mode OFF.") end end)
-    chainCheck:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT"); GameTooltip:SetText("Chain Mode"); GameTooltip:AddLine("If enabled, clicking a dungeon 'equips' the upgrades virtually.", 1, 1, 1); GameTooltip:AddLine("The next dungeon will compare against this new virtual set.", 0, 1, 0); GameTooltip:Show() end)
-    chainCheck:SetScript("OnLeave", GameTooltip_Hide)
+    -- 6. Toggles
+    local chainCheck = MakeCheck(L, "SGJ_RoadmapChainCheck", "Chain Mode", Roadmap.ChainMode, function(self)
+        Roadmap.ChainMode = self:GetChecked()
+        if Roadmap.ChainMode then Roadmap:InitializeVirtualGear(); print("SGJ: Chain Mode ON. Click dungeons to build your set.") else print("SGJ: Chain Mode OFF.") end
+    end)
+    chainCheck:SetPoint("TOPLEFT", levelRange, "BOTTOMLEFT", -2, -4)
+    AddTooltip(chainCheck, "Chain Mode", "If enabled, clicking a dungeon 'equips' the upgrades virtually.", "|cff00ff00The next dungeon will compare against this new virtual set.|r")
 
     if Roadmap.IsEra then
         -- Classic Era layout: No Heroic or Badge systems
         Roadmap.ShowHeroic = false
         Roadmap.ShowBadges = false
-        lvlCheck:SetPoint("BOTTOMLEFT", 20, 20)
-        chainCheck:SetPoint("BOTTOMLEFT", 20, 50)
     else
-        -- TBC layout: Full normal/heroic and badge vendor stack
-        local heroicCheck = CreateFrame("CheckButton", "SGJ_RoadmapHeroicCheck", f, "ChatConfigCheckButtonTemplate")
-        heroicCheck:SetPoint("BOTTOMLEFT", 20, 20); heroicCheck:SetChecked(Roadmap.ShowHeroic)
-        heroicCheck:SetFrameStrata("HIGH"); heroicCheck:SetFrameLevel(100); SetCheckLabel(heroicCheck, "Heroic Only") 
-        heroicCheck:SetScript("OnClick", function(self) Roadmap.ShowHeroic = self:GetChecked(); Roadmap.ZoneRankings = {}; Roadmap:UpdateSidebar() end)
+        -- TBC layout: normal/heroic and badge vendor toggles
+        local function ClearRankings() Roadmap.ZoneRankings = {}; Roadmap.HasScanned = false; Roadmap:UpdateSidebar(); levelRange:Refresh() end
 
-        lvlCheck:SetPoint("BOTTOMLEFT", 20, 50)
+        local heroicCheck = MakeCheck(L, "SGJ_RoadmapHeroicCheck", "Heroic Only", Roadmap.ShowHeroic, function(self)
+            Roadmap.ShowHeroic = self:GetChecked(); ClearRankings()
+        end)
+        heroicCheck:SetPoint("TOPLEFT", chainCheck, "BOTTOMLEFT", 0, 2)
 
-        local badgeCheck = CreateFrame("CheckButton", "SGJ_RoadmapBadgeCheck", f, "ChatConfigCheckButtonTemplate")
-        badgeCheck:SetPoint("BOTTOMLEFT", 20, 80); 
-        badgeCheck:SetChecked(Roadmap.ShowBadges)
-        badgeCheck:SetFrameStrata("HIGH"); badgeCheck:SetFrameLevel(100); SetCheckLabel(badgeCheck, "Include Badges") 
-        badgeCheck:SetScript("OnClick", function(self) Roadmap.ShowBadges = self:GetChecked(); Roadmap.ZoneRankings = {}; Roadmap:UpdateSidebar() end)
+        local badgeCheck = MakeCheck(L, "SGJ_RoadmapBadgeCheck", "Include Badges", Roadmap.ShowBadges, function(self)
+            Roadmap.ShowBadges = self:GetChecked(); ClearRankings()
+        end)
+        badgeCheck:SetPoint("TOPLEFT", heroicCheck, "BOTTOMLEFT", 0, 2)
 
-        local effCheck = CreateFrame("CheckButton", "SGJ_RoadmapEffCheck", f, "ChatConfigCheckButtonTemplate")
-        effCheck:SetPoint("BOTTOMLEFT", 20, 110); 
-        effCheck:SetChecked(Roadmap.SortByEfficiency)
-        effCheck:SetFrameStrata("HIGH"); effCheck:SetFrameLevel(100); SetCheckLabel(effCheck, "Sort by Efficiency") 
-        effCheck:SetScript("OnClick", function(self) Roadmap.SortByEfficiency = self:GetChecked(); if Roadmap.SelectedZone == "Geras_Badges" then Roadmap:PerformSmartScan() end end)
-        effCheck:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT"); GameTooltip:SetText("Badge Efficiency"); GameTooltip:AddLine("Sorts badge items by Score gained per Badge spent.", 1, 1, 1); GameTooltip:Show() end)
-        effCheck:SetScript("OnLeave", GameTooltip_Hide)
-
-        chainCheck:SetPoint("BOTTOMLEFT", 20, 140)
+        local effCheck = MakeCheck(L, "SGJ_RoadmapEffCheck", "Sort by Efficiency", Roadmap.SortByEfficiency, function(self)
+            Roadmap.SortByEfficiency = self:GetChecked(); if Roadmap.SelectedZone == "Geras_Badges" then Roadmap:PerformSmartScan() end
+        end)
+        effCheck:SetPoint("TOPLEFT", badgeCheck, "BOTTOMLEFT", 0, 2)
+        AddTooltip(effCheck, "Badge Efficiency", "Sorts badge items by Score gained per Badge spent.")
     end
-	
+
+    -- 7. Actions (pinned to the bottom of the column)
+    local resetBtn = CreateFrame("Button", nil, L, "UIPanelButtonTemplate"); resetBtn:SetSize((LEFT_W - 29) / 2, 24)
+    resetBtn:SetPoint("BOTTOMLEFT", 12, 14); resetBtn:SetText("Reset")
+    resetBtn:SetScript("OnClick", function() Roadmap:ResetVirtualGear(); Roadmap.ScanResults = {}; Roadmap.SelectedZone = nil; Roadmap:RefreshUI(); print("SGJ: Roadmap & Chain Mode Hard Reset.") end)
+    AddTooltip(resetBtn, "Reset All", "Clears chain progress and resets to current gear.")
+
+    local exportBtn = CreateFrame("Button", nil, L, "UIPanelButtonTemplate"); exportBtn:SetSize((LEFT_W - 29) / 2, 24)
+    exportBtn:SetPoint("LEFT", resetBtn, "RIGHT", 5, 0); exportBtn:SetText("Export")
+    exportBtn:SetScript("OnClick", function() Roadmap:ShowExportPopup() end)
+    AddTooltip(exportBtn, "Export to Lab", "Copy current set to clipboard for use in The Lab.")
+
+    local smartBtn = CreateFrame("Button", nil, L, "UIPanelButtonTemplate"); smartBtn:SetSize(LEFT_W - 24, 30)
+    smartBtn:SetPoint("BOTTOMLEFT", resetBtn, "TOPLEFT", 0, 6)
+    smartBtn:SetText("Calculate Roadmap")
+    smartBtn:SetScript("OnClick", function() Roadmap:PerformSmartScan() end)
+    smartBtn:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT"); GameTooltip:SetText("Calculate Roadmap")
+        GameTooltip:AddLine("Scans all dungeons to find upgrades.", 1, 1, 1)
+        if Roadmap.UseLevelFilter then local lo, hi = Roadmap:GetLevelRange(); GameTooltip:AddLine("Dungeon levels: " .. lo .. " - " .. hi, 1, 0.82, 0)
+        else GameTooltip:AddLine("Level filter: off", 0.6, 0.6, 0.6) end
+        GameTooltip:Show()
+    end)
+    smartBtn:SetScript("OnLeave", GameTooltip_Hide)
+
+    -- ==========================================
+    -- CENTRE: GEAR SLOTS (7 left, 7 right, weapons under the feet)
+    -- ==========================================
     local _, playerClass = UnitClass("player")
+    -- Classic clients only ship the generic Relic slot art (no Libram/Totem/Idol/Sigil textures)
     local relicTexture = "Relic"
-    if playerClass == "SHAMAN" then relicTexture = "Totem" elseif playerClass == "PALADIN" then relicTexture = "Libram" elseif playerClass == "DRUID" then relicTexture = "Relic" elseif playerClass == "DEATHKNIGHT" then relicTexture = "Sigil" end
 
     f.Slots = {}
     for _, s in ipairs(SLOTS) do
-        local btn = CreateFrame("Button", nil, f, nil); btn:SetSize(37, 37); btn:SetPoint("CENTER", s.x, s.y)
+        local btn = CreateFrame("Button", nil, f.Center, nil); btn:SetSize(SLOT_SIZE, SLOT_SIZE)
+        if s.col == "L" then btn:SetPoint("TOPLEFT", f.Center, "TOPLEFT", 6, SLOT_TOP - (s.row - 1) * SLOT_STEP)
+        elseif s.col == "R" then btn:SetPoint("TOPRIGHT", f.Center, "TOPRIGHT", -6, SLOT_TOP - (s.row - 1) * SLOT_STEP)
+        else btn:SetPoint("BOTTOM", f.Center, "BOTTOM", (s.row - 2) * (SLOT_SIZE + 6), 34) end
         btn:SetFrameStrata("HIGH"); btn:SetFrameLevel(100)
         local bg = btn:CreateTexture(nil, "BACKGROUND", nil, -1); bg:SetAllPoints()
         local texName = s.texture
@@ -401,40 +598,47 @@ function Roadmap.InitView(parent)
         local ag = up:CreateAnimationGroup(); local a1 = ag:CreateAnimation("Alpha"); a1:SetFromAlpha(0.5); a1:SetToAlpha(1.0); a1:SetDuration(0.8); a1:SetSmoothing("IN_OUT"); a1:SetOrder(1); local a2 = ag:CreateAnimation("Alpha"); a2:SetFromAlpha(1.0); a2:SetToAlpha(0.5); a2:SetDuration(0.8); a2:SetSmoothing("IN_OUT"); a2:SetOrder(2); ag:SetLooping("REPEAT"); btn.Anim = ag
         btn.SlotID = s.id; btn.SlotName = s.name
         btn:RegisterForClicks("AnyUp")
-		btn:SetScript("OnClick", function(self, button)
-		if button == "RightButton" then
-        -- Toggle the ignore status
-        Roadmap.IgnoredSlots[self.SlotID] = not Roadmap.IgnoredSlots[self.SlotID]
-			if Roadmap.IgnoredSlots[self.SlotID] then
-				-- Visual: Dim the slot to show it is disabled
-				self.icon:SetVertexColor(0.3, 0.3, 0.3) 
-				print("SGJ: Ignoring " .. self.SlotName .. ".")
-			else
-				-- Visual: Restore color
-				self.icon:SetVertexColor(1, 1, 1)
-				print("SGJ: Tracking " .. self.SlotName .. ".")
-			end
-			-- Force a refresh so the scanner knows immediately (optional, but good)
-			Roadmap:RefreshUI()
-			else
-				-- If Left-Click, do the normal thing (Show Upgrades)
-				Roadmap.OnSlotClick(self)
-			end
-		end)
+        btn:SetScript("OnClick", function(self, button)
+            if button == "RightButton" then
+                -- Toggle the ignore status
+                Roadmap.IgnoredSlots[self.SlotID] = not Roadmap.IgnoredSlots[self.SlotID]
+                if Roadmap.IgnoredSlots[self.SlotID] then
+                    self.icon:SetVertexColor(0.3, 0.3, 0.3)
+                    print("SGJ: Ignoring " .. self.SlotName .. ".")
+                else
+                    self.icon:SetVertexColor(1, 1, 1)
+                    print("SGJ: Tracking " .. self.SlotName .. ".")
+                end
+                Roadmap:RefreshUI()
+            else
+                Roadmap.OnSlotClick(self)
+            end
+        end)
+        btn:SetScript("OnEnter", function(self) Roadmap.OnSlotEnter(self) end)
+        btn:SetScript("OnLeave", GameTooltip_Hide)
 
-		btn:SetScript("OnEnter", function(self) Roadmap.OnSlotEnter(self) end)
-		btn:SetScript("OnLeave", GameTooltip_Hide)
-		
-		f.Slots[s.id] = btn
-	end
-	
-    Roadmap:InitSidebar(f)
+        f.Slots[s.id] = btn
+    end
 
-    f:SetScript("OnShow", function() 
-        if f.Model then f.Model:SetUnit("player") end; 
+    -- ==========================================
+    -- RIGHT: DUNGEON LEADERBOARD
+    -- ==========================================
+    Roadmap:InitSidebar(f.RightCol)
+
+    f.ProgressBar = CreateFrame("StatusBar", nil, f.RightCol)
+    f.ProgressBar:SetSize(RIGHT_W - 24, 12)
+    f.ProgressBar:SetPoint("TOP", 0, -46)
+    f.ProgressBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+    f.ProgressBar:GetStatusBarTexture():SetHorizTile(false)
+    f.ProgressBar:SetMinMaxValues(0, 100); f.ProgressBar:SetValue(0); f.ProgressBar:SetStatusBarColor(0, 1, 0); f.ProgressBar:Hide()
+    f.ProgressBar.Bg = f.ProgressBar:CreateTexture(nil, "BACKGROUND"); f.ProgressBar.Bg:SetAllPoints(true); f.ProgressBar.Bg:SetColorTexture(0.2, 0.2, 0.2, 0.6)
+
+    f:SetScript("OnShow", function()
+        if f.Model then f.Model:SetUnit("player") end
         Roadmap:RefreshProfileDisplay() -- Updates the DropDown Text
-        Roadmap:InitializeVirtualGear() 
-        Roadmap:RefreshUI() 
+        Roadmap:InitializeVirtualGear()
+        levelRange:Refresh()
+        Roadmap:RefreshUI()
     end)
 
     SGJ.ViewRoadmap = f
@@ -444,30 +648,32 @@ end
 -- 3.5 THE ROADMAP SIDEBAR & PROFILE HELPERS
 -- =============================================================
 function Roadmap:InitSidebar(parent)
-    local sb = CreateFrame("Frame", nil, parent, "BackdropTemplate")
-    sb:SetPoint("TOPRIGHT", 0, -20)
-    sb:SetPoint("BOTTOMRIGHT", 0, 0)
-    sb:SetWidth(190)
-    sb:SetBackdrop(nil)
-    
-    local title = sb:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    title:SetPoint("TOP", 0, -10)
+    local sb = CreateFrame("Frame", nil, parent)
+    sb:SetAllPoints(parent)
+
+    local title = sb:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+    title:SetPoint("TOP", 0, -12)
     title:SetText("Dungeon Leaderboard")
-    
+
     local sub = sb:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    sub:SetPoint("TOP", 0, -25)
-    sub:SetText("(Click to View)")
+    sub:SetPoint("TOP", title, "BOTTOM", 0, -3)
+    sub:SetText("Click a dungeon for its loot")
     sub:SetTextColor(0.6, 0.6, 0.6)
-    
+
+    local empty = sb:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    empty:SetPoint("TOP", 0, -70); empty:SetWidth(parent:GetWidth() - 24)
+    empty:SetTextColor(0.6, 0.6, 0.6)
+
     local scroll = CreateFrame("ScrollFrame", "SGJ_RoadmapScroll", sb, "UIPanelScrollFrameTemplate")
-    scroll:SetPoint("TOPLEFT", 10, -45)
-    scroll:SetPoint("BOTTOMRIGHT", -30, 10)
-    
+    scroll:SetPoint("TOPLEFT", 6, -64)
+    scroll:SetPoint("BOTTOMRIGHT", -26, 10)
+
     local content = CreateFrame("Frame", nil, scroll)
-    content:SetSize(150, 400)
+    content:SetSize(parent:GetWidth() - 32, 400)
     scroll:SetScrollChild(content)
-    
-    Roadmap.Sidebar = { Frame = sb, Content = content, Rows = {} }
+
+    Roadmap.Sidebar = { Frame = sb, Content = content, Rows = {}, Empty = empty }
+    Roadmap:UpdateSidebar()
 end
 
 function Roadmap:UpdateSidebar()
@@ -486,20 +692,24 @@ function Roadmap:UpdateSidebar()
         local row = Roadmap.Sidebar.Rows[i]
         if not row then
             row = CreateFrame("Button", nil, content)
-            row:SetSize(150, 30) 
+            row:SetSize(content:GetWidth(), 32)
             row:SetFrameLevel(content:GetFrameLevel() + 10)
-            
+
+            row.Sel = row:CreateTexture(nil, "BACKGROUND")
+            row.Sel:SetAllPoints(); row.Sel:SetColorTexture(1, 0.82, 0, 0.12); row.Sel:Hide()
+
             row.Icon = row:CreateTexture(nil, "OVERLAY")
             row.Icon:SetSize(24, 24)
-            row.Icon:SetPoint("LEFT", 0, 0)
-            
+            row.Icon:SetPoint("LEFT", 2, 0)
+
             row.Text = row:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-            row.Text:SetPoint("LEFT", 28, 0) 
-            row.Text:SetWidth(85); row.Text:SetJustifyH("LEFT")
-            
+            row.Text:SetPoint("TOPLEFT", 30, -3)
+            row.Text:SetPoint("RIGHT", -2, 0); row.Text:SetJustifyH("LEFT"); row.Text:SetWordWrap(false)
+
             row.Score = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-            row.Score:SetPoint("RIGHT", -5, 0)
-            
+            row.Score:SetPoint("TOPLEFT", row.Text, "BOTTOMLEFT", 0, -2)
+            row.Score:SetTextColor(0, 1, 0)
+
             row:RegisterForClicks("AnyUp")
             
             row:SetScript("OnEnter", function(self) 
@@ -538,7 +748,8 @@ function Roadmap:UpdateSidebar()
                     Roadmap:PerformSmartScan() 
                 end
                 
-                Roadmap:RefreshUI() 
+                Roadmap:RefreshUI()
+                Roadmap:UpdateSidebar()
             end)
             
             table.insert(Roadmap.Sidebar.Rows, row)
@@ -558,11 +769,19 @@ function Roadmap:UpdateSidebar()
             row.Icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
         end
         
+        row.Sel:SetShown(entry.key == Roadmap.SelectedZone)
         row:Show()
-        y = y - 30 
+        y = y - 34
     end
-    
-    content:SetHeight(math.abs(y))
+
+    content:SetHeight(math.max(1, math.abs(y)))
+
+    local empty = Roadmap.Sidebar.Empty
+    if y < 0 or Roadmap.Scanning then empty:Hide()
+    else
+        empty:SetText(Roadmap.HasScanned and "No upgrades found in this level range." or "Press Calculate Roadmap to rank dungeons by upgrades.")
+        empty:Show()
+    end
 end
 
 -- =============================================================
@@ -1199,39 +1418,15 @@ function Roadmap:PerformSmartScan()
     Roadmap:RefreshProfileDisplay()
     
     Roadmap.ZoneRankings = {}
+    Roadmap.Scanning = true
+    Roadmap:UpdateSidebar()
     if SGJ.ViewRoadmap.ProgressBar then SGJ.ViewRoadmap.ProgressBar:Show() end
     Roadmap:StartCoroutineScan()
 end
 
 function Roadmap:StartCoroutineScan()
-    local playerLvl = UnitLevel("player")
-    local zonesToScan = {}
-    
-    for zoneKey, meta in pairs(ZONE_META) do
-        if (SGJ.DungeonDB and SGJ.DungeonDB[zoneKey]) or (ns.DungeonDB and ns.DungeonDB[zoneKey]) then
-            local isHeroicKey = string.find(zoneKey, "_HC")
-            local isBadgeKey = (zoneKey == "Geras_Badges")
-            local modeMatch = false
-            
-            if Roadmap.IsEra then
-                modeMatch = (not isHeroicKey) and (not isBadgeKey) and ((meta.phase or 0) == 0)
-            else
-                if isBadgeKey then
-                    modeMatch = Roadmap.ShowBadges
-                else
-                    modeMatch = (Roadmap.ShowHeroic and isHeroicKey) or (not Roadmap.ShowHeroic and not isHeroicKey and not isBadgeKey)
-                end
-            end
+    local zonesToScan = Roadmap:GetZonesToScan()
 
-            local levelMatch = (not Roadmap.UseLevelFilter) or (meta.min <= playerLvl)
-            local phaseMatch = Roadmap.IsEra or (not meta.phase) or (meta.phase <= Roadmap:GetContentPhase())
-
-            if modeMatch and levelMatch and phaseMatch then
-                table.insert(zonesToScan, {key=zoneKey, meta=meta})
-            end
-        end
-    end
-    
     local total = #zonesToScan
     local current = 0
     
@@ -1252,6 +1447,8 @@ function Roadmap:StartCoroutineScan()
             if current % 2 == 0 then coroutine.yield() end
         end
         
+        Roadmap.HasScanned = true
+        Roadmap.Scanning = false
         Roadmap:UpdateSidebar()
         if SGJ.ViewRoadmap.ProgressBar then SGJ.ViewRoadmap.ProgressBar:Hide() end
         print("SGJ: Checked " .. total .. " dungeons. Leaderboard updated.")
@@ -1265,7 +1462,8 @@ function Roadmap:StartCoroutineScan()
             local ok, err = coroutine.resume(co)
             if not ok then 
                 print("SGJ Error:", err)
-                ticker:Cancel() 
+                ticker:Cancel()
+                Roadmap.Scanning = false
                 if SGJ.ViewRoadmap.ProgressBar then SGJ.ViewRoadmap.ProgressBar:Hide() end
             end
         end
@@ -1284,7 +1482,7 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
         currentBaseScore, currentBaseStats = Roadmap:GetAdjustedScore(currentBaseGear, currentWeights, currentSpec)
     end
 
-    local playerLvl = UnitLevel("player")
+    local _, maxLvl = Roadmap:GetLevelRange()
     local zoneTotalScore = 0
     local zoneItems = {} 
     
@@ -1302,7 +1500,7 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter)
 
     for itemID, info in pairs(lootTable) do
         local allowed = true
-        if applySmartFilter and info.reqLevel and info.reqLevel > playerLvl then allowed = false end
+        if applySmartFilter and info.reqLevel and info.reqLevel > maxLvl then allowed = false end
         
         if allowed then
             local itemPhase = info.phase
@@ -1421,6 +1619,8 @@ function Roadmap:RefreshUI()
     if not f then return end
     if f.Model then f.Model:Undress(); f.Model:SetUnit("player") end
     
+    local upgradeCount, upgradeGain = 0, 0
+
     -- [[ FIX: ORDERED REFRESH (1 to 18) ]]
     for id=1, 18 do
         local btn = f.Slots[id]
@@ -1455,6 +1655,7 @@ function Roadmap:RefreshUI()
                         btn.icon:SetDesaturated(false); btn.icon:SetVertexColor(1, 1, 1)
                         btn.FilteredItems = list 
                         btn.DisplayIndex = idx 
+                        upgradeCount = upgradeCount + 1; upgradeGain = upgradeGain + bestEntry.gain
                         if f.Model then f.Model:TryOn(bestEntry.link) end
                     end
                 end
@@ -1468,6 +1669,19 @@ function Roadmap:RefreshUI()
                 btn.FilteredItems = {{ link=pLink, gain=0, boss="Context Item", pair=nil }} 
                 if f.Model then f.Model:TryOn(pLink) end
             end
+        end
+    end
+
+    -- [[ SUMMARY LINE UNDER THE TITLE ]]
+    if f.Summary then
+        local zone = Roadmap.SelectedZone
+        local zoneName = zone and ((ZONE_META[zone] and ZONE_META[zone].name) or zone)
+        if upgradeCount > 0 then
+            f.Summary:SetText((zoneName and (zoneName .. ": ") or "") .. "|cff00ff00" .. upgradeCount .. (upgradeCount == 1 and " upgrade" or " upgrades") .. ", +" .. string.format("%.1f", upgradeGain) .. "|r")
+        elseif zoneName then
+            f.Summary:SetText(zoneName .. ": |cff999999no upgrades|r")
+        else
+            f.Summary:SetText("|cff999999Pick a dungeon from the leaderboard|r")
         end
     end
 end
