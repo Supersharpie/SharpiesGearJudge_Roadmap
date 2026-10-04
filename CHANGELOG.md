@@ -1,10 +1,25 @@
 # Changelog - Roadmap Plugin
 
+## 🚀 v3.0.2
+
+### 🗺️ Forever Dungeon Loot
+- **Excavation Site: Wetlands**: The new 26-31 dungeon from the 2 October beta patch is a Roadmap zone, with its 9 equippable boss drops (Saltspine, Shadetooth, Relic Guardian; required levels 26-28).
+- **Razorfen Downs and Uldaman Loot**: Both dungeons, which the 2 October patch opened, now list their drops: 29 for Razorfen Downs and 48 for Uldaman, with boss or trash sources. Their loot is unchanged from Classic. Required levels come from Wowhead's Forever database where the item has been seen in the beta.
+- **Every Other Forever Dungeon**: The Roadmap now carries loot for every dungeon with a loot table on foreverchanges.pro, 965 more equippable drops. Each drop lists its boss, or Zone Drop for trash. Scarlet Monastery, Dire Maul, Stratholme and Blackrock Spire combine their wings into one Roadmap zone, with the wing named after the boss, for example "Herod (Armory)". The new dungeons are:
+	- Shadowfang Keep, Blackfathom Deeps, The Stockade, Gnomeregan and Razorfen Kraul
+	- Scarlet Monastery, Zul'Farrak, Maraudon and Sunken Temple
+	- Blackrock Depths, Dire Maul, Blackrock Spire, Scholomance and Stratholme
+
+	Each list is the full loot table, Classic and Forever items alike. Recipes, profession parts, shirts and tabards are left out, but librams, idols and totems are kept. Most Classic dungeon items aren't revealed in Forever yet, so their levels are the Classic ones. Items without a required level use the dungeon's minimum level. Forever's six new dungeons (City of Dalaran, The Drowned City, Krol'dok Stronghold, Alcaz Prison, Blackmaw Hold, Shaper's Terrace) have no loot listed yet and are not added.
+- **No Duplicate Datamined Zones**: Datamined drops now go into the matching dungeon row when the in-game zone name matches its display name. Before, a Deadmines drop recorded as "The Deadmines" created a second row next to the "Deadmines" entry.
+
+
+-------------------------------------------------------------------------
+
 ## 🚀 v3.0.1
 
 ### 🗺️ Forever Dungeon Loot
 - **Starter Dungeons Seeded**: The Forever database (`D1_Items_Forever.lua`) is no longer blank. It now carries the beta loot tables for Hall of Thanes, Ragefire Chasm, Ruins of Lordaeron, Wailing Caverns and The Deadmines. That's 112 equippable drops with boss sources and required levels. Quest items, keys, bags, pets and recipes are left out. Hall of Thanes (13+) and Ruins of Lordaeron (15+) are new Roadmap zones.
-- **No Duplicate Datamined Zones**: Datamined drops now go into the matching dungeon row when the in-game zone name matches its display name. Before, a Deadmines drop recorded as "The Deadmines" created a second row next to the "Deadmines" entry.
 
 -------------------------------------------------------------------------
 

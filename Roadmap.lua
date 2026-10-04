@@ -74,6 +74,7 @@ local ZONE_META = {
     ["Wailing Caverns"]   = { name="Wailing Caverns",   min=17 },
     ["Hall of Thanes"]    = { name="Hall of Thanes",    min=13 }, -- Forever only
     ["Ruins of Lordaeron"]= { name="Ruins of Lordaeron", min=15 }, -- Forever only
+    ["Excavation Site"]   = { name="Excavation Site: Wetlands", min=26 }, -- Forever only (2 Oct patch)
     ["Shadowfang Keep"]   = { name="Shadowfang Keep",   min=22 },
     ["Blackfathom Deeps"] = { name="Blackfathom Deeps", min=24 },
     ["The Stockade"]      = { name="The Stockade",      min=24 },
