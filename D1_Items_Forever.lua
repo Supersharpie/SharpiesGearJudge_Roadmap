@@ -8,7 +8,6 @@ SGJ.DungeonDB = SGJ.DungeonDB or {}
 -- Source: foreverchanges.pro/dungeons (beta build 1.60.1.70009, 2026-09-25)
 -- Keys must match ZONE_META in Roadmap.lua
 -- Only equippable drops are listed (quest items, keys, bags, pets, recipes skipped).
--- The Dataminer still adds anything else found in game on top of this.
 -- ============================================================
 
 SGJ.DungeonDB["Hall of Thanes"] = {

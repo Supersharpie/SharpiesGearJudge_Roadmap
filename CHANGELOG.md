@@ -1,5 +1,24 @@
 # Changelog - Roadmap Plugin
 
+## 🚀 v3.1.0
+
+### 📜 Forever Quest Rewards
+- **Quest Rewards for Every Zone**: The Roadmap now carries Forever's quest rewards, taken from foreverchanges.pro/quests: 1,931 rewards you can equip. Before, the Forever quest list started empty and only filled from the dataminer.
+	- **World quests** get a row per zone, for example "Elwynn Forest Quests" or "Stranglethorn Vale Quests" (68 rows, including the class, profession and event quests).
+	- **Dungeon quests** join their dungeon's row next to its boss loot, marked "Quest:" (24 dungeons, for example 30 quest rewards in Blackrock Depths). Raids and dungeons without a loot list get a row of their own: Ahn'Qiraj, Blackwing Lair, Naxxramas, Onyxia's Lair and City of Dalaran.
+	- Each world quest row's level for the level range bar is the lowest required level among its rewards, and each reward keeps its own required level.
+	- Rewards from one faction's quests only show for that faction, and class quest rewards only for that class. Zephras Isle, the Skyborne starting island, only shows for Skyborne, since other races can't get there.
+	- **One Reward per Choice Quest**: When a quest lets you choose one of several rewards, the Roadmap suggests at most one of them. If two slots want rewards from the same quest, the bigger gain wins and the other slot shows its next-best item. The leaderboard's top items list one choice per quest too. Rewards a quest always gives still count in every slot.
+- **Source Checkboxes**: Three new checkboxes under Chain Mode choose what a scan includes: **Dungeon Loot**, **Dungeon Quests** and **World Quests**. All start on and are remembered between sessions. The dungeon count under the level bar follows them.
+- **No Two-Handers for Shield Tanks**: With a Protection Warrior or Paladin profile, or a Shaman tank profile, the Roadmap no longer suggests two-handers; the tooltips already worked this way. These profiles value weapon damage highly, so a two-hander's damage always outscored a one-hander and shield, even though Shield Block, Shield Slam and Holy Shield need the shield. If you're wearing a two-hander, the Roadmap now builds the best one-hander and shield set instead of measuring them against it. Gear Judge's new "Shield Tanks: No Two-Handers" option (on by default) turns this off.
+- **Translated**: The Roadmap is now translated into every language WoW Forever launches with (German, Spanish for Spain and Latin America, French, Brazilian Portuguese, Russian, Korean and Traditional Chinese). Dungeon and zone names use the game's own names. Boss and quest names in item sources stay in English.
+- **Smoother Scans**: Calculate Roadmap now spreads its work evenly over frames (about 6 ms per frame), so big dungeons no longer cause a stutter. Safety-cap values (hit, defense) are worked out once per scan instead of for every item. The level range bar only refreshes when the level under the cursor changes.
+- **Fixed: Duplicate Leaderboard Rows**: Starting a scan while one was running (pressing Calculate twice, a Chain Mode click, or changing Mode or Profile) ran both scans at once, doubling the work and listing dungeons twice. The old scan now stops.
+- **Fixed: Items Skipped on First Scan**: Items the game hadn't loaded yet were silently left out of the leaderboard. The Roadmap now asks for them before scanning and rescans dungeons that still had missing items once they arrive.
+- **Dataminer Removed**: The Roadmap no longer reads drops and quest rewards recorded by the dataminer, which Gear Judge 3.2.1 removes. The dungeon loot and quest rewards now come only from the built-in lists.
+
+-------------------------------------------------------------------------
+
 ## 🚀 v3.0.3
 
 ### 🖼️ Window Redesign

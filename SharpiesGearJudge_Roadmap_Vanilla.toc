@@ -2,10 +2,18 @@
 ## Title: |cff00ccffSharpie's Gear Judge|r |cff00ff00[Roadmap]|r (Era Edition)
 ## Notes: Finds the best upgrades for you.
 ## Author: Supersharpie
-## Version: 3.0.3-Era
+## Version: 3.1.0-Era
 ## Dependencies: SharpiesGearJudge
 ## X-Curse-Project-ID: 1451473
 
+Locales\deDE.lua
+Locales\esES.lua
+Locales\esMX.lua
+Locales\frFR.lua
+Locales\ptBR.lua
+Locales\ruRU.lua
+Locales\koKR.lua
+Locales\zhTW.lua
 D1_Items.lua
 D5_Quests.lua
 Roadmap.lua
