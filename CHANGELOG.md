@@ -1,4 +1,4 @@
-# Changelog - Roadmap Plugin
+# Sharpie's Gear Judge [Roadmap] - Version History
 
 ## 🚀 v3.1.0
 
@@ -9,13 +9,39 @@
 	- Each world quest row's level for the level range bar is the lowest required level among its rewards, and each reward keeps its own required level.
 	- Rewards from one faction's quests only show for that faction, and class quest rewards only for that class. Zephras Isle, the Skyborne starting island, only shows for Skyborne, since other races can't get there.
 	- **One Reward per Choice Quest**: When a quest lets you choose one of several rewards, the Roadmap suggests at most one of them. If two slots want rewards from the same quest, the bigger gain wins and the other slot shows its next-best item. The leaderboard's top items list one choice per quest too. Rewards a quest always gives still count in every slot.
+
+### ✨ Improvements
 - **Source Checkboxes**: Three new checkboxes under Chain Mode choose what a scan includes: **Dungeon Loot**, **Dungeon Quests** and **World Quests**. All start on and are remembered between sessions. The dungeon count under the level bar follows them.
 - **No Two-Handers for Shield Tanks**: With a Protection Warrior or Paladin profile, or a Shaman tank profile, the Roadmap no longer suggests two-handers; the tooltips already worked this way. These profiles value weapon damage highly, so a two-hander's damage always outscored a one-hander and shield, even though Shield Block, Shield Slam and Holy Shield need the shield. If you're wearing a two-hander, the Roadmap now builds the best one-hander and shield set instead of measuring them against it. Gear Judge's new "Shield Tanks: No Two-Handers" option (on by default) turns this off.
-- **Translated**: The Roadmap is now translated into every language WoW Forever launches with (German, Spanish for Spain and Latin America, French, Brazilian Portuguese, Russian, Korean and Traditional Chinese). Dungeon and zone names use the game's own names. Boss and quest names in item sources stay in English.
-- **Smoother Scans**: Calculate Roadmap now spreads its work evenly over frames (about 6 ms per frame), so big dungeons no longer cause a stutter. Safety-cap values (hit, defense) are worked out once per scan instead of for every item. The level range bar only refreshes when the level under the cursor changes.
+- **Dataminer Removed**: The Roadmap no longer reads drops and quest rewards recorded by the dataminer, which Gear Judge 3.2.1 removes. The dungeon loot and quest rewards now come only from the built-in lists.
+
+### 🐛 Bug Fixes
 - **Fixed: Duplicate Leaderboard Rows**: Starting a scan while one was running (pressing Calculate twice, a Chain Mode click, or changing Mode or Profile) ran both scans at once, doubling the work and listing dungeons twice. The old scan now stops.
 - **Fixed: Items Skipped on First Scan**: Items the game hadn't loaded yet were silently left out of the leaderboard. The Roadmap now asks for them before scanning and rescans dungeons that still had missing items once they arrive.
-- **Dataminer Removed**: The Roadmap no longer reads drops and quest rewards recorded by the dataminer, which Gear Judge 3.2.1 removes. The dungeon loot and quest rewards now come only from the built-in lists.
+- **Fixed: Wands, Guns and Crossbows**: The Roadmap never suggested them for the Ranged slot. They are now scanned and suggested like any other item.
+- **Fixed: Forever Hit Cap**: On WoW Forever, any item with less Hit Rating than yours was marked down by 100 points, so hit upgrades almost never showed. Hit is now valued on the same curve the tooltips use: hit past your cap counts for less, and dropping back under a cap costs the real amount.
+- **Fixed: Defense Floor for Tanks**: The "don't drop below the defense you need" check never did anything on Classic Era and Forever. Tank profiles now get the same defense floor the tooltips use.
+- **Fixed: Alliance Quest Rewards for Horde**: Horde characters were offered rewards from Elwynn Forest, Dun Morogh, Teldrassil and Bloodmyst Isle quests on Classic Era and TBC. Those zones are now Alliance only.
+- **Fixed: Two Rewards From One Quest**: On Classic Era and TBC the Roadmap could suggest two rewards from the same "choose one" quest. It now suggests at most one per quest, like on Forever.
+- **Fixed: Bloodmyst Isle on Classic Era**: A Burning Crusade zone was checked on Classic Era, where its items don't exist, which slowed every scan. It is now only checked on TBC.
+- **Fixed: Open Dungeon after Calculate**: When Calculate reached the dungeon you had open, its slots showed unsorted results and could point at the wrong item. They are now sorted and checked again as soon as that dungeon is scanned.
+- **Fixed: Old Gear after Equipping or Levelling**: After you equipped an item or levelled up, clicking a dungeon still compared against your old gear and weights. The Roadmap now notices gear changes (when Chain Mode is off) and level-ups and uses your current gear and level.
+- **Fixed: Ignoring Ring 2 or Trinket 2**: Right-clicking Ring 2 or Trinket 2 did nothing, and ignoring Ring 1 or Trinket 1 blocked both. Each slot is now ignored on its own, ignored slots stay grayed out, and they no longer count toward the upgrade total or Chain Mode.
+- **Fixed: Two-Hander Counted When Dual Wielding Wins**: When two one-handers beat the best two-hander, the two-hander was still counted in the total and Chain Mode could equip it. It is now left out.
+- **Fixed: Character Model Controls**: On some clients the model setup stopped early, so rotating, zooming and right-click reset didn't work. The model now always gets its controls.
+- **Fixed: Hunters Dual Wielding Before 20**: Hunters were always treated as able to dual wield. The Roadmap now checks whether your character actually knows Dual Wield.
+- **Fixed: Changing Settings Mid-Scan**: Changing Dungeon Loot, Dungeon Quests, World Quests, Heroic Only or Include Badges during a scan let the old scan finish with the old settings. The scan now stops, and you click Calculate to start again.
+- **Fixed: Same Item Twice in the Leaderboard Tooltip**: A ring, trinket or one-hander could be listed twice under Top Upgrades. Each item is now listed once, with its best gain.
+- **Fixed: Export Window**: "Select All" removed the selection instead of selecting the text. It now selects everything, ready for Ctrl+C. Escape leaves the text box, and a second Escape closes the window.
+- **Fixed: Upgrade List Left on Screen**: The list that opens when you click a slot could stay on screen after closing Gear Judge. It now closes with the window, when results refresh, and with Escape.
+- **Fixed: "Quest:" Label Not Translated**: Dungeon quest rewards on Forever always showed "Quest: <name>" in English. The label is now translated.
+- **Fixed: Rare Error on Forever**: Checking whether an item is Unique could cause a Lua error on Forever. That check now skips the text Forever hides from addons.
+
+### ⚡ Performance
+- **Smoother Scans**: Calculate Roadmap now spreads its work evenly over frames (about 6 ms per frame), so big dungeons no longer cause a stutter. Safety-cap values (hit, defense) are worked out once per scan instead of for every item. The level range bar only refreshes when the level under the cursor changes.
+
+### 🌍 Translations
+- **Translated**: The Roadmap is now translated into every language WoW Forever launches with (German, Spanish for Spain and Latin America, French, Brazilian Portuguese, Russian, Korean and Traditional Chinese). Dungeon and zone names use the game's own names. Boss and quest names in item sources stay in English.
 
 -------------------------------------------------------------------------
 
