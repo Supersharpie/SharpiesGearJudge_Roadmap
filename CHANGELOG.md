@@ -1,5 +1,12 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.1.1
+
+### ⚔️ PvP
+- **Gear for PvP in the Roadmap**: A profile picked in the Roadmap's own menu now gets the same scoring as Gear Judge's (including the PvP weights when Gear for PvP is on or the profile is a PvP one); before, it skipped the PvP part.
+
+---
+
 ## 🚀 v3.1.0
 
 ### 📜 Forever Quest Rewards

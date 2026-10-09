@@ -932,7 +932,10 @@ function Roadmap:GetActiveProfile()
         flat = weights[Roadmap.GameMode]
     end
 
-    if flat and usedOverride and SGJ.CurrentClass and SGJ.CurrentClass.ApplyScalers then
+    if flat and usedOverride and SGJ.ApplyWeightPipeline then
+        -- The core's pipeline: class hooks, the PvP model (Gear for PvP or a PvP profile) and buffs.
+        flat = select(1, SGJ:ApplyWeightPipeline(flat, spec))
+    elseif flat and usedOverride and SGJ.CurrentClass and SGJ.CurrentClass.ApplyScalers then
         local w = {}
         for k, v in pairs(flat) do w[k] = v end
         flat = select(1, SGJ.CurrentClass:ApplyScalers(w, spec))
