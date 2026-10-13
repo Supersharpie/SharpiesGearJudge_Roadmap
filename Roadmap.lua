@@ -103,6 +103,7 @@ local ZONE_META = {
     ["Hall of Thanes"]    = { name="Hall of Thanes",    min=13 }, -- Forever only
     ["Ruins of Lordaeron"]= { name="Ruins of Lordaeron", min=15 }, -- Forever only
     ["Excavation Site"]   = { name="Excavation Site: Wetlands", min=26 }, -- Forever only (2 Oct patch)
+    ["City of Dalaran"]   = { name="City of Dalaran",   min=28 }, -- Forever only (8 Oct patch)
     ["Shadowfang Keep"]   = { name="Shadowfang Keep",   min=22 },
     ["Blackfathom Deeps"] = { name="Blackfathom Deeps", min=24 },
     ["The Stockade"]      = { name="The Stockade",      min=24 },

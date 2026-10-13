@@ -1,5 +1,15 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.1.2
+
+### 🏰 Forever Dungeons
+- **Dungeon Loot Updated**: The Forever dungeon lists are rebuilt from foreverchanges.pro/dungeons for beta build 1.60.1.70338 (before: 1.60.1.70009). 1,226 equippable drops in 23 dungeons, 63 of them new.
+	- **City of Dalaran** (28-33) is now a dungeon row with its 24 boss drops (required levels 25-30). Its quest rewards, which had a "City of Dalaran Quests" row of their own, now sit in the same row as its other dungeon quests.
+	- **New drops** in Blackfathom Deeps, The Stockade, Razorfen Kraul and the Scarlet Monastery Graveyard: six level 25 leather helms (Defender's, Totemic, Brawler's, Trapper's, Stormrider's and Wisdom's Leather Helm). The Graveyard and Library also get Painwalker Buckler, Polished Skullcap, Houndmaster Boomerang, Spellsever Crossbow, Library Walkers and Dog Whistle.
+	- Also new: Skullduggery Belt and Irradiated Shield (Grubbis, Gnomeregan); Thornweaver Drape and Thorncursed Grips (Razorfen Kraul); Demolition Girdle, Graverobber's Shovel and Boneslicer (The Stockade); and Rotmender's Garb, Gloves and Sash (Ruins of Lordaeron trash).
+	- Required levels now come from the Forever client for eight Razorfen Downs and Uldaman items, which changed by 1-2 levels. Nightskulker Ring now drops from Dextren Ward, not Targorr the Dread.
+	- The Drowned City, Krol'dok Stronghold, Alcaz Prison, Blackmaw Hold and Shaper's Terrace still have no loot listed and are not added.
+
 ## 🚀 v3.1.1
 
 ### ⚔️ PvP

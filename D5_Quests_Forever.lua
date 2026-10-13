@@ -313,24 +313,23 @@ SGJ.DungeonDB["Burning Steppes Quests"] = {
     [11868] = { name = "Choking Band", source = "Ogre Head On A Stick = Party", slot = "Finger", type = "Ring", zone = "Burning Steppes Quests", reqLevel = 48, questID = 3825, side = "Alliance", choice = 3825 },
 }
 
-SGJ.ZoneMeta["City of Dalaran Quests"] = { name = "City of Dalaran Quests", min = 28, dungeon = true }
-SGJ.DungeonDB["City of Dalaran Quests"] = {
-    [279835] = { name = "Vine Pruner's Cloak", source = "A Green Sample", slot = "Back", type = "Cloak", zone = "City of Dalaran Quests", reqLevel = 1, questID = 92456, side = "Alliance", choice = 92456 },
-    [279836] = { name = "Thorn Protecting Girdle", source = "A Green Sample", slot = "Waist", type = "Mail Armor", zone = "City of Dalaran Quests", reqLevel = 1, questID = 92456, side = "Alliance", choice = 92456 },
-    [279839] = { name = "Spellguard Pauldrons", source = "Heart of Disruption", slot = "Shoulder", type = "Mail Armor", zone = "City of Dalaran Quests", reqLevel = 1, questID = 92458, side = "Alliance", choice = 92458 },
-    [279840] = { name = "Renewing Footpads", source = "Heart of Disruption", slot = "Feet", type = "Leather Armor", zone = "City of Dalaran Quests", reqLevel = 1, questID = 92458, side = "Alliance", choice = 92458 },
-    [279841] = { name = "Defender of Dalaran", source = "Heart of Disruption", slot = "Two-Hand", type = "Two-Handed Mace", zone = "City of Dalaran Quests", reqLevel = 1, questID = 92458, side = "Alliance", choice = 92458 },
-    [279842] = { name = "Battle Spaulders", source = "Heart of Disruption", slot = "Shoulder", type = "Mail Armor", zone = "City of Dalaran Quests", reqLevel = 1, questID = 96984, side = "Horde", choice = 96984 },
-    [279843] = { name = "Enchanted Sandals", source = "Heart of Disruption", slot = "Feet", type = "Cloth Armor", zone = "City of Dalaran Quests", reqLevel = 1, questID = 96984, side = "Horde", choice = 96984 },
-    [279844] = { name = "Striking Staff", source = "Heart of Disruption", slot = "Two-Hand", type = "Staff", zone = "City of Dalaran Quests", reqLevel = 1, questID = 96984, side = "Horde", choice = 96984 },
-    [279849] = { name = "Runebound Gloves", source = "Power Overwhelming", slot = "Hands", type = "Leather Armor", zone = "City of Dalaran Quests", reqLevel = 1, questID = 92489, side = "Alliance", choice = 92489 },
-    [279847] = { name = "Unstable Power Core", source = "Source of Power", slot = "Ranged", type = "Wand", zone = "City of Dalaran Quests", reqLevel = 1, questID = 96988, side = "Horde", choice = 96988 },
-    [279848] = { name = "Construct Cloak", source = "Source of Power", slot = "Back", type = "Cloak", zone = "City of Dalaran Quests", reqLevel = 1, questID = 96988, side = "Horde", choice = 96988 },
-    [279837] = { name = "Fallen Guard's Pendant", source = "Starving Arcane", slot = "Neck", type = "Amulet", zone = "City of Dalaran Quests", reqLevel = 1, questID = 92457, choice = 92457 },
-    [279838] = { name = "Arcane Infused Rod", source = "Starving Arcane", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "City of Dalaran Quests", reqLevel = 1, questID = 92457, choice = 92457 },
-    [251962] = { name = "Violet Sash", source = "Power Overwhelming", slot = "Waist", type = "Cloth Armor", zone = "City of Dalaran Quests", reqLevel = 24, questID = 92489, side = "Alliance", choice = 92489 },
-    [251963] = { name = "Gravewalker Boots", source = "The Grave Knight", slot = "Feet", type = "Leather Armor", zone = "City of Dalaran Quests", reqLevel = 24, questID = 96986, side = "Horde", choice = 96986 },
-    [251965] = { name = "Undead Knight's Bracers", source = "The Grave Knight", slot = "Wrist", type = "Mail Armor", zone = "City of Dalaran Quests", reqLevel = 24, questID = 96986, side = "Horde", choice = 96986 },
+SGJ.QuestDB["City of Dalaran"] = {
+    [279835] = { name = "Vine Pruner's Cloak", source = "A Green Sample", slot = "Back", type = "Cloak", zone = "City of Dalaran", reqLevel = 1, questID = 92456, side = "Alliance", choice = 92456 },
+    [279836] = { name = "Thorn Protecting Girdle", source = "A Green Sample", slot = "Waist", type = "Mail Armor", zone = "City of Dalaran", reqLevel = 1, questID = 92456, side = "Alliance", choice = 92456 },
+    [279839] = { name = "Spellguard Pauldrons", source = "Heart of Disruption", slot = "Shoulder", type = "Mail Armor", zone = "City of Dalaran", reqLevel = 1, questID = 92458, side = "Alliance", choice = 92458 },
+    [279840] = { name = "Renewing Footpads", source = "Heart of Disruption", slot = "Feet", type = "Leather Armor", zone = "City of Dalaran", reqLevel = 1, questID = 92458, side = "Alliance", choice = 92458 },
+    [279841] = { name = "Defender of Dalaran", source = "Heart of Disruption", slot = "Two-Hand", type = "Two-Handed Mace", zone = "City of Dalaran", reqLevel = 1, questID = 92458, side = "Alliance", choice = 92458 },
+    [279842] = { name = "Battle Spaulders", source = "Heart of Disruption", slot = "Shoulder", type = "Mail Armor", zone = "City of Dalaran", reqLevel = 1, questID = 96984, side = "Horde", choice = 96984 },
+    [279843] = { name = "Enchanted Sandals", source = "Heart of Disruption", slot = "Feet", type = "Cloth Armor", zone = "City of Dalaran", reqLevel = 1, questID = 96984, side = "Horde", choice = 96984 },
+    [279844] = { name = "Striking Staff", source = "Heart of Disruption", slot = "Two-Hand", type = "Staff", zone = "City of Dalaran", reqLevel = 1, questID = 96984, side = "Horde", choice = 96984 },
+    [279849] = { name = "Runebound Gloves", source = "Power Overwhelming", slot = "Hands", type = "Leather Armor", zone = "City of Dalaran", reqLevel = 1, questID = 92489, side = "Alliance", choice = 92489 },
+    [279847] = { name = "Unstable Power Core", source = "Source of Power", slot = "Ranged", type = "Wand", zone = "City of Dalaran", reqLevel = 1, questID = 96988, side = "Horde", choice = 96988 },
+    [279848] = { name = "Construct Cloak", source = "Source of Power", slot = "Back", type = "Cloak", zone = "City of Dalaran", reqLevel = 1, questID = 96988, side = "Horde", choice = 96988 },
+    [279837] = { name = "Fallen Guard's Pendant", source = "Starving Arcane", slot = "Neck", type = "Amulet", zone = "City of Dalaran", reqLevel = 1, questID = 92457, choice = 92457 },
+    [279838] = { name = "Arcane Infused Rod", source = "Starving Arcane", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "City of Dalaran", reqLevel = 1, questID = 92457, choice = 92457 },
+    [251962] = { name = "Violet Sash", source = "Power Overwhelming", slot = "Waist", type = "Cloth Armor", zone = "City of Dalaran", reqLevel = 24, questID = 92489, side = "Alliance", choice = 92489 },
+    [251963] = { name = "Gravewalker Boots", source = "The Grave Knight", slot = "Feet", type = "Leather Armor", zone = "City of Dalaran", reqLevel = 24, questID = 96986, side = "Horde", choice = 96986 },
+    [251965] = { name = "Undead Knight's Bracers", source = "The Grave Knight", slot = "Wrist", type = "Mail Armor", zone = "City of Dalaran", reqLevel = 24, questID = 96986, side = "Horde", choice = 96986 },
 }
 
 SGJ.ZoneMeta["Cooking Quests"] = { name = "Cooking Quests", min = 15, world = true }
