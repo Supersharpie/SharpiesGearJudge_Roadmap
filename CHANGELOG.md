@@ -1,5 +1,7 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.1.3
+
 ## 🚀 v3.1.2
 
 ### 🏰 Forever Dungeons
