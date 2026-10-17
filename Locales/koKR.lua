@@ -247,3 +247,53 @@ L["|cff999999Pick a dungeon from the leaderboard|r"] = "|cff999999순위표에�
 L["|cffaaaaaa[Current / Virtual]|r"] = "|cffaaaaaa[현재 / 가상]|r"
 L["|cffff0000(IGNORED)|r"] = "|cffff0000(무시됨)|r"
 L["Quest: %s"] = "퀘스트: %s"
+
+-- Added in 3.2.0 (quest rows: PvP Quests, quest chains, holidays)
+L["(quest chains)"] = "(연계 퀘스트)"
+L["Include rewards from battleground quests (Alterac Valley)."] = "전장 퀘스트 보상을 포함합니다 (알터랙 계곡)."
+L["Off by default: most of these need many battleground games."] = "기본값은 꺼짐: 대부분 전장을 여러 번 해야 합니다."
+L["PvP Quests"] = "PvP 퀘스트"
+L["Rewards at the end of long quest chains."] = "긴 연계 퀘스트의 마지막 보상입니다."
+L["Invasion"] = "침공"
+
+-- Added in 3.2.0 (quest view: Dungeons / Quests tabs, quest list)
+L["Dungeons"] = "던전"
+L["Quests"] = "퀘스트"
+L["%d done"] = "%d개 완료"
+L["%d for another faction, class or race"] = "다른 진영, 직업, 종족 퀘스트 %d개"
+L["%d in your log"] = "퀘스트 목록에 %d개"
+L["%d quests"] = "퀘스트 %d개"
+L["%d quests with upgrades"] = "향상 아이템이 있는 퀘스트 %d개"
+L["1 quest"] = "퀘스트 1개"
+L["1 quest with an upgrade"] = "향상 아이템이 있는 퀘스트 1개"
+L["At level %d"] = "%d레벨부터"
+L["Available"] = "수행 가능"
+L["Click a zone for its quests"] = "지역을 클릭하면 퀘스트가 보입니다"
+L["Hidden: %s"] = "숨김: %s"
+L["In your log"] = "퀘스트 목록에 있음"
+L["Pick this one of the %d rewards."] = "%d개 보상 중 이것을 선택하세요."
+L["Quest level %d"] = "퀘스트 레벨 %d"
+L["Starts with %s, %s"] = "시작: %s, %s"
+L["Step %d of a %d-quest chain"] = "연계 퀘스트 %d단계 (총 %d개)"
+L["World Quests is off in Scan Settings."] = "검색 설정에서 필드 퀘스트가 꺼져 있습니다."
+L["You're here"] = "현재 위치"
+L["best of %d"] = "%d개 중 최고"
+L["level %d"] = "레벨 %d"
+L["levels %d-%d"] = "레벨 %d-%d"
+L["step %d/%d"] = "%d/%d단계"
+
+-- Added in 3.2.0 (quest view, part 2: Chain Mode list)
+L["%d in log"] = "목록에 %d개"
+L["No quest upgrades here for your gear."] = "여기에는 장비를 향상할 퀘스트가 없습니다."
+L["In your chain set"] = "연계 세트에 추가됨"
+L["%d added to your chain set"] = "연계 세트에 %d개 추가됨"
+L["added to your chain set"] = "연계 세트에 추가됨"
+L["|cff999999Pick a zone from the leaderboard|r"] = "|cff999999순위표에서 지역을 선택하세요|r"
+
+-- Added in 3.2.0 (quest view, part 3: Quests / Character toggle)
+L["Character"] = "캐릭터"
+L["Show this zone's quests"] = "이 지역의 퀘스트 보기"
+L["Show your character with these upgrades"] = "이 향상 아이템을 착용한 캐릭터 보기"
+
+-- Added in 3.2.0 (quest view, part 4: Chain Mode empty leaderboard)
+L["Your chain set already has the best upgrades in this level range. Raise the level range, or press Reset to start over."] = "연계 세트에 이미 이 레벨 범위의 최고 향상 아이템이 있습니다. 레벨 범위를 올리거나 초기화를 눌러 다시 시작하세요."

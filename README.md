@@ -1,6 +1,6 @@
 # Roadmap Plugin for Sharpie's Gear Judge (SGJ)
 
-**Version 3.1.3** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
+**Version 3.2.0** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
 
 **Roadmap** is a progression planning tool for **Sharpie's Gear Judge**. It scans every dungeon, plus the quest rewards in every zone, to build a personalized "Upgrade Leaderboard" showing which dungeons and quest zones offer the biggest power gains for your character.
 
@@ -15,17 +15,24 @@
 * Hover a row to see its top 3 upgrades. The dungeon you're viewing is highlighted.
 
 ### 📜 Quest Rewards
+* **Dungeons | Quests tabs:** the leaderboard ranks dungeons and quest zones separately. Quest zones are scored by the best upgrade per slot that their quests give, and each row shows how many quests give upgrades, how many are in your quest log, and whether you're in that zone.
+* **Quest list:** click a quest zone to see its quests in place of your character model: each quest's best reward and gain ("best of N" for a choose-one quest), its level and chain step, and whether it's in your log, available now, or at a later level. Hover for the quest giver and where to find them (WoW Forever).
 * **World Quests:** each zone gets its own "Quests" row in the leaderboard (for example "Elwynn Forest Quests"), including class, profession and event quests.
 * **Dungeon Quests:** rewards from a dungeon's quests sit in that dungeon's row next to its boss loot, marked "Quest:".
 * On WoW Forever, nearly 2,000 equippable quest rewards are included. Each counts from the level its quest can be picked up, not the lower level printed on the item.
 * **Only quests you can get:** rewards from the other faction's quests, other classes' quests and other races' quests are hidden. For example, Zephras Isle and the rest of the Skyborne starting chain only show for Skyborne characters.
+* **Holiday quests only during the event:** Darkmoon Faire, Lunar Festival, Midsummer and Scourge Invasion rows show while the event runs (from the in-game calendar).
+* **PvP Quests:** Alterac Valley quest rewards have their own checkbox, off by default.
+* **Quest chains:** the Epic Quests and Legendary Quests rows are marked "(quest chains)".
+* **Profession quests only with the profession:** rows like "Fishing Quests" show only for characters who have that profession.
+* **Only quests you haven't done:** rewards from quests this character has already turned in are left out.
 * **One reward per choice:** when a quest lets you pick one of several rewards, the Roadmap suggests at most one of them.
 
 ### 🧰 Scan Settings
 * **Mode:** score with PvE or PvP stat weights.
 * **Profile:** use your current profile (Auto) or pick another one to plan for a different spec or role.
 * **Focus:** only suggest upgrades that carry a chosen stat.
-* **Dungeon Loot / Dungeon Quests / World Quests:** choose what a scan includes. All are on by default and remembered between sessions.
+* **Dungeon Loot / Dungeon Quests / World Quests / PvP Quests:** choose what a scan includes. All but PvP Quests are on by default, and your choice is remembered between sessions.
 * **Level Range Bar:** drag the two handles to choose which dungeon levels to check. Raise the high end to plan upgrades above your level; raise the low end to focus on endgame dungeons. Right-click resets it to 1 through your level. A live count shows how many dungeons the next scan will check.
 * **TBC only:** **Heroic Only**, **Include Badges** and **Sort by Efficiency** (score per badge spent).
 * **Shield tanks:** Protection Warriors and Paladins and Shaman tanks are never offered two-handers, since their key abilities need a shield. This can be turned off in Gear Judge with "Shield Tanks: No Two-Handers".

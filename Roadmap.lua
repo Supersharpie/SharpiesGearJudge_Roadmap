@@ -46,6 +46,149 @@ if ns.QuestDB then
         end
     end
 end
+-- Quest details (giver, level, chain step) from D5_Quests_Forever.lua, read by the quest list.
+if ns.QuestInfo then
+    SGJ.QuestInfo = SGJ.QuestInfo or {}
+    for questID, qi in pairs(ns.QuestInfo) do SGJ.QuestInfo[questID] = qi end
+end
+
+-- Has this character turned the quest in? (Forever, Era and TBC all have
+-- C_QuestLog.IsQuestFlaggedCompleted; the old global is the fallback.)
+local function QuestDone(questID)
+    local fn = (C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted) or IsQuestFlaggedCompleted
+    if not fn then return false end
+    local ok, done = pcall(fn, questID)
+    return ok and done and true or false
+end
+
+-- Profession quest rows ("Fishing Quests") only show for characters who have that
+-- profession. Skill line IDs, matched through GetProfessions where the client has it,
+-- else by the skill's name (English or translated) in the skill list.
+local PROFESSION_SKILL = {
+    ["Alchemy"] = 171, ["Blacksmithing"] = 164, ["Enchanting"] = 333, ["Engineering"] = 202,
+    ["Herbalism"] = 182, ["Leatherworking"] = 165, ["Mining"] = 186, ["Skinning"] = 393,
+    ["Tailoring"] = 197, ["Jewelcrafting"] = 755, ["Cooking"] = 185, ["Fishing"] = 356, ["First Aid"] = 129,
+}
+local function ProfessionOfRow(zoneKey)
+    local name = type(zoneKey) == "string" and zoneKey:match("^(.-) Quests$")
+    return name and PROFESSION_SKILL[name] and name or nil
+end
+local function HasProfession(name)
+    local id = PROFESSION_SKILL[name]
+    if GetProfessions and GetProfessionInfo then
+        local ok, p1, p2, p3, p4, p5, p6 = pcall(GetProfessions)
+        if ok then
+            for _, idx in pairs({ p1, p2, p3, p4, p5, p6 }) do
+                local ok2, _, _, _, _, _, _, skillLine = pcall(GetProfessionInfo, idx)
+                if ok2 and skillLine == id then return true end
+            end
+        end
+    end
+    if GetNumSkillLines and GetSkillLineInfo then
+        local want = { [name:lower()] = true, [tostring(L[name] or name):lower()] = true }
+        for i = 1, GetNumSkillLines() do
+            local skill = GetSkillLineInfo(i)
+            if type(skill) == "string" and want[skill:lower()] then return true end
+        end
+    end
+    return false
+end
+
+-- Holiday quest rows only show while the event runs, read from the in-game calendar
+-- (client Holidays IDs; the Scourge Invasion has none, so it's matched by the event's title).
+local HOLIDAY_ROWS = {
+    ["Darkmoon Faire Quests"] = { ids = { [263] = true, [264] = true } },
+    ["Lunar Festival Quests"] = { ids = { [327] = true } },
+    ["Midsummer Quests"]      = { ids = { [341] = true } },
+    ["Invasion Quests"]       = { title = "Invasion" },
+}
+-- Long quest chains: their rows are marked in the list.
+local CHAIN_ROWS = { ["Epic Quests"] = true, ["Legendary Quests"] = true }
+-- Battleground quest rewards: their own source checkbox.
+local PVP_ROWS = { ["Alterac Valley Quests"] = true }
+
+local holidayCache, holidayCacheTime
+-- Holidays on the calendar today: { [holidayID] = true, titles = { lower-case title, ... } },
+-- or nil when this client has no calendar (then holiday rows always show).
+local function TodaysHolidays()
+    local Cal = C_Calendar
+    if not (Cal and Cal.GetNumDayEvents and Cal.GetDayEvent) then return nil end
+    local now = GetTime and GetTime() or 0
+    if holidayCache and holidayCacheTime and now - holidayCacheTime < 60 then return holidayCache end
+    local day, month, year
+    if C_DateAndTime and C_DateAndTime.GetCurrentCalendarTime then
+        local ok, t = pcall(C_DateAndTime.GetCurrentCalendarTime)
+        if ok and t then day, month, year = t.monthDay, t.month, t.year end
+    end
+    day = day or tonumber(date("%d")); month = month or tonumber(date("%m")); year = year or tonumber(date("%Y"))
+    -- Month offsets count from the month the calendar shows, which the player may have paged away from.
+    local offset = 0
+    if Cal.GetMonthInfo then
+        local ok, info = pcall(Cal.GetMonthInfo, 0)
+        if ok and type(info) == "table" and info.month and info.year then
+            offset = (year * 12 + month) - (info.year * 12 + info.month)
+        end
+    end
+    local found = { titles = {} }
+    local okN, n = pcall(Cal.GetNumDayEvents, offset, day)
+    for i = 1, (okN and n or 0) do
+        local ok, ev = pcall(Cal.GetDayEvent, offset, day, i)
+        if ok and type(ev) == "table" and ev.calendarType == "HOLIDAY" then
+            if ev.eventID then found[ev.eventID] = true end
+            if type(ev.title) == "string" then table.insert(found.titles, ev.title:lower()) end
+        end
+    end
+    holidayCache, holidayCacheTime = found, now
+    return found
+end
+local function HolidayRowActive(zoneKey)
+    local h = HOLIDAY_ROWS[zoneKey]
+    if not h then return true end
+    local today = TodaysHolidays()
+    if not today then return true end
+    if h.ids then for id in pairs(h.ids) do if today[id] then return true end end end
+    if h.title then
+        local want = tostring(L[h.title] or h.title):lower()
+        for _, t in ipairs(today.titles) do if t:find(want, 1, true) or t:find(h.title:lower(), 1, true) then return true end end
+    end
+    return false
+end
+-- Load the calendar once so today's holidays can be read; a new day's events refresh it.
+do
+    local calWatch = CreateFrame("Frame")
+    calWatch:RegisterEvent("PLAYER_LOGIN")
+    pcall(calWatch.RegisterEvent, calWatch, "CALENDAR_UPDATE_EVENT_LIST")
+    calWatch:SetScript("OnEvent", function(_, event)
+        if event == "PLAYER_LOGIN" then
+            if C_Calendar and C_Calendar.OpenCalendar then pcall(C_Calendar.OpenCalendar) end
+        else
+            holidayCache = nil
+        end
+    end)
+end
+
+-- Is the quest in this character's quest log right now?
+local function OnQuest(questID)
+    if C_QuestLog and C_QuestLog.IsOnQuest then
+        local ok, on = pcall(C_QuestLog.IsOnQuest, questID)
+        if ok then return on and true or false end
+    end
+    if GetQuestLogIndexByID then
+        local ok, idx = pcall(GetQuestLogIndexByID, questID)
+        return ok and idx and idx > 0 or false
+    end
+    return false
+end
+
+-- The zone part of a "<Zone> Quests" row, and whether the player is in that zone.
+local function QuestRowZone(zoneKey)
+    return type(zoneKey) == "string" and zoneKey:match("^(.-) Quests$") or nil
+end
+local function InQuestRowZone(zoneKey)
+    local z = QuestRowZone(zoneKey)
+    local here = GetRealZoneText and GetRealZoneText()
+    return z and here and (here == L[z] or here == z) or false
+end
 
 local Roadmap = {}
 SGJ.Roadmap = Roadmap
@@ -252,6 +395,7 @@ function Roadmap:GetSources()
             dungeonLoot   = not (saved and saved.dungeonLoot == false),
             dungeonQuests = not (saved and saved.dungeonQuests == false),
             worldQuests   = not (saved and saved.worldQuests == false),
+            pvpQuests     = (saved and saved.pvpQuests == true) or false,  -- battleground quests: off unless chosen
         }
     end
     return Roadmap.Sources
@@ -306,6 +450,7 @@ function Roadmap:GetZonesToScan()
             local src = Roadmap:GetSources()
             local sourceMatch
             if isBadgeKey then sourceMatch = true
+            elseif PVP_ROWS[zoneKey] then sourceMatch = src.pvpQuests
             elseif IsWorldQuestZone(zoneKey, meta) then sourceMatch = src.worldQuests
             elseif meta.dungeon then sourceMatch = src.dungeonQuests
             else sourceMatch = src.dungeonLoot or src.dungeonQuests end
@@ -315,8 +460,13 @@ function Roadmap:GetZonesToScan()
             -- One faction's quest zones, and Burning Crusade zones outside TBC (Bloodmyst Isle)
             local sideMatch = (not meta.side) or (UnitFactionGroup("player") == meta.side)
             local expansionMatch = (not meta.tbc) or Roadmap.IsTBC
+            -- Profession quests ("Fishing Quests"): only with that profession
+            local prof = ProfessionOfRow(zoneKey)
+            local professionMatch = (not prof) or HasProfession(prof)
+            -- Holiday quests (Darkmoon Faire, Lunar Festival, Midsummer, Scourge Invasion): only while it runs
+            local holidayMatch = HolidayRowActive(zoneKey)
 
-            if modeMatch and levelMatch and phaseMatch and sourceMatch and raceMatch and sideMatch and expansionMatch then
+            if modeMatch and levelMatch and phaseMatch and sourceMatch and raceMatch and sideMatch and expansionMatch and professionMatch and holidayMatch then
                 table.insert(zones, {key=zoneKey, meta=meta})
             end
         end
@@ -546,6 +696,47 @@ function Roadmap.InitView(parent)
     f.Summary = f.Center:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     f.Summary:SetPoint("TOP", f.Title, "BOTTOM", 0, -4); f.Summary:SetWidth(LEFT_W + 80); f.Summary:SetWordWrap(false)
 
+    -- Quest list: replaces the character model while a quest zone is open.
+    local qp = CreateFrame("Frame", nil, f.Center)
+    qp:SetPoint("TOPLEFT", f.Center, "TOPLEFT", SLOT_SIZE + 14, -50)
+    qp:SetPoint("BOTTOMRIGHT", f.Center, "BOTTOMRIGHT", -(SLOT_SIZE + 14), 80)
+    qp:SetFrameLevel(f.Center:GetFrameLevel() + 2)
+    qp.Head = qp:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    -- Stops short of the Character button at the top right.
+    qp.Head:SetPoint("TOPLEFT", 0, 0); qp.Head:SetPoint("RIGHT", qp, "RIGHT", -90, 0)
+    qp.Head:SetJustifyH("LEFT"); qp.Head:SetWordWrap(false); qp.Head:SetTextColor(0.7, 0.7, 0.7)
+    qp.Foot = qp:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    qp.Foot:SetPoint("BOTTOMLEFT", 0, 0); qp.Foot:SetPoint("RIGHT", qp, "RIGHT", 0, 0)
+    qp.Foot:SetJustifyH("LEFT"); qp.Foot:SetTextColor(0.5, 0.5, 0.5)
+    qp.Scroll = CreateFrame("ScrollFrame", nil, qp, "UIPanelScrollFrameTemplate")
+    qp.Scroll:SetPoint("TOPLEFT", 0, -18); qp.Scroll:SetPoint("BOTTOMRIGHT", -24, 16)
+    qp.Child = CreateFrame("Frame", nil, qp.Scroll); qp.Child:SetSize(200, 10)
+    qp.Scroll:SetScrollChild(qp.Child)
+    qp.Scroll:SetScript("OnSizeChanged", function(self, w) if w and w > 50 then qp.Child:SetWidth(w) end end)
+    qp.Rows = {}
+    qp:Hide()
+    f.QuestPanel = qp
+
+    -- Quests / Character: while a quest zone is open, switch between its quest list and
+    -- the character model (with the upgrades tried on). Shown only for quest zones.
+    local viewBtn = CreateFrame("Button", nil, f.Center, "UIPanelButtonTemplate")
+    viewBtn:SetSize(84, 20)
+    viewBtn:SetPoint("TOPRIGHT", f.Center, "TOPRIGHT", -(SLOT_SIZE + 14), -46)
+    viewBtn:SetFrameLevel(f.Center:GetFrameLevel() + 5)
+    local vfs = viewBtn:GetFontString(); if vfs then vfs:SetFontObject("GameFontHighlightSmall") end
+    viewBtn:SetScript("OnClick", function()
+        Roadmap.ShowCharacter = not Roadmap.ShowCharacter
+        Roadmap:RefreshQuestPanel()
+    end)
+    viewBtn:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+        GameTooltip:SetText(Roadmap.ShowCharacter and L["Show this zone's quests"] or L["Show your character with these upgrades"], 1, 1, 1)
+        GameTooltip:Show()
+    end)
+    viewBtn:SetScript("OnLeave", GameTooltip_Hide)
+    viewBtn:Hide()
+    f.ViewToggle = viewBtn
+
     f.HelpText = f.Center:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     f.HelpText:SetPoint("BOTTOM", 0, 12)
     f.HelpText:SetText(L["Click a slot: upgrades  |  Right-click: ignore"])
@@ -642,7 +833,13 @@ function Roadmap.InitView(parent)
     end)
     wqCheck:SetPoint("TOPLEFT", dqCheck, "BOTTOMLEFT", 0, 2)
     AddTooltip(wqCheck, L["World Quests"], L["Include rewards from quests out in the world."], L["Each zone has its own \"Quests\" row in the leaderboard."])
-    local lastToggle = wqCheck
+
+    local pvpCheck = MakeCheck(LC, "SGJ_RoadmapPvPQuestCheck", L["PvP Quests"], src.pvpQuests, function(self)
+        Roadmap:SetSource("pvpQuests", self:GetChecked()); SourcesChanged()
+    end)
+    pvpCheck:SetPoint("TOPLEFT", wqCheck, "BOTTOMLEFT", 0, 2)
+    AddTooltip(pvpCheck, L["PvP Quests"], L["Include rewards from battleground quests (Alterac Valley)."], L["Off by default: most of these need many battleground games."])
+    local lastToggle = pvpCheck
 
     if Roadmap.IsEra then
         -- Classic Era layout: No Heroic or Badge systems
@@ -672,7 +869,7 @@ function Roadmap.InitView(parent)
     -- 7. Actions (pinned to the bottom of the column)
     local resetBtn = CreateFrame("Button", nil, LC, "UIPanelButtonTemplate"); resetBtn:SetSize((LEFT_W - 29) / 2, 24)
     resetBtn:SetPoint("BOTTOMLEFT", 12, 14); resetBtn:SetText(L["Reset"])
-    resetBtn:SetScript("OnClick", function() Roadmap:ResetVirtualGear(); Roadmap.ScanResults = {}; Roadmap.SelectedZone = nil; Roadmap:RefreshUI(); print(L["SGJ: Roadmap & Chain Mode Hard Reset."]) end)
+    resetBtn:SetScript("OnClick", function() Roadmap:ResetVirtualGear(); Roadmap.ScanResults = {}; Roadmap.SelectedZone = nil; Roadmap.ChainTaken = nil; Roadmap.QuestPanelData = nil; Roadmap:RefreshUI(); print(L["SGJ: Roadmap & Chain Mode Hard Reset."]) end)
     AddTooltip(resetBtn, L["Reset All"], L["Clears chain progress and resets to current gear."])
 
     local exportBtn = CreateFrame("Button", nil, LC, "UIPanelButtonTemplate"); exportBtn:SetSize((LEFT_W - 29) / 2, 24)
@@ -772,13 +969,29 @@ function Roadmap:InitSidebar(parent)
     local sb = CreateFrame("Frame", nil, parent)
     sb:SetAllPoints(parent)
 
-    local title = sb:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    title:SetPoint("TOP", 0, -12)
-    title:SetText(L["Dungeon Leaderboard"])
+    -- Dungeons | Quests: the leaderboard ranks one kind at a time (remembered).
+    Roadmap.LeaderTab = (SharpiesGearJudgeDB and SharpiesGearJudgeDB.RoadmapTab) or "dungeons"
+    local tabs = {}
+    local tabW = math.floor((parent:GetWidth() - 28) / 2)
+    for i, t in ipairs({ { key = "dungeons", label = "Dungeons" }, { key = "quests", label = "Quests" } }) do
+        local btn = CreateFrame("Button", nil, sb, "BackdropTemplate")
+        btn:SetSize(tabW, 22)
+        btn:SetPoint("TOPLEFT", 12 + (i - 1) * (tabW + 4), -10)
+        btn:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1 })
+        local hl = btn:CreateTexture(nil, "HIGHLIGHT"); hl:SetAllPoints(); hl:SetColorTexture(1, 1, 1, 0.06)
+        btn.Text = btn:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"); btn.Text:SetPoint("CENTER")
+        btn.key, btn.label = t.key, t.label
+        btn:SetScript("OnClick", function(self)
+            Roadmap.LeaderTab = self.key
+            if SharpiesGearJudgeDB then SharpiesGearJudgeDB.RoadmapTab = self.key end
+            Roadmap:UpdateSidebar()
+            if not Roadmap.SelectedZone then Roadmap:RefreshUI() end  -- "Pick a dungeon / zone" line
+        end)
+        tabs[i] = btn
+    end
 
     local sub = sb:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    sub:SetPoint("TOP", title, "BOTTOM", 0, -3)
-    sub:SetText(L["Click a dungeon for its loot"])
+    sub:SetPoint("TOP", 0, -37)
     sub:SetTextColor(0.6, 0.6, 0.6)
 
     local empty = sb:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
@@ -793,19 +1006,51 @@ function Roadmap:InitSidebar(parent)
     content:SetSize(parent:GetWidth() - 32, 400)
     scroll:SetScrollChild(content)
 
-    Roadmap.Sidebar = { Frame = sb, Content = content, Rows = {}, Empty = empty }
+    Roadmap.Sidebar = { Frame = sb, Content = content, Rows = {}, Empty = empty, Tabs = tabs, Sub = sub }
     Roadmap:UpdateSidebar()
+end
+
+-- A leaderboard row on the Quests tab: a "<Zone> Quests" row (dungeon quest rewards stay with their dungeon).
+local function IsQuestTabRow(key)
+    local meta = ZONE_META[key]
+    return meta and IsWorldQuestZone(key, meta) or false
 end
 
 function Roadmap:UpdateSidebar()
     if not Roadmap.Sidebar then return end
-    local list = Roadmap.ZoneRankings or {}
+    local all = Roadmap.ZoneRankings or {}
     local content = Roadmap.Sidebar.Content
-    
+    local questTab = (Roadmap.LeaderTab == "quests")
+
     for _, r in ipairs(Roadmap.Sidebar.Rows) do r:Hide() end
-    
+
+    -- Tabs: the chosen one lit gold, each with how many rows it holds.
+    local nQ, nD = 0, 0
+    for _, e in ipairs(all) do
+        if e.score >= 1 then if IsQuestTabRow(e.key) then nQ = nQ + 1 else nD = nD + 1 end end
+    end
+    -- After a scan, an empty tab gives way to the other one when that has results.
+    if Roadmap.HasScanned and not Roadmap.Scanning then
+        if questTab and nQ == 0 and nD > 0 then Roadmap.LeaderTab = "dungeons"; questTab = false
+        elseif not questTab and nD == 0 and nQ > 0 then Roadmap.LeaderTab = "quests"; questTab = true end
+    end
+    for _, t in ipairs(Roadmap.Sidebar.Tabs or {}) do
+        local on = (t.key == Roadmap.LeaderTab)
+        local n = (t.key == "quests") and nQ or nD
+        t.Text:SetText(L[t.label] .. ((Roadmap.HasScanned or n > 0) and (" (" .. n .. ")") or ""))
+        if on then t:SetBackdropColor(0.30, 0.22, 0.05, 0.85); t:SetBackdropBorderColor(1, 0.82, 0, 0.9)
+        else t:SetBackdropColor(0.08, 0.08, 0.08, 0.85); t:SetBackdropBorderColor(1, 1, 1, 0.12) end
+    end
+    if Roadmap.Sidebar.Sub then
+        Roadmap.Sidebar.Sub:SetText(questTab and L["Click a zone for its quests"] or L["Click a dungeon for its loot"])
+    end
+
+    local list = {}
+    for _, e in ipairs(all) do
+        if IsQuestTabRow(e.key) == questTab then table.insert(list, e) end
+    end
     table.sort(list, function(a,b) return a.score > b.score end)
-    
+
     local y = 0
     for i, entry in ipairs(list) do
         if entry.score < 1 then break end 
@@ -838,6 +1083,8 @@ function Roadmap:UpdateSidebar()
                 if self.TopItems then
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     GameTooltip:SetText(self.ZoneName)
+                    if self.IsChain then GameTooltip:AddLine(L["Rewards at the end of long quest chains."], 0.6, 0.6, 0.6, true) end
+                    if self.IsHere then GameTooltip:AddLine(L["You're here"], 1, 0.82, 0) end
                     GameTooltip:AddLine(L["Top Upgrades:"], 1, 1, 1)
                     for _, item in ipairs(self.TopItems) do
                         local name = GetItemInfo(item.link) or item.link
@@ -863,7 +1110,21 @@ function Roadmap:UpdateSidebar()
                 Roadmap:FinalizeScan()
                 
                 if Roadmap.ChainMode then
+                    -- The rescan below compares this zone against a set that now holds its
+                    -- rewards, so its quest list would come back empty: keep this one, and
+                    -- mark the rewards that went into the chain set.
+                    local qd = Roadmap.QuestPanelData
+                    if qd and qd.zone == Roadmap.SelectedZone then
+                        Roadmap.ChainTaken = { zone = qd.zone, rows = qd.rows }
+                    else
+                        Roadmap.ChainTaken = nil
+                    end
                     Roadmap:ApplyBestUpgradesToVirtual()
+                    if Roadmap.ChainTaken then
+                        local inSet = {}
+                        for _, link in pairs(Roadmap.VirtualGear) do if link then inSet[link] = true end end
+                        for _, q in ipairs(Roadmap.ChainTaken.rows) do q.addedToChain = inSet[q.link] or false end
+                    end
                     print(L["SGJ Chain: Virtual Gear Updated. Recalculating..."])
                     -- [ADD THIS] Automatically trigger the recalculation for the sidebar
                     Roadmap:PerformSmartScan() 
@@ -878,12 +1139,32 @@ function Roadmap:UpdateSidebar()
         
         row.ZoneKey = entry.key
         row.ZoneName = ZoneDisplayName(entry.name)
-        row.TopItems = entry.topItems 
-        
+        row.TopItems = entry.topItems
+
         row:SetPoint("TOPLEFT", 0, y)
-        row.Text:SetText(i..". " .. row.ZoneName)
-        row.Score:SetText("+"..string.format("%.1f", entry.score))
-        
+        row.IsChain = CHAIN_ROWS[entry.key] or false
+        -- On the Quests tab a row is named by its zone alone, with its quests, those in
+        -- your log, and whether you're there under the score.
+        local label = row.ZoneName
+        if questTab and QuestRowZone(entry.key) then label = L[QuestRowZone(entry.key)] end
+        row.Text:SetText(i..". " .. label .. (row.IsChain and (" |cff999999" .. L["(quest chains)"] .. "|r") or ""))
+        local meta = {}
+        local ex = entry.extra
+        if ex and ex.quests then
+            table.insert(meta, ex.quests == 1 and L["1 quest"] or string.format(L["%d quests"], ex.quests))
+            if ex.inLog and ex.inLog > 0 then table.insert(meta, string.format(L["%d in log"], ex.inLog)) end
+        end
+        local metaText = (#meta > 0) and ("|cff999999  " .. table.concat(meta, " · ") .. "|r") or ""
+        row.Score:SetText("+"..string.format("%.1f", entry.score) .. metaText)
+        -- The zone you're in: the map arrow on the right (and a tooltip line).
+        row.IsHere = questTab and InQuestRowZone(entry.key) or false
+        if not row.Here then
+            row.Here = row:CreateTexture(nil, "OVERLAY"); row.Here:SetSize(16, 16); row.Here:SetPoint("RIGHT", -2, 0)
+            row.Here:SetTexture("Interface\\Minimap\\MinimapArrow")
+            row.Score:SetPoint("RIGHT", row, "RIGHT", -18, 0); row.Score:SetJustifyH("LEFT"); row.Score:SetWordWrap(false)
+        end
+        row.Here:SetShown(row.IsHere)
+
         if entry.bestLink then
             row.Icon:SetTexture(GetItemIcon(entry.bestLink))
         else
@@ -900,7 +1181,14 @@ function Roadmap:UpdateSidebar()
     local empty = Roadmap.Sidebar.Empty
     if y < 0 or Roadmap.Scanning then empty:Hide()
     else
-        empty:SetText(Roadmap.HasScanned and L["No upgrades found in this level range."] or L["Press Calculate Roadmap to rank dungeons by upgrades."])
+        local msg
+        if not Roadmap.HasScanned then msg = L["Press Calculate Roadmap to rank dungeons by upgrades."]
+        elseif questTab and not Roadmap:GetSources().worldQuests then msg = L["World Quests is off in Scan Settings."]
+        elseif Roadmap.ChainMode then
+            -- Chaining zones fills the set: nothing left in range beats it.
+            msg = L["Your chain set already has the best upgrades in this level range. Raise the level range, or press Reset to start over."]
+        else msg = L["No upgrades found in this level range."] end
+        empty:SetText(msg)
         empty:Show()
     end
 end
@@ -1688,11 +1976,11 @@ function Roadmap:StartCoroutineScan()
     end
     local pending = RequestItemData(ids)
 
-    local function AddRanking(zData, score, bestLink, topItems)
+    local function AddRanking(zData, score, bestLink, topItems, extra)
         if score and score > 0 then
             table.insert(Roadmap.ZoneRankings, {
                 key=zData.key, name=zData.meta.name,
-                score=score, bestLink=bestLink, topItems=topItems
+                score=score, bestLink=bestLink, topItems=topItems, extra=extra
             })
         end
     end
@@ -1720,8 +2008,8 @@ function Roadmap:StartCoroutineScan()
             if SGJ.ViewRoadmap.ProgressBar then SGJ.ViewRoadmap.ProgressBar:SetValue((current/total)*100) end
 
             local before = #missed
-            local score, bestLink, topItems = Roadmap:ScanZoneData(zData.key, Roadmap.UseLevelFilter, missed)
-            AddRanking(zData, score, bestLink, topItems)
+            local score, bestLink, topItems, extra = Roadmap:ScanZoneData(zData.key, Roadmap.UseLevelFilter, missed)
+            AddRanking(zData, score, bestLink, topItems, extra)
             if #missed > before then table.insert(retryZones, zData) end
             -- The open dungeon's slot results were just rebuilt: sort and resolve them.
             if zData.key == Roadmap.SelectedZone then Roadmap:FinalizeScan() end
@@ -1736,11 +2024,11 @@ function Roadmap:StartCoroutineScan()
             while CountMissing(missed) > 0 and GetTime() - t0 < 2 do coroutine.yield() end
             if CountMissing(missed) < #missed then
                 for _, zData in ipairs(retryZones) do
-                    local score, bestLink, topItems = Roadmap:ScanZoneData(zData.key, Roadmap.UseLevelFilter)
+                    local score, bestLink, topItems, extra = Roadmap:ScanZoneData(zData.key, Roadmap.UseLevelFilter)
                     for i = #Roadmap.ZoneRankings, 1, -1 do
                         if Roadmap.ZoneRankings[i].key == zData.key then table.remove(Roadmap.ZoneRankings, i) end
                     end
-                    AddRanking(zData, score, bestLink, topItems)
+                    AddRanking(zData, score, bestLink, topItems, extra)
                     if zData.key == Roadmap.SelectedZone then Roadmap:FinalizeScan() end
                     ScanSliceCheck()
                 end
@@ -1823,8 +2111,19 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
     -- A race starting zone (sidebar click included) shows nothing to other races
     local zoneMeta = ZONE_META[zoneKey]
     local raceBlocked = zoneMeta and zoneMeta.race and select(2, UnitRace("player")) ~= zoneMeta.race
+    -- Quest zones ("<Zone> Quests" rows) also get a per-quest list, a set score and counts.
+    local isQuestRow = zoneMeta and IsWorldQuestZone(zoneKey, zoneMeta) or false
+    local hiddenDone, hiddenOther, choiceTotal = {}, {}, {}
 
     for itemID, info in pairs(lootTable) do
+        if info.choice then choiceTotal[info.choice] = (choiceTotal[info.choice] or 0) + 1 end
+        if info.questID then
+            if (info.side and info.side ~= playerFaction) or (info.class and info.class ~= playerClass) or (info.race and info.race ~= playerRace) then
+                hiddenOther[info.questID] = true
+            elseif QuestDone(info.questID) then
+                hiddenDone[info.questID] = true
+            end
+        end
         local allowed = not raceBlocked
         if applySmartFilter and info.reqLevel and info.reqLevel > maxLvl then allowed = false end
         -- Quest rewards: side = one faction's quest, class = a class quest.
@@ -1832,6 +2131,8 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
         if info.class and info.class ~= playerClass then allowed = false end
         -- race = a quest only that race gets outside its starting zone (Skyborne's arrival chain, 2026-10-17)
         if info.race and info.race ~= playerRace then allowed = false end
+        -- A quest this character has already turned in can't reward it again.
+        if allowed and info.questID and QuestDone(info.questID) then allowed = false end
         -- Dungeon rows mix boss loot and quest rewards; the source checkboxes pick which.
         if allowed and not ItemSourceAllowed(zoneKey, ZONE_META[zoneKey], info) then allowed = false end
         
@@ -1887,6 +2188,7 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
         end
     end
     
+    local slotEntries, questBest = {}, {}
     for _, data in ipairs(itemsToSim) do
         local defaultSlot = Roadmap:GetSlotFromLoc(data.loc)
         if defaultSlot then -- ignored slots are skipped per simulated slot (GetSimulationGains)
@@ -1896,6 +2198,14 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
             for slotID, res in pairs(results) do
                 if res.gain > zoneTotalScore then zoneTotalScore = res.gain end 
                 table.insert(zoneItems, { link=data.link, gain=res.gain, badgeCost=data.info.badgeCost, group=data.info.choice })
+                if isQuestRow and res.gain > 0 then
+                    table.insert(slotEntries, { slot = slotID, gain = res.gain, link = data.link, group = data.info.choice })
+                    local qid = data.info.questID
+                    if qid and (not questBest[qid] or res.gain > questBest[qid].gain) then
+                        questBest[qid] = { questID = qid, gain = res.gain, link = data.link, info = data.info,
+                            choices = data.info.choice and choiceTotal[data.info.choice] or nil }
+                    end
+                end
 
                 if isSelected then
                     if not scanResults[slotID] then scanResults[slotID] = {} end
@@ -1934,7 +2244,39 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
         end
     end
     
-    return zoneTotalScore, (zoneItems[1] and zoneItems[1].link), topItems
+    local extra
+    if isQuestRow then
+        -- A quest zone is worth what doing its quests would add: the best upgrade per slot,
+        -- each item and each choose-one quest used once.
+        table_sort(slotEntries, function(a, b) return a.gain > b.gain end)
+        local usedSlot, usedLink, usedGroup, setScore = {}, {}, {}, 0
+        for _, e in ipairs(slotEntries) do
+            if not usedSlot[e.slot] and not usedLink[e.link] and not (e.group and usedGroup[e.group]) then
+                usedSlot[e.slot], usedLink[e.link] = true, true
+                if e.group then usedGroup[e.group] = true end
+                setScore = setScore + e.gain
+            end
+        end
+        zoneTotalScore = setScore
+        local rows, inLog = {}, 0
+        for _, q in pairs(questBest) do
+            q.inLog = OnQuest(q.questID)
+            if q.inLog then inLog = inLog + 1 end
+            table.insert(rows, q)
+        end
+        table_sort(rows, function(a, b) return a.gain > b.gain end)
+        local nDone, nOther = 0, 0
+        for _ in pairs(hiddenDone) do nDone = nDone + 1 end
+        for _ in pairs(hiddenOther) do nOther = nOther + 1 end
+        extra = { quests = #rows, inLog = inLog }
+        if isSelected then
+            Roadmap.QuestPanelData = { zone = zoneKey, rows = rows, hiddenDone = nDone, hiddenOther = nOther }
+        end
+    elseif isSelected then
+        Roadmap.QuestPanelData = nil
+    end
+
+    return zoneTotalScore, (zoneItems[1] and zoneItems[1].link), topItems, extra
 end
 
 function Roadmap:FinalizeScan()
@@ -1961,6 +2303,144 @@ function Roadmap:FinalizeScan()
     else
         Roadmap.RetryAttempts = 0
     end
+end
+
+-- =============================================================
+-- [[ QUEST LIST (centre, for a quest zone) ]]
+-- One row per quest with an upgrade: its best reward and gain, "best of N" for a
+-- choose-one quest, the quest's name, level and chain step, and whether it's in your
+-- log, available, or needs a higher level. The tooltip adds the giver and where.
+-- =============================================================
+local QROW_H = 42
+local function QuestRowTooltip(self)
+    local q = self.Quest
+    if not q then return end
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:SetHyperlink(q.link)
+    GameTooltip:AddLine(" ")
+    local qi = SGJ.QuestInfo and SGJ.QuestInfo[q.questID]
+    GameTooltip:AddLine(string.format(L["Quest: %s"], q.info.source or "?"), 1, 0.82, 0)
+    if qi and qi.level then GameTooltip:AddLine(string.format(L["Quest level %d"], qi.level), 1, 1, 1) end
+    if qi and qi.start then
+        local where = qi.zone and L[qi.zone] or ""
+        if qi.x then where = string.format("%s (%.0f, %.0f)", where, qi.x, qi.y) end
+        GameTooltip:AddLine(string.format(L["Starts with %s, %s"], qi.start, where), 1, 1, 1, true)
+    end
+    if qi and qi.steps then GameTooltip:AddLine(string.format(L["Step %d of a %d-quest chain"], qi.step, qi.steps), 0.7, 0.7, 0.7) end
+    if q.choices and q.choices > 1 then GameTooltip:AddLine(string.format(L["Pick this one of the %d rewards."], q.choices), 0.4, 1, 0.4) end
+    GameTooltip:Show()
+end
+
+function Roadmap:RefreshQuestPanel()
+    local f = SGJ.ViewRoadmap
+    local qp = f and f.QuestPanel
+    if not qp then return end
+    local data = Roadmap.QuestPanelData
+    -- Chain Mode: the zone just added to the chain set shows what it gave, not its
+    -- (now empty) rescan.
+    local taken = Roadmap.ChainMode and Roadmap.ChainTaken
+    local chained = taken and taken.zone == Roadmap.SelectedZone
+    if chained then data = { zone = taken.zone, rows = taken.rows, hiddenDone = 0, hiddenOther = 0 } end
+    local isQuestZone = data and data.zone == Roadmap.SelectedZone
+    -- The Character button swaps the list for the model; it's kept until switched back.
+    local show = isQuestZone and not Roadmap.ShowCharacter
+    if f.ViewToggle then
+        f.ViewToggle:SetShown(isQuestZone and true or false)
+        f.ViewToggle:SetText(Roadmap.ShowCharacter and L["Quests"] or L["Character"])
+    end
+    qp:SetShown(show and true or false)
+    if f.Model then f.Model:SetShown(not show) end
+    if not show then return end
+    if not qp.Empty then
+        qp.Empty = qp:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+        qp.Empty:SetPoint("TOP", 0, -40); qp.Empty:SetWidth(220); qp.Empty:SetTextColor(0.6, 0.6, 0.6)
+    end
+    qp.Empty:SetShown(#data.rows == 0)
+    qp.Empty:SetText(L["No quest upgrades here for your gear."])
+
+    local level = UnitLevel("player") or 1
+    local w = qp.Child:GetWidth()
+    local lo, hi, inLog = nil, nil, 0
+    for i, q in ipairs(data.rows) do
+        local row = qp.Rows[i]
+        if not row then
+            row = CreateFrame("Button", nil, qp.Child, "BackdropTemplate")
+            row:SetHeight(QROW_H - 4)
+            row:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1 })
+            row:SetBackdropColor(0.08, 0.08, 0.08, 0.85)
+            local hl = row:CreateTexture(nil, "HIGHLIGHT"); hl:SetAllPoints(); hl:SetColorTexture(1, 1, 1, 0.06)
+            row.Icon = row:CreateTexture(nil, "ARTWORK"); row.Icon:SetSize(28, 28); row.Icon:SetPoint("LEFT", 5, 0)
+            row.Gain = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"); row.Gain:SetPoint("TOPRIGHT", -6, -5)
+            row.Status = row:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"); row.Status:SetPoint("BOTTOMRIGHT", -6, 5)
+            row.Name = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+            row.Name:SetPoint("TOPLEFT", row.Icon, "TOPRIGHT", 6, -1); row.Name:SetPoint("RIGHT", row.Gain, "LEFT", -6, 0)
+            row.Name:SetJustifyH("LEFT"); row.Name:SetWordWrap(false)
+            row.Sub = row:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+            row.Sub:SetPoint("BOTTOMLEFT", row.Icon, "BOTTOMRIGHT", 6, 1); row.Sub:SetPoint("RIGHT", row.Status, "LEFT", -6, 0)
+            row.Sub:SetJustifyH("LEFT"); row.Sub:SetWordWrap(false); row.Sub:SetTextColor(0.65, 0.65, 0.65)
+            row:SetScript("OnEnter", QuestRowTooltip)
+            row:SetScript("OnLeave", GameTooltip_Hide)
+            row:SetScript("OnClick", function(self)
+                if IsModifiedClick("CHATLINK") and self.Quest and ChatEdit_InsertLink then ChatEdit_InsertLink(self.Quest.link) end
+            end)
+            qp.Rows[i] = row
+        end
+        row.Quest = q
+        row:ClearAllPoints(); row:SetPoint("TOPLEFT", 0, -(i - 1) * QROW_H); row:SetWidth(w)
+        row.Icon:SetTexture(GetItemIcon(q.link))
+        local name, _, quality = GetItemInfo(q.link)
+        local color = quality and ITEM_QUALITY_COLORS and ITEM_QUALITY_COLORS[quality]
+        name = (color and color.hex or "|cffffffff") .. (name or "?") .. "|r"
+        if q.choices and q.choices > 1 then name = name .. " |cff999999" .. string.format(L["best of %d"], q.choices) .. "|r" end
+        row.Name:SetText(name)
+        row.Gain:SetText(string.format("|cff00ff00+%.1f|r", q.gain))
+        local qi = SGJ.QuestInfo and SGJ.QuestInfo[q.questID]
+        local sub = { q.info.source or "?" }
+        if qi and qi.level then
+            table.insert(sub, string.format(L["level %d"], qi.level))
+            lo = math.min(lo or qi.level, qi.level); hi = math.max(hi or qi.level, qi.level)
+        end
+        if qi and qi.steps then table.insert(sub, string.format(L["step %d/%d"], qi.step, qi.steps)) end
+        row.Sub:SetText(table.concat(sub, " · "))
+        local need = math.max(q.info.reqLevel or 0, (qi and qi.req) or 0)
+        if chained and q.addedToChain then
+            row.Status:SetText("|cffffd100" .. L["In your chain set"] .. "|r")
+            row:SetBackdropBorderColor(1, 0.82, 0, 0.7)
+        elseif q.inLog then
+            row.Status:SetText("|cff55ff55" .. L["In your log"] .. "|r"); inLog = inLog + 1
+            row:SetBackdropBorderColor(0.33, 0.85, 0.33, 0.7)
+        elseif need > level then
+            row.Status:SetText("|cff999999" .. string.format(L["At level %d"], need) .. "|r")
+            row:SetBackdropBorderColor(1, 1, 1, 0.12)
+        else
+            row.Status:SetText("|cff7fb2ff" .. L["Available"] .. "|r")
+            row:SetBackdropBorderColor(1, 1, 1, 0.12)
+        end
+        row:Show()
+    end
+    for i = #data.rows + 1, #qp.Rows do qp.Rows[i]:Hide() end
+    qp.Child:SetHeight(math.max(1, #data.rows * QROW_H))
+    -- No scroll bar when the list fits.
+    local bar = qp.Scroll.ScrollBar
+    if bar then
+        local fits = #data.rows * QROW_H <= (qp.Scroll:GetHeight() or 0) + 1
+        bar:SetShown(not fits)
+        if fits then qp.Scroll:SetVerticalScroll(0) end
+    end
+
+    local head = { #data.rows == 1 and L["1 quest with an upgrade"] or string.format(L["%d quests with upgrades"], #data.rows) }
+    if chained then
+        local n = 0
+        for _, q in ipairs(data.rows) do if q.addedToChain then n = n + 1 end end
+        head = { string.format(L["%d added to your chain set"], n) }
+    end
+    if lo then table.insert(head, lo == hi and string.format(L["level %d"], lo) or string.format(L["levels %d-%d"], lo, hi)) end
+    if inLog > 0 then table.insert(head, string.format(L["%d in your log"], inLog)) end
+    qp.Head:SetText(table.concat(head, " · "))
+    local foot = {}
+    if data.hiddenDone > 0 then table.insert(foot, string.format(L["%d done"], data.hiddenDone)) end
+    if data.hiddenOther > 0 then table.insert(foot, string.format(L["%d for another faction, class or race"], data.hiddenOther)) end
+    qp.Foot:SetText(#foot > 0 and string.format(L["Hidden: %s"], table.concat(foot, ", ")) or "")
 end
 
 -- =============================================================
@@ -2043,12 +2523,18 @@ function Roadmap:RefreshUI()
             line = "|cff00ff00" .. line .. "|r"
             if zoneName then line = string.format(L["%s: %s"], zoneName, line) end
             f.Summary:SetText(line)
+        elseif zoneName and Roadmap.ChainMode and Roadmap.ChainTaken and Roadmap.ChainTaken.zone == zone then
+            -- Its rewards are in the chain set now, so nothing more here is an upgrade.
+            f.Summary:SetText(string.format(L["%s: %s"], zoneName, "|cffffd100" .. L["added to your chain set"] .. "|r"))
         elseif zoneName then
             f.Summary:SetText(string.format(L["%s: |cff999999no upgrades|r"], zoneName))
+        elseif Roadmap.LeaderTab == "quests" then
+            f.Summary:SetText(L["|cff999999Pick a zone from the leaderboard|r"])
         else
             f.Summary:SetText(L["|cff999999Pick a dungeon from the leaderboard|r"])
         end
     end
+    Roadmap:RefreshQuestPanel()
 end
 
 -- =============================================================

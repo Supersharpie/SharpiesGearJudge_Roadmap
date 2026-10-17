@@ -1,6 +1,29 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
-## 🚀 v3.1.3
+## 🚀 v3.2.0
+
+### 📜 A Quest View
+- **Dungeons | Quests tabs** at the top of the leaderboard. Dungeons and quest zones are ranked apart, so a zone's quest rewards no longer compete with a dungeon run. Your tab is remembered, and after a scan an empty tab gives way to the other one.
+- **Quest zones show their quests.** On the Quests tab each row is named by its zone, with how many of its quests give you an upgrade, how many are in your quest log, and "You're here" for the zone you're in.
+- **Click a quest zone for its quests.** The character model makes way for a list of the zone's quests, best first. Each line shows the reward and its gain, "best of 3" for a choose-one quest, the quest's name, level and step in its chain ("step 2/4"), and whether it's **In your log**, **Available**, or available **At level N**. Hover a quest for the reward's tooltip, who starts the quest and where (with map coordinates), its chain, and which reward to pick. Shift-click links the reward. A **Character** button above the list switches to your character with the upgrades tried on, and **Quests** switches back. A line under the list says how many quests are hidden because you've done them or they're for another faction, class or race.
+- **Chain Mode keeps the zone you just added.** Clicking a quest zone with Chain Mode on puts its best rewards in your chain set and recalculates; the list now keeps showing that zone's quests, with the rewards that went into the set marked **In your chain set**, instead of going blank.
+- **Quest zones are scored by what doing them adds:** the best upgrade for each slot, each item and each choose-one quest counted once. A zone used to be ranked by its single best reward. Dungeons are still ranked by their best drop.
+- WoW Forever quest details (giver, coordinates, level, chain) come from foreverchanges.pro; Classic Era and TBC quest rows show the quest list without them.
+
+### ✅ Completed Quests Hidden
+- **Rewards from quests you've already turned in no longer show.** The Roadmap now asks the game which quests this character has completed and leaves their rewards out of the zone "Quests" rows and the dungeon quest rewards, so it only suggests upgrades you can still get. All of a choose-one quest's rewards go once you've turned it in. The next scan after you turn a quest in picks it up. Works on WoW Forever, Classic Era and TBC Anniversary.
+
+### 🎉 Holiday Quests Only During the Event
+- **Darkmoon Faire, Lunar Festival, Midsummer and Scourge Invasion quest rows only show while the event is running**, read from the in-game calendar. Their rewards can't be earned the rest of the year. On a client without a calendar they always show.
+
+### ⚔️ New "PvP Quests" Checkbox
+- **Alterac Valley quest rewards have their own checkbox, PvP Quests, under World Quests.** It's off by default: most of these rewards need many battleground games, so they no longer crowd the world quest list. Turn it on to plan PvP gear.
+
+### 🔗 Quest Chains Marked
+- **The Epic Quests and Legendary Quests rows say "(quest chains)"**, and their tooltip explains the rewards come at the end of long chains.
+
+### 🎣 Profession Quests Only With the Profession
+- **Profession quest rows (Fishing Quests, Cooking Quests, Blacksmithing Quests and the others) only show for characters who have that profession.** Their rewards come from profession quests most characters never do, so a Fishing hat no longer tops the list for a character who doesn't fish.
 
 ### 🪶 Fixed: Skyborne Quests Shown to Other Races (WoW Forever)
 - **Skyborne-only quests outside Zephras Isle** no longer show for other races. The Skyborne starting chain carries on after the isle, and its rewards were listed for everyone of that faction: Cloak of the Honored Guest (Exploring the Alliance, Stormwind City), Honorbound Cloak (Exploring the Horde, Orgrimmar) and Windbough Wand (Boughs in the Wind, the Skyborne Mage quest). The Roadmap now hides them unless you're Skyborne, as it already did for Zephras Isle itself.

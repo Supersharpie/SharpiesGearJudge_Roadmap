@@ -245,3 +245,53 @@ L["|cff999999Pick a dungeon from the leaderboard|r"] = "|cff999999Выберит
 L["|cffaaaaaa[Current / Virtual]|r"] = "|cffaaaaaa[Текущая / Виртуальная]|r"
 L["|cffff0000(IGNORED)|r"] = "|cffff0000(ИГНОРИРУЕТСЯ)|r"
 L["Quest: %s"] = "Задание: %s"
+
+-- Added in 3.2.0 (quest rows: PvP Quests, quest chains, holidays)
+L["(quest chains)"] = "(цепочки заданий)"
+L["Include rewards from battleground quests (Alterac Valley)."] = "Учитывать награды за задания полей боя (Альтеракская долина)."
+L["Off by default: most of these need many battleground games."] = "По умолчанию выключено: для большинства нужно много боев на полях боя."
+L["PvP Quests"] = "PvP-задания"
+L["Rewards at the end of long quest chains."] = "Награды в конце длинных цепочек заданий."
+L["Invasion"] = "Вторжение"
+
+-- Added in 3.2.0 (quest view: Dungeons / Quests tabs, quest list)
+L["Dungeons"] = "Подземелья"
+L["Quests"] = "Задания"
+L["%d done"] = "Выполнено: %d"
+L["%d for another faction, class or race"] = "Для другой фракции, класса или расы: %d"
+L["%d in your log"] = "В журнале: %d"
+L["%d quests"] = "Заданий: %d"
+L["%d quests with upgrades"] = "Заданий с улучшениями: %d"
+L["1 quest"] = "1 задание"
+L["1 quest with an upgrade"] = "1 задание с улучшением"
+L["At level %d"] = "С %d-го уровня"
+L["Available"] = "Доступно"
+L["Click a zone for its quests"] = "Нажмите на зону, чтобы увидеть ее задания"
+L["Hidden: %s"] = "Скрыто: %s"
+L["In your log"] = "В журнале"
+L["Pick this one of the %d rewards."] = "Выберите эту награду из %d."
+L["Quest level %d"] = "Уровень задания: %d"
+L["Starts with %s, %s"] = "Начало: %s, %s"
+L["Step %d of a %d-quest chain"] = "Этап %d из %d в цепочке заданий"
+L["World Quests is off in Scan Settings."] = "В настройках поиска выключены задания в мире."
+L["You're here"] = "Вы здесь"
+L["best of %d"] = "лучшая из %d"
+L["level %d"] = "уровень %d"
+L["levels %d-%d"] = "уровни %d-%d"
+L["step %d/%d"] = "этап %d/%d"
+
+-- Added in 3.2.0 (quest view, part 2: Chain Mode list)
+L["%d in log"] = "В журнале: %d"
+L["No quest upgrades here for your gear."] = "Здесь нет заданий, улучшающих вашу экипировку."
+L["In your chain set"] = "В наборе цепочки"
+L["%d added to your chain set"] = "Добавлено в набор цепочки: %d"
+L["added to your chain set"] = "добавлено в набор цепочки"
+L["|cff999999Pick a zone from the leaderboard|r"] = "|cff999999Выберите зону в рейтинге|r"
+
+-- Added in 3.2.0 (quest view, part 3: Quests / Character toggle)
+L["Character"] = "Персонаж"
+L["Show this zone's quests"] = "Показать задания этой зоны"
+L["Show your character with these upgrades"] = "Показать персонажа с этими улучшениями"
+
+-- Added in 3.2.0 (quest view, part 4: Chain Mode empty leaderboard)
+L["Your chain set already has the best upgrades in this level range. Raise the level range, or press Reset to start over."] = "В наборе цепочки уже есть лучшие улучшения для этого диапазона уровней. Расширьте диапазон уровней или нажмите «Сброс», чтобы начать заново."

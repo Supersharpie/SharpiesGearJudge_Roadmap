@@ -442,10 +442,6 @@ SGJ.DungeonDB["Desolace Quests"] = {
     [6790] = { name = "Ring of Calm", source = "Centaur Bounty", slot = "Finger", type = "Ring", zone = "Desolace Quests", reqLevel = 30, questID = 1387, side = "Alliance" },
     [16788] = { name = "Captain Rackmore's Wheel", source = "Claim Rackmore's Treasure!", slot = "Shield", type = "Shield", zone = "Desolace Quests", reqLevel = 30, questID = 6161 },
     [16789] = { name = "Captain Rackmore's Tiller", source = "Claim Rackmore's Treasure!", slot = "Ranged", type = "Wand", zone = "Desolace Quests", reqLevel = 30, questID = 6161 },
-    [6773] = { name = "Kolkar Marauder Chain", source = "Khan Hratha", slot = "Chest", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 30, questID = 1380, choice = 1380 },
-    [6774] = { name = "Traitor's Finger", source = "Khan Hratha", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Desolace Quests", reqLevel = 30, questID = 1380, choice = 1380 },
-    [6788] = { name = "Kolkar Hunter's Belt", source = "Khan Hratha", slot = "Waist", type = "Leather Armor", zone = "Desolace Quests", reqLevel = 30, questID = 1381, choice = 1381 },
-    [6789] = { name = "Ceremonial Centaur Blanket", source = "Khan Hratha", slot = "Back", type = "Cloak", zone = "Desolace Quests", reqLevel = 30, questID = 1381, choice = 1381 },
     [15697] = { name = "Kodo Rustler Boots", source = "Kodo Roundup", slot = "Feet", type = "Cloth Armor", zone = "Desolace Quests", reqLevel = 30, questID = 5561, choice = 5561 },
     [15698] = { name = "Wrangling Spaulders", source = "Kodo Roundup", slot = "Shoulder", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 30, questID = 5561, choice = 5561 },
     [6793] = { name = "Auric Bracers", source = "Reagents for Reclaimers Inc.", slot = "Wrist", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 30, questID = 1467, side = "Alliance", choice = 1467 },
@@ -468,6 +464,10 @@ SGJ.DungeonDB["Desolace Quests"] = {
     [15690] = { name = "Kodobone Necklace", source = "Bone Collector", slot = "Neck", type = "Amulet", zone = "Desolace Quests", reqLevel = 33, questID = 5501 },
     [15864] = { name = "Condor Bracers", source = "Ghost-o-plasm Round Up", slot = "Wrist", type = "Cloth Armor", zone = "Desolace Quests", reqLevel = 34, questID = 6134, choice = 6134 },
     [15865] = { name = "Anchorhold Buckler", source = "Ghost-o-plasm Round Up", slot = "Shield", type = "Shield", zone = "Desolace Quests", reqLevel = 34, questID = 6134, choice = 6134 },
+    [6773] = { name = "Kolkar Marauder Chain", source = "Khan Hratha", slot = "Chest", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 35, questID = 1380, choice = 1380 },
+    [6774] = { name = "Traitor's Finger", source = "Khan Hratha", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Desolace Quests", reqLevel = 35, questID = 1380, choice = 1380 },
+    [6788] = { name = "Kolkar Hunter's Belt", source = "Khan Hratha", slot = "Waist", type = "Leather Armor", zone = "Desolace Quests", reqLevel = 35, questID = 1381, choice = 1381 },
+    [6789] = { name = "Ceremonial Centaur Blanket", source = "Khan Hratha", slot = "Back", type = "Cloak", zone = "Desolace Quests", reqLevel = 35, questID = 1381, choice = 1381 },
 }
 
 SGJ.QuestDB["Dire Maul"] = {
@@ -1035,7 +1035,7 @@ SGJ.QuestDB["Maraudon"] = {
 SGJ.ZoneMeta["Midsummer Quests"] = { name = "Midsummer Quests", min = 1, world = true }
 SGJ.DungeonDB["Midsummer Quests"] = {
     [23323] = { name = "Crown of the Fire Festival", source = "A Thief's Reward", slot = "Head", type = "Cloth Armor", zone = "Midsummer Quests", reqLevel = 1, questID = 9339 },
-    [23324] = { name = "Mantle of the Fire Festival", source = "Wild Fires in the Eastern Kingdoms", slot = "Shoulder", type = "Miscellaneous", zone = "Midsummer Quests", reqLevel = 1, questID = 9323 },
+    [23324] = { name = "Mantle of the Fire Festival", source = "Wild Fires in the Eastern Kingdoms", slot = "Shoulder", type = "Cloth Armor", zone = "Midsummer Quests", reqLevel = 1, questID = 9323 },
 }
 
 SGJ.ZoneMeta["Moonglade Quests"] = { name = "Moonglade Quests", min = 54, world = true }
@@ -2310,3 +2310,1093 @@ SGJ.QuestDB["Zul'Gurub"] = {
     [19615] = { name = "Zandalarian Shadow Talisman", source = "Zandalarian Shadow Talisman", slot = "Neck", type = "Amulet", zone = "Zul'Gurub", reqLevel = 58, questID = 8142 },
     [19616] = { name = "Zandalarian Shadow Talisman", source = "Zandalarian Shadow Talisman", slot = "Neck", type = "Amulet", zone = "Zul'Gurub", reqLevel = 58, questID = 8143 },
 }
+
+-- Quest details: start = quest giver, zone/x/y = where, level / req = quest level and
+-- required level, step / steps = its place in a quest chain (none = not a chain).
+SGJ.QuestInfo = SGJ.QuestInfo or {}
+SGJ.QuestInfo[6] = { start = "Deputy Willem", zone = "Elwynn Forest", x = 48.2, y = 42.9, level = 5, req = 2, step = 3, steps = 3 }
+SGJ.QuestInfo[9] = { start = "Farmer Saldean", zone = "Westfall", x = 56.0, y = 31.2, level = 15, req = 8 }
+SGJ.QuestInfo[11] = { start = "Deputy Rainer", zone = "Elwynn Forest", x = 24.2, y = 74.4, level = 10, req = 6, step = 4, steps = 4 }
+SGJ.QuestInfo[14] = { start = "Gryan Stoutmantle", zone = "Westfall", x = 56.3, y = 47.5, level = 17, req = 9, step = 3, steps = 3 }
+SGJ.QuestInfo[18] = { start = "Deputy Willem", zone = "Elwynn Forest", x = 48.2, y = 42.9, level = 4, req = 2, step = 2, steps = 3 }
+SGJ.QuestInfo[19] = { start = "Marshal Marris", zone = "Redridge Mountains", x = 28.4, y = 49.0, level = 25, req = 18, step = 2, steps = 2 }
+SGJ.QuestInfo[21] = { start = "Marshal McBride", zone = "Elwynn Forest", x = 48.9, y = 41.6, level = 5, req = 1, step = 4, steps = 5 }
+SGJ.QuestInfo[31] = { start = "Dendrite Starblaze", zone = "Moonglade", x = 56.2, y = 30.6, level = 16, req = 16, step = 4, steps = 4 }
+SGJ.QuestInfo[33] = { start = "Eagan Peltskinner", zone = "Elwynn Forest", x = 48.9, y = 40.2, level = 2, req = 1, step = 3, steps = 6 }
+SGJ.QuestInfo[34] = { start = "Martie Jainrose", zone = "Redridge Mountains", x = 16.8, y = 46.3, level = 24, req = 18 }
+SGJ.QuestInfo[38] = { start = "Salma Saldean", zone = "Westfall", x = 56.4, y = 30.5, level = 13, req = 9, step = 2, steps = 2 }
+SGJ.QuestInfo[46] = { start = "Guard Thomas", zone = "Elwynn Forest", x = 74.0, y = 72.2, level = 10, req = 7 }
+SGJ.QuestInfo[53] = { start = "Grimbooze Thunderbrew", zone = "Westfall", x = 44.6, y = 80.3, level = 44, req = 40, step = 5, steps = 5 }
+SGJ.QuestInfo[54] = { start = "Marshal McBride", zone = "Elwynn Forest", x = 48.9, y = 41.6, level = 5, req = 1, step = 5, steps = 5 }
+SGJ.QuestInfo[55] = { start = "Sven Yorgen", zone = "Duskwood", x = 7.8, y = 34.1, level = 32, req = 20, step = 17, steps = 17 }
+SGJ.QuestInfo[59] = { start = "Marshal Dughan", zone = "Elwynn Forest", x = 42.1, y = 65.9, level = 10, req = 7, step = 7, steps = 7 }
+SGJ.QuestInfo[83] = { start = "Sara Timberlain", zone = "Elwynn Forest", x = 79.5, y = 68.8, level = 9, req = 4 }
+SGJ.QuestInfo[87] = { start = "Billy Maclure", zone = "Elwynn Forest", x = 43.1, y = 85.7, level = 8, req = 5, step = 4, steps = 4 }
+SGJ.QuestInfo[88] = { start = "Ma Stonefield", zone = "Elwynn Forest", x = 34.7, y = 84.5, level = 9, req = 6 }
+SGJ.QuestInfo[89] = { start = "Foreman Oslow", zone = "Redridge Mountains", x = 27.1, y = 48.6, level = 20, req = 15, step = 2, steps = 2 }
+SGJ.QuestInfo[98] = { start = "Commander Althea Ebonlocke", zone = "Duskwood", x = 73.5, y = 46.8, level = 35, req = 22, step = 13, steps = 13 }
+SGJ.QuestInfo[99] = { start = "Dalar Dawnweaver", zone = "Silverpine Forest", x = 44.2, y = 39.8, level = 15, req = 9, step = 5, steps = 6 }
+SGJ.QuestInfo[101] = { start = "Madame Eva", zone = "Duskwood", x = 75.8, y = 45.3, level = 25, req = 18 }
+SGJ.QuestInfo[102] = { start = "Captain Danuvin", zone = "Westfall", x = 56.4, y = 47.6, level = 14, req = 8 }
+SGJ.QuestInfo[104] = { start = "Captain Grayson", zone = "Westfall", x = 30.0, y = 86.0, level = 20, req = 15 }
+SGJ.QuestInfo[105] = { start = "High Executor Derrington", zone = "Tirisfal Glades", x = 83.1, y = 68.9, level = 60, req = 50, step = 4, steps = 4 }
+SGJ.QuestInfo[116] = { start = "Barkeep Daniels", zone = "Redridge Mountains", x = 21.4, y = 44.0, level = 15, req = 12 }
+SGJ.QuestInfo[122] = { start = "Verner Osgood", zone = "Redridge Mountains", x = 25.9, y = 47.3, level = 18, req = 14, step = 3, steps = 3 }
+SGJ.QuestInfo[126] = { start = "Verner Osgood", zone = "Redridge Mountains", x = 25.9, y = 47.3, level = 25, req = 15, step = 4, steps = 4 }
+SGJ.QuestInfo[140] = { start = "Old Jug", zone = "Westfall", x = 40.6, y = 17.0, level = 16, req = 10, step = 4, steps = 4 }
+SGJ.QuestInfo[147] = { start = "Marshal Dughan", zone = "Elwynn Forest", x = 42.1, y = 65.9, level = 10, req = 7, step = 2, steps = 2 }
+SGJ.QuestInfo[150] = { start = "Dockmaster Baren", zone = "Redridge Mountains", x = 22.6, y = 47.4, level = 20, req = 20 }
+SGJ.QuestInfo[151] = { start = "Verna Furlbrow", zone = "Westfall", x = 59.9, y = 19.4, level = 14, req = 9 }
+SGJ.QuestInfo[153] = { start = "Scout Galiaan", zone = "Westfall", x = 54.0, y = 53.0, level = 15, req = 10 }
+SGJ.QuestInfo[166] = { start = "Gryan Stoutmantle", zone = "Westfall", x = 56.3, y = 47.5, level = 22, req = 14, step = 7, steps = 7 }
+SGJ.QuestInfo[167] = { start = "Wilder Thistlenettle", zone = "Stormwind City", x = 70.3, y = 40.8, level = 20, req = 15 }
+SGJ.QuestInfo[168] = { start = "Wilder Thistlenettle", zone = "Stormwind City", x = 70.3, y = 40.8, level = 18, req = 14 }
+SGJ.QuestInfo[170] = { start = "Balir Frosthammer", zone = "Dun Morogh", x = 29.7, y = 71.3, level = 2, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[176] = { start = "Wanted Poster", zone = "Elwynn Forest", x = 24.5, y = 74.7, level = 11, req = 5 }
+SGJ.QuestInfo[179] = { start = "Sten Stoutarm", zone = "Dun Morogh", x = 29.9, y = 71.2, level = 1, req = 1, step = 1, steps = 3 }
+SGJ.QuestInfo[181] = { start = "Viktori Prism'Antras", zone = "Duskwood", x = 79.8, y = 48.0, level = 30, req = 20, step = 4, steps = 4 }
+SGJ.QuestInfo[182] = { start = "Grelin Whitebeard", zone = "Dun Morogh", x = 25.1, y = 75.7, level = 4, req = 1, step = 1, steps = 6 }
+SGJ.QuestInfo[183] = { start = "Talin Keeneye", zone = "Dun Morogh", x = 22.6, y = 71.4, level = 3, req = 1 }
+SGJ.QuestInfo[188] = { start = "Ajeck Rouack", zone = "Stranglethorn Vale", x = 35.6, y = 10.6, level = 37, req = 28, step = 5, steps = 6 }
+SGJ.QuestInfo[193] = { start = "Sir S. J. Erlgadin", zone = "Stranglethorn Vale", x = 35.6, y = 10.5, level = 40, req = 28, step = 5, steps = 6 }
+SGJ.QuestInfo[197] = { start = "Hemet Nesingwary", zone = "Stranglethorn Vale", x = 35.7, y = 10.8, level = 43, req = 28, step = 5, steps = 6 }
+SGJ.QuestInfo[202] = { start = "Lieutenant Doren", zone = "Stranglethorn Vale", x = 38.0, y = 3.0, level = 40, req = 30, step = 3, steps = 4 }
+SGJ.QuestInfo[204] = { start = "Sergeant Yohwa", zone = "Stranglethorn Vale", x = 38.0, y = 3.3, level = 34, req = 30, step = 1, steps = 4 }
+SGJ.QuestInfo[206] = { start = "Brother Nimetz", zone = "Stranglethorn Vale", x = 37.8, y = 3.6, level = 46, req = 30, step = 4, steps = 4 }
+SGJ.QuestInfo[208] = { start = "Hemet Nesingwary", zone = "Stranglethorn Vale", x = 35.7, y = 10.8, level = 43, req = 28, step = 6, steps = 6 }
+SGJ.QuestInfo[213] = { start = "Kebok", zone = "Stranglethorn Vale", x = 27.0, y = 77.1, level = 36, req = 31 }
+SGJ.QuestInfo[214] = { start = "Scout Riell", zone = "Westfall", x = 56.7, y = 47.3, level = 17, req = 14, step = 7, steps = 7 }
+SGJ.QuestInfo[217] = { start = "Captain Rugelfuss", zone = "Loch Modan", x = 23.2, y = 73.7, level = 17, req = 10, step = 4, steps = 4 }
+SGJ.QuestInfo[218] = { start = "Grelin Whitebeard", zone = "Dun Morogh", x = 25.1, y = 75.7, level = 5, req = 1, step = 2, steps = 6 }
+SGJ.QuestInfo[219] = { start = "Corporal Keeshan", zone = "Redridge Mountains", x = 23.3, y = 12.6, level = 25, req = 19 }
+SGJ.QuestInfo[223] = { start = "Calor", zone = "Duskwood", x = 75.8, y = 47.6, level = 31, req = 23, step = 4, steps = 4 }
+SGJ.QuestInfo[231] = { start = "Watcher Ladimore", zone = "Duskwood", x = 74.0, y = 47.8, level = 35, req = 28, step = 5, steps = 5 }
+SGJ.QuestInfo[245] = { start = "Watcher Dodds", zone = "Duskwood", x = 45.1, y = 67.0, level = 21, req = 17 }
+SGJ.QuestInfo[247] = { start = "Senani Thunderheart", zone = "Ashenvale", x = 73.8, y = 61.5, level = 30, req = 20, step = 4, steps = 4 }
+SGJ.QuestInfo[249] = { start = "Old Lion Statue", zone = "Redridge Mountains", x = 79.4, y = 46.8, level = 27, req = 20, step = 3, steps = 3 }
+SGJ.QuestInfo[253] = { start = "Lord Ello Ebonlocke", zone = "Duskwood", x = 71.9, y = 46.4, level = 30, req = 20, step = 15, steps = 16 }
+SGJ.QuestInfo[256] = { start = "WANTED", zone = "Loch Modan", x = 37.3, y = 46.5, level = 22, req = 17 }
+SGJ.QuestInfo[257] = { start = "Daryl the Youngling", zone = "Loch Modan", x = 83.5, y = 65.5, level = 16, req = 11, step = 1, steps = 4 }
+SGJ.QuestInfo[258] = { start = "Daryl the Youngling", zone = "Loch Modan", x = 83.5, y = 65.5, level = 17, req = 11, step = 2, steps = 4 }
+SGJ.QuestInfo[275] = { start = "Rethiel the Greenwarden", zone = "Wetlands", x = 56.4, y = 40.4, level = 26, req = 20, step = 4, steps = 4 }
+SGJ.QuestInfo[283] = { start = "Explosive Charge", zone = "Loch Modan", x = 50.6, y = 14.3, level = 20, req = 16, step = 7, steps = 7 }
+SGJ.QuestInfo[286] = { start = "Half-buried Barrel", zone = "Wetlands", x = 13.9, y = 34.8, level = 25, req = 20, step = 5, steps = 8 }
+SGJ.QuestInfo[287] = { start = "Senir Whitebeard", zone = "Dun Morogh", x = 46.7, y = 53.8, level = 9, req = 7, step = 5, steps = 6 }
+SGJ.QuestInfo[293] = { start = "Glorin Steelbrow", zone = "Wetlands", x = 10.6, y = 60.6, level = 30, req = 22, step = 5, steps = 5 }
+SGJ.QuestInfo[296] = { start = "Ormer Ironbraid", zone = "Wetlands", x = 38.2, y = 50.9, level = 29, req = 22, step = 3, steps = 3 }
+SGJ.QuestInfo[297] = { start = "Magmar Fellhew", zone = "Loch Modan", x = 64.9, y = 66.7, level = 18, req = 13, step = 2, steps = 2 }
+SGJ.QuestInfo[299] = { start = "Prospector Whelgar", zone = "Wetlands", x = 38.8, y = 52.4, level = 27, req = 22, step = 1, steps = 4 }
+SGJ.QuestInfo[304] = { start = "Longbraid the Grim", zone = "Wetlands", x = 49.8, y = 18.3, level = 34, req = 26 }
+SGJ.QuestInfo[307] = { start = "Mountaineer Stormpike", zone = "Loch Modan", x = 24.8, y = 18.4, level = 15, req = 9 }
+SGJ.QuestInfo[309] = { start = "Miran", zone = "Loch Modan", x = 52.2, y = 69.4, level = 15, req = 10, step = 6, steps = 6 }
+SGJ.QuestInfo[312] = { start = "Tundra MacGrann", zone = "Dun Morogh", x = 34.6, y = 51.7, level = 12, req = 7 }
+SGJ.QuestInfo[314] = { start = "Rudra Amberstill", zone = "Dun Morogh", x = 63.1, y = 49.8, level = 12, req = 6 }
+SGJ.QuestInfo[315] = { start = "Rejold Barleybrew", zone = "Dun Morogh", x = 30.2, y = 45.7, level = 9, req = 5, step = 1, steps = 3 }
+SGJ.QuestInfo[320] = { start = "Rejold Barleybrew", zone = "Dun Morogh", x = 30.2, y = 45.7, level = 8, req = 2, step = 4, steps = 4 }
+SGJ.QuestInfo[328] = { start = "Bookie Herod's Records", zone = "Stranglethorn Vale", x = 43.7, y = 9.4, level = 37, req = 30, step = 3, steps = 6 }
+SGJ.QuestInfo[331] = { start = "Corporal Sethman", zone = "Stranglethorn Vale", x = 37.7, y = 3.4, level = 37, req = 30, step = 6, steps = 6 }
+SGJ.QuestInfo[338] = { start = "Barnil Stonepot", zone = "Stranglethorn Vale", x = 35.7, y = 10.5, level = 40, req = 30, step = 2, steps = 3 }
+SGJ.QuestInfo[346] = { start = "Brother Paxton", zone = "Elwynn Forest", x = 49.6, y = 40.4, level = 24, req = 20, step = 5, steps = 5 }
+SGJ.QuestInfo[348] = { start = "Fin Fizracket", zone = "Stranglethorn Vale", x = 27.6, y = 76.7, level = 45, req = 40, step = 1, steps = 2 }
+SGJ.QuestInfo[358] = { start = "Magistrate Sevren", zone = "Tirisfal Glades", x = 61.3, y = 50.8, level = 8, req = 4, step = 1, steps = 6 }
+SGJ.QuestInfo[364] = { start = "Shadow Priest Sarvis", zone = "Tirisfal Glades", x = 30.8, y = 66.2, level = 2, req = 1, step = 2, steps = 3 }
+SGJ.QuestInfo[369] = { start = "Apothecary Johaan", zone = "Tirisfal Glades", x = 59.4, y = 52.4, level = 11, req = 6, step = 3, steps = 4 }
+SGJ.QuestInfo[372] = { start = "Executor Zygand", zone = "Tirisfal Glades", x = 60.6, y = 51.8, level = 12, req = 5, step = 9, steps = 9 }
+SGJ.QuestInfo[374] = { start = "Deathguard Burgess", zone = "Tirisfal Glades", x = 60.9, y = 52.0, level = 7, req = 5, step = 7, steps = 7 }
+SGJ.QuestInfo[375] = { start = "Gretchen Dedmar", zone = "Tirisfal Glades", x = 61.9, y = 52.7, level = 8, req = 7 }
+SGJ.QuestInfo[376] = { start = "Novice Elreth", zone = "Tirisfal Glades", x = 30.9, y = 66.1, level = 2, req = 2, step = 1, steps = 9 }
+SGJ.QuestInfo[377] = { start = "Councilman Millstipe", zone = "Duskwood", x = 71.9, y = 47.8, level = 26, req = 22 }
+SGJ.QuestInfo[378] = { start = "Motley Garmason", zone = "Wetlands", x = 49.7, y = 18.2, level = 27, req = 22, step = 2, steps = 2 }
+SGJ.QuestInfo[380] = { start = "Executor Arren", zone = "Tirisfal Glades", x = 32.2, y = 66.0, level = 4, req = 2, step = 2, steps = 9 }
+SGJ.QuestInfo[381] = { start = "Executor Arren", zone = "Tirisfal Glades", x = 32.2, y = 66.0, level = 4, req = 2, step = 3, steps = 9 }
+SGJ.QuestInfo[382] = { start = "Executor Arren", zone = "Tirisfal Glades", x = 32.2, y = 66.0, level = 5, req = 2, step = 4, steps = 9 }
+SGJ.QuestInfo[385] = { start = "Marek Ironheart", zone = "Loch Modan", x = 81.8, y = 61.7, level = 15, req = 10 }
+SGJ.QuestInfo[386] = { start = "Guard Berton", zone = "Redridge Mountains", x = 21.2, y = 46.6, level = 25, req = 22 }
+SGJ.QuestInfo[396] = { start = "Baros Alexston", zone = "Stormwind City", x = 57.7, y = 47.9, level = 31, req = 16, step = 12, steps = 12 }
+SGJ.QuestInfo[397] = { start = "Zardeth of the Black Claw", zone = "Stormwind City", x = 40.1, y = 85.3, level = 30, req = 25, step = 3, steps = 3 }
+SGJ.QuestInfo[398] = { start = "Wanted!", zone = "Tirisfal Glades", x = 60.7, y = 51.5, level = 10, req = 6 }
+SGJ.QuestInfo[408] = { start = "Magistrate Sevren", zone = "Tirisfal Glades", x = 61.3, y = 50.8, level = 13, req = 7, step = 3, steps = 3 }
+SGJ.QuestInfo[411] = { start = "Gunther Arcanus", zone = "Tirisfal Glades", x = 68.2, y = 41.9, level = 12, req = 5, step = 6, steps = 6 }
+SGJ.QuestInfo[412] = { start = "Razzle Sprysprocket", zone = "Dun Morogh", x = 45.8, y = 49.4, level = 10, req = 7 }
+SGJ.QuestInfo[416] = { start = "Mountaineer Kadrell", zone = "Loch Modan", x = 34.2, y = 47.8, level = 11, req = 10 }
+SGJ.QuestInfo[417] = { start = "A Dwarven Corpse", zone = "Dun Morogh", x = 79.7, y = 36.2, level = 11, req = 8, step = 2, steps = 2 }
+SGJ.QuestInfo[419] = { start = "Pilot Hammerfoot", zone = "Dun Morogh", x = 83.9, y = 39.2, level = 10, req = 8, step = 1, steps = 2 }
+SGJ.QuestInfo[425] = { start = "Rane Yorick", zone = "Silverpine Forest", x = 53.5, y = 13.4, level = 12, req = 10, step = 4, steps = 4 }
+SGJ.QuestInfo[426] = { start = "Deathguard Dillinger", zone = "Tirisfal Glades", x = 58.2, y = 51.4, level = 8, req = 6, step = 2, steps = 2 }
+SGJ.QuestInfo[435] = { start = "Deathstalker Erland", zone = "Silverpine Forest", x = 56.2, y = 9.2, level = 11, req = 10, step = 1, steps = 5 }
+SGJ.QuestInfo[437] = { start = "High Executor Hadrec", zone = "Silverpine Forest", x = 43.4, y = 40.9, level = 14, req = 10, step = 1, steps = 8 }
+SGJ.QuestInfo[442] = { start = "High Executor Hadrec", zone = "Silverpine Forest", x = 43.4, y = 40.9, level = 24, req = 10, step = 8, steps = 8 }
+SGJ.QuestInfo[451] = { start = "Apothecary Renferrel", zone = "Silverpine Forest", x = 42.8, y = 40.9, level = 18, req = 9, step = 3, steps = 3 }
+SGJ.QuestInfo[452] = { start = "Deathstalker Faerleia", zone = "Silverpine Forest", x = 46.5, y = 74.4, level = 15, req = 12 }
+SGJ.QuestInfo[456] = { start = "Conservator Ilthalaine", zone = "Teldrassil", x = 58.7, y = 44.3, level = 2, req = 1, step = 1, steps = 2 }
+SGJ.QuestInfo[457] = { start = "Conservator Ilthalaine", zone = "Teldrassil", x = 58.7, y = 44.3, level = 3, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[459] = { start = "Tarindrella", zone = "Teldrassil", x = 57.8, y = 45.2, level = 3, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[466] = { start = "Pilot Stonegear", zone = "Dun Morogh", x = 49.6, y = 48.6, level = 22, req = 20, step = 2, steps = 2 }
+SGJ.QuestInfo[471] = { start = "James Halloran", zone = "Wetlands", x = 8.5, y = 55.7, level = 26, req = 18, step = 3, steps = 3 }
+SGJ.QuestInfo[474] = { start = "Dragonmaw Catapult", zone = "Wetlands", x = 47.5, y = 47.0, level = 32, req = 23, step = 4, steps = 4 }
+SGJ.QuestInfo[480] = { start = "Shadow Priest Allister", zone = "Silverpine Forest", x = 44.0, y = 40.9, level = 22, req = 10, step = 6, steps = 6 }
+SGJ.QuestInfo[483] = { start = "Athridas Bearmantle", zone = "Teldrassil", x = 56.0, y = 57.3, level = 9, req = 4, step = 3, steps = 4 }
+SGJ.QuestInfo[486] = { start = "Athridas Bearmantle", zone = "Teldrassil", x = 56.0, y = 57.3, level = 12, req = 4, step = 4, steps = 4 }
+SGJ.QuestInfo[491] = { start = "Dusty Shelf", zone = "Silverpine Forest", x = 65.4, y = 24.8, level = 18, req = 12, step = 3, steps = 3 }
+SGJ.QuestInfo[498] = { start = "Krusk", zone = "Hillsbrad Foothills", x = 63.2, y = 20.7, level = 22, req = 17, step = 1, steps = 6 }
+SGJ.QuestInfo[501] = { start = "Apothecary Lydon", zone = "Hillsbrad Foothills", x = 61.4, y = 19.1, level = 24, req = 21, step = 1, steps = 2 }
+SGJ.QuestInfo[504] = { start = "Marshal Redpath", zone = "Hillsbrad Foothills", x = 49.5, y = 58.7, level = 40, req = 30, step = 2, steps = 2 }
+SGJ.QuestInfo[505] = { start = "Magistrate Henry Maleb", zone = "Hillsbrad Foothills", x = 48.1, y = 59.1, level = 33, req = 26 }
+SGJ.QuestInfo[508] = { start = "Elysa", zone = "Alterac Mountains", x = 39.3, y = 14.3, level = 40, req = 29, step = 6, steps = 6 }
+SGJ.QuestInfo[515] = { start = "Master Apothecary Faranell", zone = "Undercity", x = 48.8, y = 69.3, level = 30, req = 24, step = 3, steps = 5 }
+SGJ.QuestInfo[516] = { start = "Shadow Priest Allister", zone = "Silverpine Forest", x = 44.0, y = 40.9, level = 21, req = 16 }
+SGJ.QuestInfo[521] = { start = "Melisara", zone = "Hillsbrad Foothills", x = 62.6, y = 20.6, level = 43, req = 34, step = 5, steps = 5 }
+SGJ.QuestInfo[530] = { start = "Raleigh Andrean", zone = "Undercity", x = 62.0, y = 42.7, level = 20, req = 10, step = 6, steps = 6 }
+SGJ.QuestInfo[546] = { start = "Deathguard Samsa", zone = "Hillsbrad Foothills", x = 62.1, y = 19.7, level = 25, req = 20, step = 2, steps = 2 }
+SGJ.QuestInfo[547] = { start = "Deathguard Humbert", zone = "Hillsbrad Foothills", x = 62.8, y = 20.2, level = 30, req = 26 }
+SGJ.QuestInfo[549] = { start = "WANTED", zone = "Hillsbrad Foothills", x = 62.6, y = 20.8, level = 22, req = 17 }
+SGJ.QuestInfo[550] = { start = "High Executor Darthalia", zone = "Hillsbrad Foothills", x = 62.3, y = 20.5, level = 32, req = 19, step = 7, steps = 7 }
+SGJ.QuestInfo[562] = { start = "Lieutenant Farren Orinelle", zone = "Hillsbrad Foothills", x = 51.5, y = 58.4, level = 32, req = 25, step = 5, steps = 6 }
+SGJ.QuestInfo[564] = { start = "Darren Malvew", zone = "Hillsbrad Foothills", x = 52.4, y = 56.0, level = 34, req = 30 }
+SGJ.QuestInfo[565] = { start = "Bartolo Ginsetti", zone = "Hillsbrad Foothills", x = 49.4, y = 55.5, level = 34, req = 29 }
+SGJ.QuestInfo[566] = { start = "WANTED", zone = "Hillsbrad Foothills", x = 62.6, y = 20.8, level = 40, req = 35 }
+SGJ.QuestInfo[567] = { start = "Dangerous!", zone = "Hillsbrad Foothills", x = 62.6, y = 19.7, level = 28, req = 19 }
+SGJ.QuestInfo[569] = { start = "Commander Aggro'gosh", zone = "Stranglethorn Vale", x = 32.2, y = 28.9, level = 37, req = 33, step = 2, steps = 2 }
+SGJ.QuestInfo[573] = { start = "Far Seer Mok'thardin", zone = "Stranglethorn Vale", x = 32.1, y = 29.2, level = 44, req = 33, step = 4, steps = 4 }
+SGJ.QuestInfo[576] = { start = "Dizzy One-Eye", zone = "Stranglethorn Vale", x = 28.6, y = 75.9, level = 42, req = 37, step = 2, steps = 2 }
+SGJ.QuestInfo[582] = { start = "Nimboya", zone = "Stranglethorn Vale", x = 32.2, y = 27.7, level = 37, req = 30, step = 2, steps = 9 }
+SGJ.QuestInfo[592] = { start = "Kin'weelay", zone = "Stranglethorn Vale", x = 32.3, y = 27.7, level = 46, req = 30, step = 8, steps = 9 }
+SGJ.QuestInfo[596] = { start = "Kin'weelay", zone = "Stranglethorn Vale", x = 32.3, y = 27.7, level = 37, req = 30, step = 1, steps = 2 }
+SGJ.QuestInfo[598] = { start = "Kin'weelay", zone = "Stranglethorn Vale", x = 32.3, y = 27.7, level = 42, req = 30, step = 2, steps = 2 }
+SGJ.QuestInfo[600] = { start = "Crank Fizzlebub", zone = "Stranglethorn Vale", x = 27.1, y = 77.2, level = 41, req = 30, step = 2, steps = 2 }
+SGJ.QuestInfo[608] = { start = "Fleet Master Seahorn", zone = "Stranglethorn Vale", x = 27.2, y = 77.0, level = 45, req = 37, step = 5, steps = 5 }
+SGJ.QuestInfo[611] = { start = "Catelyn the Blade", zone = "Stranglethorn Vale", x = 27.3, y = 77.5, level = 40, req = 32, step = 7, steps = 7 }
+SGJ.QuestInfo[613] = { start = "\"Sea Wolf\" MacKinley", zone = "Stranglethorn Vale", x = 27.8, y = 77.1, level = 44, req = 30, step = 4, steps = 4 }
+SGJ.QuestInfo[614] = { level = 47, req = 35 }
+SGJ.QuestInfo[617] = { start = "Privateer Bloads", zone = "Stranglethorn Vale", x = 26.8, y = 76.4, level = 43, req = 38, step = 1, steps = 2 }
+SGJ.QuestInfo[618] = { level = 50, req = 35, step = 3, steps = 4 }
+SGJ.QuestInfo[621] = { start = "Crank Fizzlebub", zone = "Stranglethorn Vale", x = 27.1, y = 77.2, level = 44, req = 35, step = 1, steps = 5 }
+SGJ.QuestInfo[622] = { start = "Krazek", zone = "Stranglethorn Vale", x = 26.9, y = 77.2, level = 37, req = 32, step = 3, steps = 3 }
+SGJ.QuestInfo[628] = { start = "Drizzlik", zone = "Stranglethorn Vale", x = 28.3, y = 77.6, level = 38, req = 31, step = 3, steps = 3 }
+SGJ.QuestInfo[630] = { start = "Princess Poobah", zone = "Stranglethorn Vale", x = 38.5, y = 80.6, level = 51, req = 45, step = 2, steps = 2 }
+SGJ.QuestInfo[633] = { start = "Rhag Garmason", zone = "Wetlands", x = 49.9, y = 18.2, level = 31, req = 28, step = 3, steps = 4 }
+SGJ.QuestInfo[646] = { start = "Trollbane's Tomb", zone = "Arathi Highlands", x = 28.9, y = 59.6, level = 42, req = 32, step = 8, steps = 8 }
+SGJ.QuestInfo[648] = { start = "Homing Robot OOX-17/TN", zone = "Tanaris", x = 60.2, y = 64.7, level = 48, req = 43, step = 2, steps = 3 }
+SGJ.QuestInfo[656] = { start = "Theldurin the Lost", zone = "Badlands", x = 51.4, y = 76.9, level = 50, req = 30, step = 7, steps = 7 }
+SGJ.QuestInfo[661] = { start = "Quae", zone = "Arathi Highlands", x = 60.2, y = 53.8, level = 37, req = 30, step = 5, steps = 5 }
+SGJ.QuestInfo[662] = { start = "First Mate Nilzlix", zone = "Arathi Highlands", x = 32.8, y = 81.5, level = 40, req = 35, step = 2, steps = 2 }
+SGJ.QuestInfo[664] = { start = "Captain Steelgut", zone = "Arathi Highlands", x = 34.0, y = 80.8, level = 40, req = 35 }
+SGJ.QuestInfo[666] = { start = "Doctor Draxlegauge", zone = "Arathi Highlands", x = 33.9, y = 80.4, level = 40, req = 35, step = 2, steps = 6 }
+SGJ.QuestInfo[667] = { start = "Shakes O'Breen", zone = "Arathi Highlands", x = 32.3, y = 81.4, level = 44, req = 35, step = 6, steps = 6 }
+SGJ.QuestInfo[673] = { start = "Tor'gan", zone = "Arathi Highlands", x = 74.7, y = 36.3, level = 40, req = 35, step = 2, steps = 2 }
+SGJ.QuestInfo[679] = { start = "Drum Fel", zone = "Arathi Highlands", x = 74.2, y = 33.9, level = 40, req = 30, step = 4, steps = 4 }
+SGJ.QuestInfo[680] = { start = "Korin Fel", zone = "Arathi Highlands", x = 74.0, y = 33.1, level = 40, req = 30, step = 4, steps = 4 }
+SGJ.QuestInfo[682] = { start = "Captain Nials", zone = "Arathi Highlands", x = 45.8, y = 47.6, level = 37, req = 30, step = 2, steps = 2 }
+SGJ.QuestInfo[684] = { start = "Wanted Board", zone = "Arathi Highlands", x = 46.0, y = 47.8, level = 39, req = 30 }
+SGJ.QuestInfo[685] = { start = "Wanted Board", zone = "Arathi Highlands", x = 46.0, y = 47.8, level = 40, req = 30 }
+SGJ.QuestInfo[697] = { start = "Skuerto", zone = "Arathi Highlands", x = 46.7, y = 47.0, level = 39, req = 30, step = 7, steps = 7 }
+SGJ.QuestInfo[700] = { start = "Grand Mason Marblesten", zone = "Dun Morogh", x = 57.3, y = 35.2, level = 31, req = 25, step = 5, steps = 5 }
+SGJ.QuestInfo[704] = { start = "Prospector Ironband", zone = "Loch Modan", x = 65.9, y = 65.6, level = 38, req = 30, step = 4, steps = 4 }
+SGJ.QuestInfo[705] = { start = "Rigglefuzz", zone = "Badlands", x = 42.4, y = 52.9, level = 37, req = 30, step = 1, steps = 2 }
+SGJ.QuestInfo[709] = { start = "Theldurin the Lost", zone = "Badlands", x = 51.4, y = 76.9, level = 40, req = 30, step = 1, steps = 4 }
+SGJ.QuestInfo[716] = { start = "Lucien Tosselwrench", zone = "Badlands", x = 25.8, y = 44.2, level = 42, req = 35, step = 4, steps = 4 }
+SGJ.QuestInfo[719] = { start = "Prospector Ryedol", zone = "Badlands", x = 53.4, y = 43.4, level = 35, req = 35 }
+SGJ.QuestInfo[733] = { start = "Sigrun Ironhew", zone = "Badlands", x = 53.8, y = 43.3, level = 40, req = 35, step = 2, steps = 2 }
+SGJ.QuestInfo[737] = { start = "Gerrig Bonegrip", zone = "Dun Morogh", x = 59.2, y = 22.0, level = 40, req = 30, step = 4, steps = 4 }
+SGJ.QuestInfo[739] = { start = "Battered Dwarven Skeleton", zone = "Badlands", x = 50.9, y = 62.4, level = 42, req = 30, step = 3, steps = 4 }
+SGJ.QuestInfo[741] = { start = "Archaeologist Hollee", zone = "Darkshore", x = 37.4, y = 41.8, level = 20, req = 15, step = 4, steps = 6 }
+SGJ.QuestInfo[744] = { start = "Eyahn Eagletalon", zone = "Thunder Bluff", x = 37.8, y = 59.6, level = 11, req = 7 }
+SGJ.QuestInfo[746] = { start = "Baine Bloodhoof", zone = "Mulgore", x = 46.7, y = 63.4, level = 8, req = 6 }
+SGJ.QuestInfo[747] = { start = "Grull Hawkwind", zone = "Mulgore", x = 44.5, y = 77.5, level = 2, req = 1, step = 1, steps = 3 }
+SGJ.QuestInfo[750] = { start = "Grull Hawkwind", zone = "Mulgore", x = 44.5, y = 77.5, level = 3, req = 1, step = 2, steps = 3 }
+SGJ.QuestInfo[757] = { start = "Seer Graytongue", zone = "Mulgore", x = 42.5, y = 90.1, level = 4, req = 1, step = 4, steps = 11 }
+SGJ.QuestInfo[758] = { start = "Mull Thunderhorn", zone = "Mulgore", x = 47.5, y = 63.6, level = 8, req = 4, step = 4, steps = 7 }
+SGJ.QuestInfo[762] = { start = "Historian Karnik", zone = "Dun Morogh", x = 63.5, y = 23.0, level = 44, req = 35, step = 8, steps = 9 }
+SGJ.QuestInfo[765] = { start = "Morin Cloudstalker", zone = "Mulgore", x = 54.8, y = 64.3, level = 12, req = 5, step = 3, steps = 3 }
+SGJ.QuestInfo[766] = { start = "Maur Raincaller", zone = "Mulgore", x = 46.2, y = 60.8, level = 8, req = 5 }
+SGJ.QuestInfo[768] = { start = "Veren Tallstrider", zone = "Thunder Bluff", x = 44.4, y = 44.7, level = 8, req = 4, step = 1, steps = 2 }
+SGJ.QuestInfo[770] = { start = "an item: Demon Scarred Cloak", level = 12, req = 6 }
+SGJ.QuestInfo[772] = { start = "Zarlman Two-Moons", zone = "Mulgore", x = 46.9, y = 61.2, level = 7, req = 3, step = 8, steps = 11 }
+SGJ.QuestInfo[776] = { start = "Cairne Bloodhoof", zone = "Thunder Bluff", x = 60.3, y = 51.7, level = 14, req = 3, step = 11, steps = 11 }
+SGJ.QuestInfo[778] = { start = "Lotwil Veriatus", zone = "Badlands", x = 25.9, y = 44.9, level = 45, req = 35, step = 6, steps = 6 }
+SGJ.QuestInfo[780] = { start = "Grull Hawkwind", zone = "Mulgore", x = 44.5, y = 77.5, level = 4, req = 1, step = 3, steps = 3 }
+SGJ.QuestInfo[781] = { start = "an item: Dirt-stained Map", zone = "Mulgore", x = 59.8, y = 82.2, level = 4, req = 1 }
+SGJ.QuestInfo[786] = { start = "Lar Prowltusk", zone = "Durotar", x = 54.2, y = 73.3, level = 8, req = 5, step = 2, steps = 2 }
+SGJ.QuestInfo[788] = { start = "Gornek", zone = "Durotar", x = 42.1, y = 68.3, level = 2, req = 1, step = 2, steps = 3 }
+SGJ.QuestInfo[789] = { start = "Gornek", zone = "Durotar", x = 42.1, y = 68.3, level = 3, req = 1, step = 3, steps = 3 }
+SGJ.QuestInfo[792] = { start = "Zureetha Fargaze", zone = "Durotar", x = 42.8, y = 69.1, level = 4, req = 2, step = 1, steps = 3 }
+SGJ.QuestInfo[793] = { start = "Gorn", zone = "Badlands", x = 2.9, y = 45.6, level = 50, req = 40, step = 2, steps = 3 }
+SGJ.QuestInfo[794] = { start = "Zureetha Fargaze", zone = "Durotar", x = 42.8, y = 69.1, level = 5, req = 1, step = 3, steps = 4 }
+SGJ.QuestInfo[804] = { start = "Hana'zua", zone = "Durotar", x = 40.6, y = 62.6, level = 5, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[806] = { start = "Orgnil Soulscar", zone = "Durotar", x = 52.2, y = 43.2, level = 12, req = 4, step = 2, steps = 8 }
+SGJ.QuestInfo[812] = { start = "Rhinag", zone = "Durotar", x = 41.5, y = 18.6, level = 9, req = 7, step = 1, steps = 2 }
+SGJ.QuestInfo[816] = { start = "Misha Tor'kren", zone = "Durotar", x = 43.1, y = 30.2, level = 11, req = 8 }
+SGJ.QuestInfo[824] = { start = "Mastok Wrilehiss", zone = "Ashenvale", x = 73.7, y = 60.0, level = 27, req = 23, step = 2, steps = 2 }
+SGJ.QuestInfo[825] = { start = "Gar'Thok", zone = "Durotar", x = 51.9, y = 43.5, level = 8, req = 3, step = 2, steps = 2 }
+SGJ.QuestInfo[826] = { start = "Master Gadrin", zone = "Durotar", x = 55.9, y = 74.7, level = 10, req = 4 }
+SGJ.QuestInfo[827] = { start = "Margoz", zone = "Durotar", x = 56.4, y = 20.0, level = 12, req = 4, step = 4, steps = 8 }
+SGJ.QuestInfo[835] = { start = "Rezlak", zone = "Durotar", x = 46.4, y = 22.9, level = 11, req = 7, step = 2, steps = 2 }
+SGJ.QuestInfo[836] = { start = "Homing Robot OOX-09/HL", zone = "The Hinterlands", x = 49.4, y = 37.7, level = 48, req = 43, step = 2, steps = 3 }
+SGJ.QuestInfo[849] = { start = "Gann Stonespire", zone = "The Barrens", x = 45.9, y = 77.0, level = 26, req = 17, step = 3, steps = 3 }
+SGJ.QuestInfo[852] = { start = "Regthar Deathgate", zone = "The Barrens", x = 45.3, y = 28.4, level = 19, req = 11, step = 3, steps = 4 }
+SGJ.QuestInfo[853] = { start = "Apothecary Helbrim", zone = "The Barrens", x = 51.4, y = 30.2, level = 15, req = 10, step = 2, steps = 2 }
+SGJ.QuestInfo[855] = { start = "Regthar Deathgate", zone = "The Barrens", x = 45.3, y = 28.4, level = 14, req = 9 }
+SGJ.QuestInfo[862] = { start = "Grub", zone = "The Barrens", x = 55.3, y = 31.8, level = 23, req = 15 }
+SGJ.QuestInfo[863] = { start = "Wizzlecrank's Shredder", zone = "The Barrens", x = 56.5, y = 7.5, level = 18, req = 13, step = 2, steps = 2 }
+SGJ.QuestInfo[864] = { start = "Chief Engineer Bilgewhizzle", zone = "Tanaris", x = 52.5, y = 28.5, level = 46, req = 38, step = 6, steps = 6 }
+SGJ.QuestInfo[865] = { start = "Mebok Mizzyrix", zone = "The Barrens", x = 62.4, y = 37.6, level = 18, req = 13, step = 1, steps = 2 }
+SGJ.QuestInfo[866] = { start = "Mebok Mizzyrix", zone = "The Barrens", x = 62.4, y = 37.6, level = 16, req = 9 }
+SGJ.QuestInfo[868] = { start = "Korran", zone = "The Barrens", x = 51.1, y = 29.6, level = 22, req = 17 }
+SGJ.QuestInfo[872] = { start = "Thork", zone = "The Barrens", x = 51.5, y = 30.9, level = 15, req = 9, step = 2, steps = 2 }
+SGJ.QuestInfo[873] = { start = "Mahren Skyseer", zone = "The Barrens", x = 65.8, y = 43.9, level = 27, req = 10, step = 13, steps = 13 }
+SGJ.QuestInfo[876] = { start = "Darsok Swiftdagger", zone = "The Barrens", x = 51.6, y = 30.9, level = 20, req = 12, step = 3, steps = 4 }
+SGJ.QuestInfo[888] = { start = "Gazlowe", zone = "The Barrens", x = 62.7, y = 36.2, level = 16, req = 9, step = 4, steps = 4 }
+SGJ.QuestInfo[891] = { start = "Captain Thalo'thas Brightsun", zone = "The Barrens", x = 62.3, y = 39.0, level = 20, req = 13 }
+SGJ.QuestInfo[893] = { start = "Tatternack Steelforge", zone = "The Barrens", x = 45.1, y = 57.7, level = 24, req = 17, step = 1, steps = 2 }
+SGJ.QuestInfo[898] = { start = "Gilthares Firebough", zone = "The Barrens", x = 62.0, y = 55.0, level = 20, req = 13 }
+SGJ.QuestInfo[899] = { start = "Mankrik", zone = "The Barrens", x = 52.0, y = 31.6, level = 20, req = 14 }
+SGJ.QuestInfo[902] = { start = "Control Console", zone = "The Barrens", x = 52.4, y = 11.6, level = 16, req = 10, step = 4, steps = 8 }
+SGJ.QuestInfo[906] = { start = "Mangletooth", zone = "The Barrens", x = 44.5, y = 59.3, level = 25, req = 17, step = 4, steps = 4 }
+SGJ.QuestInfo[909] = { level = 30, req = 25 }
+SGJ.QuestInfo[913] = { start = "Jorn Skyseer", zone = "The Barrens", x = 44.9, y = 59.1, level = 20, req = 10, step = 11, steps = 13 }
+SGJ.QuestInfo[914] = { start = "Nara Wildmane", zone = "Thunder Bluff", x = 75.6, y = 31.6, level = 22, req = 10, step = 7, steps = 7 }
+SGJ.QuestInfo[916] = { start = "Gilshalan Windwalker", zone = "Teldrassil", x = 57.8, y = 41.7, level = 4, req = 3, step = 1, steps = 9 }
+SGJ.QuestInfo[917] = { start = "Gilshalan Windwalker", zone = "Teldrassil", x = 57.8, y = 41.7, level = 5, req = 1, step = 2, steps = 9 }
+SGJ.QuestInfo[919] = { start = "Denalan", zone = "Teldrassil", x = 60.9, y = 68.5, level = 7, req = 4 }
+SGJ.QuestInfo[923] = { start = "Rellian Greenspyre", zone = "Darnassus", x = 38.2, y = 21.6, level = 9, req = 4, step = 4, steps = 6 }
+SGJ.QuestInfo[924] = { start = "Ak'Zeloth", zone = "The Barrens", x = 62.3, y = 20.1, level = 14, req = 9, step = 7, steps = 8 }
+SGJ.QuestInfo[932] = { start = "Tallonkai Swiftroot", zone = "Teldrassil", x = 55.6, y = 56.9, level = 8, req = 4, step = 1, steps = 2 }
+SGJ.QuestInfo[935] = { start = "Corithras Moonrage", zone = "Teldrassil", x = 56.1, y = 61.7, level = 11, req = 1, step = 9, steps = 9 }
+SGJ.QuestInfo[937] = { start = "Sentinel Arynia Cloudsbreak", zone = "Teldrassil", x = 38.3, y = 34.4, level = 11, req = 6, step = 1, steps = 5 }
+SGJ.QuestInfo[938] = { start = "Mist", zone = "Teldrassil", x = 31.5, y = 31.6, level = 12, req = 7 }
+SGJ.QuestInfo[940] = { start = "Sentinel Arynia Cloudsbreak", zone = "Teldrassil", x = 38.2, y = 34.4, level = 11, req = 6, step = 4, steps = 5 }
+SGJ.QuestInfo[943] = { start = "Archaeologist Flagongut", zone = "Wetlands", x = 10.8, y = 60.4, level = 24, req = 15, step = 6, steps = 6 }
+SGJ.QuestInfo[947] = { start = "Barithras Moonshade", zone = "Darkshore", x = 37.3, y = 43.6, level = 17, req = 12, step = 1, steps = 6 }
+SGJ.QuestInfo[951] = { start = "Onu", zone = "Darkshore", x = 43.6, y = 76.3, level = 20, req = 12, step = 6, steps = 6 }
+SGJ.QuestInfo[957] = { start = "Asterion", zone = "Darkshore", x = 44.2, y = 36.3, level = 13, req = 7, step = 4, steps = 4 }
+SGJ.QuestInfo[958] = { start = "Thundris Windweaver", zone = "Darkshore", x = 37.4, y = 40.1, level = 12, req = 9 }
+SGJ.QuestInfo[962] = { start = "Apothecary Zamah", zone = "Thunder Bluff", x = 22.8, y = 20.9, level = 18, req = 14 }
+SGJ.QuestInfo[963] = { start = "Cerellean Whiteclaw", zone = "Darkshore", x = 35.7, y = 43.7, level = 16, req = 11 }
+SGJ.QuestInfo[971] = { start = "Gerrig Bonegrip", zone = "Dun Morogh", x = 59.2, y = 22.0, level = 23, req = 10 }
+SGJ.QuestInfo[973] = { start = "Delgren the Purifier", zone = "Ashenvale", x = 26.2, y = 38.7, level = 24, req = 13, step = 5, steps = 9 }
+SGJ.QuestInfo[976] = { start = "Feero Ironhand", zone = "Ashenvale", x = 26.2, y = 38.9, level = 24, req = 19, step = 6, steps = 6 }
+SGJ.QuestInfo[981] = { start = "Balthule Shadowstrike", zone = "Darkshore", x = 55.0, y = 24.9, level = 31, req = 13, step = 9, steps = 9 }
+SGJ.QuestInfo[982] = { start = "Gorbold Steelhand", zone = "Darkshore", x = 38.1, y = 41.2, level = 17, req = 13, step = 2, steps = 2 }
+SGJ.QuestInfo[994] = { start = "Volcor", zone = "Darkshore", x = 45.0, y = 85.3, level = 22, req = 10, step = 5, steps = 6 }
+SGJ.QuestInfo[995] = { start = "Volcor", zone = "Darkshore", x = 45.0, y = 85.3, level = 20, req = 10, step = 5, steps = 6 }
+SGJ.QuestInfo[1009] = { start = "Talen", zone = "Ashenvale", x = 14.8, y = 31.3, level = 25, req = 20, step = 2, steps = 2 }
+SGJ.QuestInfo[1012] = { start = "Kayneth Stillwind", zone = "Ashenvale", x = 85.2, y = 44.7, level = 32, req = 24, step = 3, steps = 3 }
+SGJ.QuestInfo[1013] = { start = "Keeper Bel'dugur", zone = "Undercity", x = 53.7, y = 54.5, level = 26, req = 16 }
+SGJ.QuestInfo[1014] = { start = "Dalar Dawnweaver", zone = "Silverpine Forest", x = 44.2, y = 39.8, level = 27, req = 18 }
+SGJ.QuestInfo[1031] = { start = "Anilia", zone = "Ashenvale", x = 78.3, y = 44.8, level = 32, req = 26, step = 2, steps = 3 }
+SGJ.QuestInfo[1035] = { start = "Pelturas Whitemoon", zone = "Ashenvale", x = 37.4, y = 51.8, level = 30, req = 20, step = 5, steps = 5 }
+SGJ.QuestInfo[1044] = { start = "Jonathan Carevin", zone = "Duskwood", x = 75.3, y = 49.0, level = 30, req = 25, step = 9, steps = 9 }
+SGJ.QuestInfo[1046] = { start = "Krolg", zone = "Ashenvale", x = 50.8, y = 75.1, level = 30, req = 18, step = 11, steps = 11 }
+SGJ.QuestInfo[1048] = { start = "Varimathras", zone = "Undercity", x = 56.3, y = 92.2, level = 42, req = 33 }
+SGJ.QuestInfo[1049] = { start = "Sage Truthseeker", zone = "Thunder Bluff", x = 34.4, y = 46.9, level = 38, req = 28 }
+SGJ.QuestInfo[1050] = { start = "Librarian Mae Paledust", zone = "Dun Morogh", x = 63.1, y = 23.1, level = 38, req = 28 }
+SGJ.QuestInfo[1051] = { start = "Vorrel Sengutz", zone = "Scarlet Monastery", level = 33, req = 25 }
+SGJ.QuestInfo[1053] = { start = "Raleigh the Devout", zone = "Hillsbrad Foothills", x = 51.5, y = 58.4, level = 40, req = 34, step = 4, steps = 4 }
+SGJ.QuestInfo[1058] = { start = "Witch Doctor Jin'Zil", zone = "Stonetalon Mountains", x = 74.5, y = 97.9, level = 26, req = 20 }
+SGJ.QuestInfo[1059] = { start = "Keeper Albagorm", zone = "Stonetalon Mountains", x = 37.1, y = 8.1, level = 27, req = 20, step = 3, steps = 3 }
+SGJ.QuestInfo[1078] = { start = "Collin Mauren", zone = "Stormwind City", x = 53.0, y = 86.6, level = 26, req = 17 }
+SGJ.QuestInfo[1081] = { start = "Sentinel Thenysil", zone = "Ashenvale", x = 34.9, y = 49.8, level = 28, req = 17, step = 11, steps = 11 }
+SGJ.QuestInfo[1089] = { start = "Braelyn Firehand", zone = "Stonetalon Mountains", x = 45.9, y = 60.4, level = 29, req = 20, step = 3, steps = 3 }
+SGJ.QuestInfo[1092] = { start = "Piznik", zone = "Stonetalon Mountains", x = 71.9, y = 60.0, level = 22, req = 17, step = 2, steps = 2 }
+SGJ.QuestInfo[1096] = { start = "Ziz Fizziks", zone = "Stonetalon Mountains", x = 59.0, y = 62.6, level = 27, req = 16, step = 5, steps = 5 }
+SGJ.QuestInfo[1098] = { start = "High Executor Hadrec", zone = "Silverpine Forest", x = 43.4, y = 40.9, level = 25, req = 18 }
+SGJ.QuestInfo[1101] = { start = "Falfindel Waywarder", zone = "Feralas", x = 89.6, y = 46.6, level = 34, req = 29, step = 2, steps = 2 }
+SGJ.QuestInfo[1102] = { start = "Auld Stonespire", zone = "Thunder Bluff", x = 36.0, y = 59.9, level = 34, req = 29 }
+SGJ.QuestInfo[1135] = { start = "Fiora Longears", zone = "Dustwallow Marsh", x = 66.5, y = 45.1, level = 30, req = 25 }
+SGJ.QuestInfo[1136] = { start = "Melor Stonehoof", zone = "Thunder Bluff", x = 61.5, y = 80.9, level = 37, req = 26, step = 3, steps = 3 }
+SGJ.QuestInfo[1137] = { start = "Martek the Exiled", zone = "Badlands", x = 42.2, y = 52.7, level = 38, req = 28, step = 3, steps = 6 }
+SGJ.QuestInfo[1138] = { start = "Gubber Blump", zone = "Darkshore", x = 36.1, y = 44.9, level = 17, req = 15 }
+SGJ.QuestInfo[1139] = { start = "Advisor Belgrum", zone = "Dun Morogh", x = 63.5, y = 22.6, level = 45, req = 35, step = 9, steps = 9 }
+SGJ.QuestInfo[1141] = { start = "Gubber Blump", zone = "Darkshore", x = 36.1, y = 44.9, level = 14, req = 10 }
+SGJ.QuestInfo[1142] = { start = "Heralath Fallowbrook", zone = "Razorfen Kraul", level = 30, req = 25 }
+SGJ.QuestInfo[1144] = { start = "Willix the Importer", zone = "Razorfen Kraul", level = 30, req = 22 }
+SGJ.QuestInfo[1153] = { start = "Tatternack Steelforge", zone = "The Barrens", x = 45.1, y = 57.7, level = 29, req = 25, step = 2, steps = 2 }
+SGJ.QuestInfo[1164] = { start = "Genavie Callow", zone = "Undercity", x = 63.8, y = 49.5, level = 36, req = 27 }
+SGJ.QuestInfo[1166] = { start = "Overlord Mok'Morokk", zone = "Dustwallow Marsh", x = 36.3, y = 31.4, level = 43, req = 38 }
+SGJ.QuestInfo[1168] = { start = "Tharg", zone = "Dustwallow Marsh", x = 37.4, y = 31.4, level = 43, req = 38 }
+SGJ.QuestInfo[1169] = { start = "Draz'Zilb", zone = "Dustwallow Marsh", x = 37.2, y = 33.1, level = 43, req = 38, step = 1, steps = 5 }
+SGJ.QuestInfo[1172] = { start = "Draz'Zilb", zone = "Dustwallow Marsh", x = 37.2, y = 33.1, level = 45, req = 38, step = 4, steps = 5 }
+SGJ.QuestInfo[1173] = { start = "Overlord Mok'Morokk", zone = "Dustwallow Marsh", x = 36.3, y = 31.4, level = 45, req = 38, step = 5, steps = 5 }
+SGJ.QuestInfo[1177] = { start = "Mudcrush Durtfeet", zone = "Dustwallow Marsh", x = 35.2, y = 38.3, level = 36, req = 32 }
+SGJ.QuestInfo[1184] = { start = "Korran", zone = "The Barrens", x = 51.1, y = 29.6, level = 35, req = 28, step = 2, steps = 2 }
+SGJ.QuestInfo[1189] = { start = "Shreev", zone = "Tanaris", x = 51.0, y = 27.2, level = 41, req = 29, step = 10, steps = 10 }
+SGJ.QuestInfo[1197] = { start = "Rau Cliffrunner", zone = "Thousand Needles", x = 46.1, y = 51.7, level = 29, req = 20, step = 3, steps = 3 }
+SGJ.QuestInfo[1199] = { start = "Argent Guard Manados", zone = "Darnassus", x = 55.2, y = 24.0, level = 25, req = 20 }
+SGJ.QuestInfo[1200] = { start = "Argent Guard Thaelrid", level = 27, req = 18, step = 2, steps = 2 }
+SGJ.QuestInfo[1203] = { start = "\"Swamp Eye\" Jarl", zone = "Dustwallow Marsh", x = 55.4, y = 26.3, level = 35, req = 30, step = 3, steps = 3 }
+SGJ.QuestInfo[1258] = { start = "Morgan Stern", zone = "Dustwallow Marsh", x = 66.3, y = 45.5, level = 40, req = 33, step = 3, steps = 4 }
+SGJ.QuestInfo[1267] = { start = "Archmage Tervosh", zone = "Dustwallow Marsh", x = 66.4, y = 49.3, level = 38, req = 28, step = 17, steps = 17 }
+SGJ.QuestInfo[1273] = { start = "Ogron", zone = "Dustwallow Marsh", x = 41.0, y = 36.7, level = 37, req = 30, step = 2, steps = 2 }
+SGJ.QuestInfo[1275] = { start = "Gershala Nightwhisper", zone = "Darkshore", x = 38.3, y = 43.0, level = 24, req = 18, step = 2, steps = 2 }
+SGJ.QuestInfo[1318] = { level = 60, req = 56 }
+SGJ.QuestInfo[1358] = { start = "Apothecary Zinge", zone = "Undercity", x = 50.1, y = 68.0, level = 15, req = 10, step = 5, steps = 5 }
+SGJ.QuestInfo[1364] = { start = "Acolyte Dellis", zone = "Stormwind City", x = 51.4, y = 73.8, level = 41, req = 37, step = 2, steps = 2 }
+SGJ.QuestInfo[1366] = { start = "Felgur Twocuts", zone = "Desolace", x = 56.2, y = 59.6, level = 31, req = 30, step = 2, steps = 2 }
+SGJ.QuestInfo[1370] = { start = "Uthek the Wise", zone = "Desolace", x = 36.2, y = 79.2, level = 35, req = 30, step = 3, steps = 6 }
+SGJ.QuestInfo[1380] = { start = "Uthek the Wise", zone = "Desolace", x = 36.2, y = 79.2, level = 42, req = 30, step = 6, steps = 6 }
+SGJ.QuestInfo[1381] = { start = "Warug", zone = "Desolace", x = 75.0, y = 68.2, level = 42, req = 30, step = 6, steps = 6 }
+SGJ.QuestInfo[1383] = { start = "Apothecary Faustin", zone = "Duskwood", x = 87.5, y = 35.2, level = 42, req = 37, step = 2, steps = 4 }
+SGJ.QuestInfo[1387] = { start = "Corporal Melkins", zone = "Desolace", x = 66.7, y = 10.9, level = 31, req = 30 }
+SGJ.QuestInfo[1393] = { start = "Galen Goodward", zone = "Swamp of Sorrows", x = 65.5, y = 18.2, level = 38, req = 30 }
+SGJ.QuestInfo[1394] = { start = "Parqual Fintallas", zone = "Undercity", x = 57.8, y = 65.4, level = 36, req = 25, step = 10, steps = 10 }
+SGJ.QuestInfo[1427] = { start = "Katar", zone = "Swamp of Sorrows", x = 83.8, y = 80.4, level = 43, req = 35, step = 5, steps = 6 }
+SGJ.QuestInfo[1430] = { start = "Dar", zone = "Swamp of Sorrows", x = 44.7, y = 57.2, level = 44, req = 35 }
+SGJ.QuestInfo[1436] = { start = "Takata Steelblade", zone = "Desolace", x = 52.6, y = 54.4, level = 33, req = 30, step = 5, steps = 5 }
+SGJ.QuestInfo[1440] = { start = "Dalinda Malem", zone = "Desolace", x = 54.9, y = 26.1, level = 33, req = 30, step = 5, steps = 5 }
+SGJ.QuestInfo[1446] = { start = "Atal'ai Exile", zone = "The Hinterlands", x = 33.8, y = 75.2, level = 53, req = 38 }
+SGJ.QuestInfo[1457] = { start = "Kreldig Ungor", zone = "Desolace", x = 66.2, y = 9.6, level = 39, req = 30, step = 5, steps = 5 }
+SGJ.QuestInfo[1467] = { start = "Kreldig Ungor", zone = "Desolace", x = 66.2, y = 9.6, level = 40, req = 30, step = 5, steps = 5 }
+SGJ.QuestInfo[1475] = { start = "Brohann Caskbelly", zone = "Stormwind City", x = 69.5, y = 40.4, level = 50, req = 38, step = 7, steps = 7 }
+SGJ.QuestInfo[1486] = { start = "Nalpak", zone = "The Barrens", x = 46.0, y = 35.7, level = 17, req = 13 }
+SGJ.QuestInfo[1487] = { start = "Ebru", zone = "The Barrens", x = 46.0, y = 35.7, level = 21, req = 15 }
+SGJ.QuestInfo[1488] = { start = "Takata Steelblade", zone = "Desolace", x = 52.6, y = 54.4, level = 40, req = 25, step = 5, steps = 5 }
+SGJ.QuestInfo[1499] = { start = "Ruzan", zone = "Durotar", x = 42.6, y = 69.0, level = 4, req = 1, step = 2, steps = 4 }
+SGJ.QuestInfo[1503] = { start = "Thun'grim Firegaze", zone = "The Barrens", x = 57.2, y = 30.3, level = 10, req = 10, step = 4, steps = 4 }
+SGJ.QuestInfo[1526] = { start = "Telf Joolam", zone = "Durotar", x = 38.6, y = 59.0, level = 13, req = 10, step = 4, steps = 5 }
+SGJ.QuestInfo[1560] = { start = "Tooga", zone = "Tanaris", x = 31.8, y = 74.1, level = 50, req = 40 }
+SGJ.QuestInfo[1652] = { start = "Daphne Stilwell", zone = "Westfall", x = 41.7, y = 89.2, level = 25, req = 20, step = 4, steps = 7 }
+SGJ.QuestInfo[1667] = { start = "Marshal Haggard", zone = "Elwynn Forest", x = 84.6, y = 69.4, level = 10, req = 10, step = 6, steps = 6 }
+SGJ.QuestInfo[1682] = { start = "Tormus Deepforge", zone = "Dun Morogh", x = 58.9, y = 27.9, level = 10, req = 10, step = 5, steps = 5 }
+SGJ.QuestInfo[1693] = { start = "Mathiel", zone = "Darnassus", x = 59.5, y = 45.4, level = 10, req = 10, step = 5, steps = 5 }
+SGJ.QuestInfo[1702] = { start = "Yorus Barleybrew", zone = "Redridge Mountains", x = 21.5, y = 44.7, level = 22, req = 20, step = 3, steps = 7 }
+SGJ.QuestInfo[1706] = { start = "Grimand Elmore", zone = "Stormwind City", x = 59.7, y = 33.8, level = 30, req = 20, step = 7, steps = 7 }
+SGJ.QuestInfo[1709] = { start = "Klockmort Spannerspan", zone = "Dun Morogh", x = 62.0, y = 28.5, level = 30, req = 20, step = 7, steps = 7 }
+SGJ.QuestInfo[1711] = { start = "Mathiel", zone = "Darnassus", x = 59.5, y = 45.4, level = 30, req = 20, step = 7, steps = 7 }
+SGJ.QuestInfo[1740] = { start = "Doan Karhan", zone = "The Barrens", x = 49.3, y = 57.2, level = 25, req = 20 }
+SGJ.QuestInfo[1782] = { start = "Furen Longbeard", zone = "Stormwind City", x = 64.6, y = 37.2, level = 28, req = 20, step = 5, steps = 5 }
+SGJ.QuestInfo[1792] = { start = "Bath'rah the Windwatcher", zone = "Alterac Mountains", x = 80.5, y = 66.9, level = 40, req = 30, step = 6, steps = 6 }
+SGJ.QuestInfo[1806] = { start = "Jordan Stilwell", zone = "Dun Morogh", x = 52.5, y = 36.9, level = 22, req = 20, step = 7, steps = 7 }
+SGJ.QuestInfo[1822] = { start = "Coleman Farthing", zone = "Tirisfal Glades", x = 61.7, y = 52.3, level = 11, req = 10, step = 5, steps = 5 }
+SGJ.QuestInfo[1824] = { start = "Ruga Ragetotem", zone = "The Barrens", x = 44.7, y = 59.4, level = 20, req = 20, step = 2, steps = 7 }
+SGJ.QuestInfo[1843] = { start = "Ula'elek", zone = "Durotar", x = 56.3, y = 74.3, level = 30, req = 20, step = 7, steps = 7 }
+SGJ.QuestInfo[1845] = { start = "Orm Stonehoof", zone = "Thunder Bluff", x = 39.0, y = 56.0, level = 30, req = 20, step = 7, steps = 7 }
+SGJ.QuestInfo[1847] = { start = "Velora Nitely", zone = "Undercity", x = 62.1, y = 39.1, level = 30, req = 20, step = 7, steps = 7 }
+SGJ.QuestInfo[1848] = { start = "Thun'grim Firegaze", zone = "The Barrens", x = 57.2, y = 30.3, level = 30, req = 20, step = 5, steps = 5 }
+SGJ.QuestInfo[1880] = { start = "Bink", zone = "Dun Morogh", x = 55.5, y = 22.4, level = 10, req = 10, step = 2, steps = 2 }
+SGJ.QuestInfo[1884] = { start = "Un'Thuwa", zone = "Durotar", x = 56.3, y = 75.1, level = 10, req = 10, step = 2, steps = 2 }
+SGJ.QuestInfo[1941] = { start = "Wynne Larson", zone = "Stormwind City", x = 51.8, y = 83.5, level = 15, req = 15, step = 4, steps = 4 }
+SGJ.QuestInfo[1942] = { start = "Wynne Larson", zone = "Stormwind City", x = 51.8, y = 83.5, level = 26, req = 26, step = 4, steps = 4 }
+SGJ.QuestInfo[1946] = { start = "Kil'hala", zone = "The Barrens", x = 52.2, y = 31.7, level = 26, req = 26, step = 4, steps = 4 }
+SGJ.QuestInfo[1952] = { start = "Tabetha", zone = "Dustwallow Marsh", x = 46.1, y = 57.1, level = 40, req = 30, step = 5, steps = 5 }
+SGJ.QuestInfo[1958] = { start = "Tabetha", zone = "Dustwallow Marsh", x = 46.1, y = 57.1, level = 40, req = 35, step = 6, steps = 6 }
+SGJ.QuestInfo[1962] = { start = "Josef Gregorian", zone = "Undercity", x = 70.8, y = 30.7, level = 15, req = 15, step = 4, steps = 4 }
+SGJ.QuestInfo[2038] = { start = "Bingles Blastenheimer", zone = "Loch Modan", x = 63.6, y = 47.9, level = 15, req = 12, step = 2, steps = 2 }
+SGJ.QuestInfo[2040] = { start = "Shoni the Shilent", zone = "Stormwind City", x = 62.6, y = 34.1, level = 20, req = 15, step = 2, steps = 2 }
+SGJ.QuestInfo[2139] = { start = "Tharnariun Treetender", zone = "Darkshore", x = 38.8, y = 43.4, level = 18, req = 10, step = 3, steps = 3 }
+SGJ.QuestInfo[2240] = { start = "Baelog", level = 40, req = 35, step = 2, steps = 2 }
+SGJ.QuestInfo[2242] = { start = "Syurna", zone = "Darnassus", x = 37.0, y = 21.9, level = 10, req = 10, step = 2, steps = 2 }
+SGJ.QuestInfo[2341] = { start = "Dran Droffers", zone = "Orgrimmar", x = 59.6, y = 36.5, level = 44, req = 37, step = 7, steps = 7 }
+SGJ.QuestInfo[2361] = { start = "Talvash del Kissel", zone = "Dun Morogh", x = 56.9, y = 21.7, level = 44, req = 37, step = 6, steps = 6 }
+SGJ.QuestInfo[2418] = { start = "Rigglefuzz", zone = "Badlands", x = 42.4, y = 52.9, level = 36, req = 30 }
+SGJ.QuestInfo[2499] = { start = "Denalan", zone = "Teldrassil", x = 60.9, y = 68.5, level = 9, req = 4, step = 6, steps = 6 }
+SGJ.QuestInfo[2520] = { start = "Priestess A'moora", zone = "Darnassus", x = 36.7, y = 85.9, level = 12, req = 5, step = 4, steps = 4 }
+SGJ.QuestInfo[2561] = { start = "Oben Rageclaw", zone = "Teldrassil", x = 44.9, y = 61.6, level = 10, req = 3, step = 2, steps = 2 }
+SGJ.QuestInfo[2701] = { start = "Corporal Thund Splithoof", level = 57, req = 45, step = 8, steps = 22 }
+SGJ.QuestInfo[2765] = { start = "Galvan the Ancient", zone = "Stranglethorn Vale", x = 50.6, y = 20.5, level = 45, req = 40, step = 5, steps = 5 }
+SGJ.QuestInfo[2767] = { start = "Homing Robot OOX-22/FE", zone = "Feralas", x = 53.4, y = 55.7, level = 45, req = 40, step = 2, steps = 3 }
+SGJ.QuestInfo[2768] = { start = "Chief Engineer Bilgewhizzle", zone = "Tanaris", x = 52.5, y = 28.5, level = 47, req = 40 }
+SGJ.QuestInfo[2770] = { start = "Wizzle Brassbolts", zone = "Thousand Needles", x = 78.1, y = 77.1, level = 50, req = 40, step = 2, steps = 2 }
+SGJ.QuestInfo[2821] = { start = "Pratt McGrubben", zone = "Feralas", x = 30.6, y = 42.7, level = 46, req = 40, step = 1, steps = 2 }
+SGJ.QuestInfo[2822] = { start = "Jangdor Swiftstrider", zone = "Feralas", x = 74.4, y = 42.9, level = 46, req = 40, step = 1, steps = 2 }
+SGJ.QuestInfo[2841] = { start = "Nogg", zone = "Orgrimmar", x = 76.0, y = 25.4, level = 35, req = 25, step = 1, steps = 3 }
+SGJ.QuestInfo[2845] = { start = "Shay Leafrunner", zone = "Feralas", x = 38.2, y = 10.3, level = 49, req = 44, step = 2, steps = 2 }
+SGJ.QuestInfo[2846] = { start = "Tabetha", zone = "Dustwallow Marsh", x = 46.1, y = 57.1, level = 46, req = 40, step = 2, steps = 2 }
+SGJ.QuestInfo[2871] = { start = "Latronicus Moonspear", zone = "Feralas", x = 30.4, y = 46.2, level = 45, req = 40, step = 6, steps = 6 }
+SGJ.QuestInfo[2874] = { start = "Stoley", zone = "Tanaris", x = 67.1, y = 24.0, level = 45, req = 40, step = 3, steps = 3 }
+SGJ.QuestInfo[2903] = { start = "Woodpaw Battle Map", zone = "Feralas", x = 71.6, y = 55.9, level = 43, req = 39, step = 4, steps = 6 }
+SGJ.QuestInfo[2904] = { start = "Kernobee", level = 30, req = 20 }
+SGJ.QuestInfo[2928] = { start = "Shoni the Shilent", zone = "Stormwind City", x = 62.6, y = 34.1, level = 30, req = 20 }
+SGJ.QuestInfo[2930] = { start = "Master Mechanic Castpipe", zone = "Dun Morogh", x = 62.3, y = 28.8, level = 30, req = 25, step = 2, steps = 2 }
+SGJ.QuestInfo[2938] = { start = "Apothecary Lydon", zone = "Hillsbrad Foothills", x = 61.4, y = 19.1, level = 55, req = 40, step = 6, steps = 6 }
+SGJ.QuestInfo[2942] = { start = "Equinex Monolith", zone = "Feralas", x = 38.8, y = 13.2, level = 50, req = 42, step = 7, steps = 7 }
+SGJ.QuestInfo[2948] = { start = "Talvash del Kissel", zone = "Dun Morogh", x = 56.9, y = 21.7, level = 35, req = 28, step = 3, steps = 3 }
+SGJ.QuestInfo[2950] = { start = "Nogg", zone = "Orgrimmar", x = 76.0, y = 25.4, level = 35, req = 28, step = 3, steps = 3 }
+SGJ.QuestInfo[2972] = { start = "Jer'kai Moonweaver", zone = "Feralas", x = 65.9, y = 45.6, level = 47, req = 38, step = 3, steps = 8 }
+SGJ.QuestInfo[2976] = { start = "Krueg Skullsplitter", zone = "Feralas", x = 75.9, y = 42.7, level = 45, req = 37, step = 3, steps = 3 }
+SGJ.QuestInfo[2987] = { start = "Orwin Gizzmick", zone = "Feralas", x = 75.7, y = 44.3, level = 43, req = 38 }
+SGJ.QuestInfo[2994] = { start = "Gryphon Master Talonaxe", zone = "The Hinterlands", x = 9.8, y = 44.5, level = 51, req = 40, step = 7, steps = 7 }
+SGJ.QuestInfo[3062] = { start = "Talo Thornhoof", zone = "Feralas", x = 76.2, y = 43.8, level = 50, req = 45 }
+SGJ.QuestInfo[3129] = { start = "Witch Doctor Uzer'i", zone = "Feralas", x = 74.4, y = 43.4, level = 50, req = 40, step = 8, steps = 8 }
+SGJ.QuestInfo[3161] = { start = "Marvon Rivetseeker", zone = "Tanaris", x = 52.7, y = 45.9, level = 48, req = 43 }
+SGJ.QuestInfo[3281] = { start = "Gazrog", zone = "The Barrens", x = 51.9, y = 30.3, level = 18, req = 9, step = 2, steps = 2 }
+SGJ.QuestInfo[3301] = { start = "Tonga Runetotem", zone = "The Barrens", x = 52.3, y = 31.9, level = 15, req = 10, step = 5, steps = 5 }
+SGJ.QuestInfo[3321] = { start = "Trenton Lighthammer", zone = "Tanaris", x = 51.4, y = 28.8, level = 50, req = 40, step = 1, steps = 2 }
+SGJ.QuestInfo[3341] = { start = "Andrew Brownell", zone = "Undercity", x = 74.0, y = 33.3, level = 42, req = 37 }
+SGJ.QuestInfo[3369] = { start = "Falla Sagewind", zone = "The Barrens", x = 48.2, y = 32.8, level = 25, req = 10, step = 2, steps = 2 }
+SGJ.QuestInfo[3373] = { start = "an item: Essence of Eranikus", level = 55, req = 48, step = 1, steps = 3 }
+SGJ.QuestInfo[3376] = { start = "Brave Windfeather", zone = "Mulgore", x = 44.2, y = 77.0, level = 5, req = 3 }
+SGJ.QuestInfo[3378] = { start = "Zamael Lunthistle", zone = "Searing Gorge", x = 29.6, y = 26.3, level = 50, req = 40, step = 2, steps = 2 }
+SGJ.QuestInfo[3379] = { start = "Nilith Lokrav", zone = "Searing Gorge", x = 41.0, y = 74.9, level = 50, req = 40, step = 1, steps = 3 }
+SGJ.QuestInfo[3385] = { start = "Nilith Lokrav", zone = "Searing Gorge", x = 41.0, y = 74.9, level = 50, req = 40, step = 2, steps = 3 }
+SGJ.QuestInfo[3454] = { start = "Kalaran Windblade", zone = "Searing Gorge", x = 39.1, y = 39.0, level = 50, req = 40, step = 6, steps = 11 }
+SGJ.QuestInfo[3461] = { start = "Pilot Xiggs Fuselighter", level = 52, req = 45, step = 3, steps = 3 }
+SGJ.QuestInfo[3463] = { start = "Squire Maltrake", zone = "Searing Gorge", x = 39.2, y = 39.0, level = 52, req = 40, step = 8, steps = 11 }
+SGJ.QuestInfo[3507] = { start = "Ag'tor Bloodfist", zone = "Azshara", x = 22.3, y = 51.5, level = 56, req = 44, step = 4, steps = 4 }
+SGJ.QuestInfo[3514] = { start = "Kadrak", zone = "The Barrens", x = 48.1, y = 5.4, level = 29, req = 15, step = 2, steps = 2 }
+SGJ.QuestInfo[3522] = { start = "Dirania Silvershine", zone = "Teldrassil", x = 60.9, y = 42.0, level = 4, req = 2, step = 4, steps = 4 }
+SGJ.QuestInfo[3525] = { start = "Belnistrasz", zone = "Razorfen Downs", level = 37, req = 32, step = 2, steps = 2 }
+SGJ.QuestInfo[3528] = { start = "Yeh'kinya", zone = "Tanaris", x = 67.0, y = 22.4, level = 53, req = 40, step = 4, steps = 8 }
+SGJ.QuestInfo[3566] = { start = "Dying Archaeologist", zone = "Searing Gorge", x = 41.1, y = 25.6, level = 52, req = 40, step = 5, steps = 5 }
+SGJ.QuestInfo[3625] = { start = "Galvan the Ancient", zone = "Stranglethorn Vale", x = 50.6, y = 20.5, level = 58, req = 45, step = 19, steps = 22 }
+SGJ.QuestInfo[3628] = { start = "Fallen Hero of the Horde", zone = "Swamp of Sorrows", x = 34.3, y = 66.1, level = 60, req = 45, step = 22, steps = 22 }
+SGJ.QuestInfo[3701] = { start = "Royal Historian Archesonus", zone = "Dun Morogh", x = 57.2, y = 30.0, level = 54, req = 50, step = 2, steps = 6 }
+SGJ.QuestInfo[3791] = { start = "Quintis Jonespyre", zone = "Feralas", x = 32.4, y = 43.8, level = 50, req = 47, step = 6, steps = 7 }
+SGJ.QuestInfo[3822] = { start = "Sha'ni Proudtusk", level = 53, req = 48, step = 2, steps = 2 }
+SGJ.QuestInfo[3825] = { start = "Oralius", zone = "Burning Steppes", x = 84.6, y = 68.7, level = 53, req = 48, step = 3, steps = 3 }
+SGJ.QuestInfo[3882] = { start = "Spark Nilminer", zone = "Un'Goro Crater", x = 43.5, y = 7.4, level = 51, req = 49 }
+SGJ.QuestInfo[3901] = { start = "Shadow Priest Sarvis", zone = "Tirisfal Glades", x = 30.8, y = 66.2, level = 3, req = 1, step = 3, steps = 3 }
+SGJ.QuestInfo[3902] = { start = "Deathguard Saltain", zone = "Tirisfal Glades", x = 31.6, y = 65.6, level = 3, req = 2, step = 2, steps = 2 }
+SGJ.QuestInfo[3905] = { start = "Milly Osworth", zone = "Elwynn Forest", x = 50.7, y = 39.3, level = 4, req = 2, step = 6, steps = 6 }
+SGJ.QuestInfo[3907] = { start = "Thunderheart", zone = "Badlands", x = 3.3, y = 48.3, level = 56, req = 48, step = 2, steps = 2 }
+SGJ.QuestInfo[3911] = { level = 54, req = 48 }
+SGJ.QuestInfo[3924] = { start = "Rilli Greasygob", zone = "Orgrimmar", x = 76.5, y = 24.4, level = 19, req = 10, step = 8, steps = 8 }
+SGJ.QuestInfo[3962] = { start = "Linken", zone = "Un'Goro Crater", x = 44.7, y = 8.1, level = 56, req = 47, step = 13, steps = 13 }
+SGJ.QuestInfo[4004] = { start = "Princess Moira Bronzebeard", level = 60, req = 48, step = 7, steps = 7 }
+SGJ.QuestInfo[4024] = { start = "Cyrus Therepentous", zone = "Burning Steppes", x = 95.1, y = 31.6, level = 58, req = 52, step = 11, steps = 11 }
+SGJ.QuestInfo[4063] = { start = "Lotwil Veriatus", zone = "Badlands", x = 25.9, y = 44.9, level = 58, req = 52, step = 3, steps = 3 }
+SGJ.QuestInfo[4126] = { start = "Ragnar Thunderbrew", zone = "Dun Morogh", x = 46.8, y = 52.4, level = 55, req = 50, step = 2, steps = 2 }
+SGJ.QuestInfo[4132] = { start = "Warlord Goretooth", zone = "Badlands", x = 5.8, y = 47.5, level = 58, req = 52, step = 3, steps = 3 }
+SGJ.QuestInfo[4136] = { start = "Yuka Screwspigot", zone = "Burning Steppes", x = 66.1, y = 22.0, level = 53, req = 48, step = 2, steps = 2 }
+SGJ.QuestInfo[4201] = { start = "Mistress Nagmara", level = 54, req = 50 }
+SGJ.QuestInfo[4242] = { start = "Marshal Windsor", level = 54, req = 48, step = 9, steps = 16 }
+SGJ.QuestInfo[4261] = { start = "Arei", level = 56, req = 49, step = 4, steps = 4 }
+SGJ.QuestInfo[4266] = { start = "Ginro Hearthkindle", zone = "Feralas", x = 31.9, y = 45.1, level = 46, req = 40, step = 9, steps = 10 }
+SGJ.QuestInfo[4292] = { start = "Torwa Pathfinder", zone = "Un'Goro Crater", x = 71.6, y = 76.0, level = 56, req = 48, step = 3, steps = 3 }
+SGJ.QuestInfo[4300] = { start = "Jes'rimon", zone = "Orgrimmar", x = 55.5, y = 34.1, level = 52, req = 48 }
+SGJ.QuestInfo[4301] = { start = "Torwa Pathfinder", zone = "Un'Goro Crater", x = 71.6, y = 76.0, level = 55, req = 50, step = 2, steps = 2 }
+SGJ.QuestInfo[4322] = { start = "Marshal Windsor", level = 58, req = 50, step = 12, steps = 16 }
+SGJ.QuestInfo[4363] = { start = "Princess Moira Bronzebeard", level = 59, req = 50, step = 6, steps = 6 }
+SGJ.QuestInfo[4450] = { start = "Wooden Outhouse", zone = "Searing Gorge", x = 65.6, y = 62.2, level = 46, req = 43, step = 2, steps = 2 }
+SGJ.QuestInfo[4491] = { start = "Ringo", zone = "Un'Goro Crater", x = 51.9, y = 49.8, level = 55, req = 50, step = 2, steps = 2 }
+SGJ.QuestInfo[4501] = { start = "Beware of Pterrordax", zone = "Un'Goro Crater", x = 43.5, y = 8.4, level = 55, req = 49 }
+SGJ.QuestInfo[4503] = { start = "Shizzle", zone = "Un'Goro Crater", x = 44.2, y = 11.6, level = 51, req = 49 }
+SGJ.QuestInfo[4510] = { start = "Gracina Spiritmight", zone = "Darnassus", x = 41.8, y = 85.6, level = 54, req = 50, step = 5, steps = 5 }
+SGJ.QuestInfo[4511] = { start = "Zilzibin Drumlore", zone = "Orgrimmar", x = 56.3, y = 46.7, level = 54, req = 50, step = 5, steps = 5 }
+SGJ.QuestInfo[4513] = { start = "Laris Geardawdle", zone = "Dun Morogh", x = 63.2, y = 24.8, level = 54, req = 48, step = 2, steps = 2 }
+SGJ.QuestInfo[4621] = { start = "Fleet Master Firallon", zone = "Stranglethorn Vale", x = 30.6, y = 90.6, level = 60, req = 55, step = 2, steps = 2 }
+SGJ.QuestInfo[4642] = { start = "Chemist Fuely", zone = "Undercity", x = 47.5, y = 73.3, level = 55, req = 48, step = 2, steps = 2 }
+SGJ.QuestInfo[4681] = { start = "Gwennyth Bly'Leggonde", zone = "Darkshore", x = 36.6, y = 45.6, level = 14, req = 11, step = 2, steps = 3 }
+SGJ.QuestInfo[4701] = { start = "Helendis Riverhorn", zone = "Burning Steppes", x = 85.8, y = 68.9, level = 59, req = 55 }
+SGJ.QuestInfo[4740] = { start = "WANTED: Murkdeep!", zone = "Darkshore", x = 37.2, y = 44.2, level = 18, req = 15 }
+SGJ.QuestInfo[4743] = { start = "Vaelan", level = 60, req = 57, step = 2, steps = 2 }
+SGJ.QuestInfo[4763] = { start = "Thundris Windweaver", zone = "Darkshore", x = 37.4, y = 40.1, level = 18, req = 15, step = 4, steps = 4 }
+SGJ.QuestInfo[4765] = { start = "Mayara Brightwing", zone = "Burning Steppes", x = 84.8, y = 69.1, level = 60, req = 57, step = 3, steps = 3 }
+SGJ.QuestInfo[4771] = { start = "Betina Bigglezink", zone = "Eastern Plaguelands", x = 71.7, y = 49.9, level = 60, req = 57, step = 10, steps = 10 }
+SGJ.QuestInfo[4786] = { start = "Menara Voidrender", zone = "The Barrens", x = 62.5, y = 35.4, level = 38, req = 31, step = 7, steps = 7 }
+SGJ.QuestInfo[4810] = { start = "Felnok Steelspring", zone = "Winterspring", x = 61.6, y = 38.6, level = 54, req = 50, step = 4, steps = 10 }
+SGJ.QuestInfo[4813] = { start = "Mysterious Red Crystal", zone = "Darkshore", x = 47.3, y = 48.7, level = 14, req = 12, step = 3, steps = 3 }
+SGJ.QuestInfo[4842] = { start = "Donova Snowden", zone = "Winterspring", x = 31.3, y = 45.2, level = 56, req = 51, step = 3, steps = 3 }
+SGJ.QuestInfo[4866] = { start = "Ragged John", zone = "Burning Steppes", x = 65.0, y = 23.8, level = 60, req = 55 }
+SGJ.QuestInfo[4867] = { start = "Warosh", level = 60, req = 55 }
+SGJ.QuestInfo[4883] = { start = "Trull Failbane", zone = "Felwood", x = 34.7, y = 52.8, level = 59, req = 52, step = 2, steps = 2 }
+SGJ.QuestInfo[4902] = { start = "Erelas Ambersky", zone = "Teldrassil", x = 55.5, y = 92.0, level = 57, req = 52, step = 5, steps = 5 }
+SGJ.QuestInfo[4904] = { start = "Lakota Windsong", zone = "Thousand Needles", x = 37.9, y = 26.4, level = 29, req = 25 }
+SGJ.QuestInfo[4906] = { start = "Eridan Bluewind", zone = "Felwood", x = 51.3, y = 81.5, level = 54, req = 49, step = 2, steps = 2 }
+SGJ.QuestInfo[4964] = { start = "Menara Voidrender", zone = "The Barrens", x = 62.5, y = 35.4, level = 40, req = 35, step = 5, steps = 5 }
+SGJ.QuestInfo[4966] = { start = "Kanati Greycloud", zone = "Thousand Needles", x = 21.3, y = 32.1, level = 28, req = 23, step = 2, steps = 2 }
+SGJ.QuestInfo[4971] = { start = "Chromie", zone = "Western Plaguelands", x = 39.5, y = 66.8, level = 56, req = 53, step = 1, steps = 3 }
+SGJ.QuestInfo[4974] = { start = "Thrall", zone = "Orgrimmar", x = 31.7, y = 37.8, level = 60, req = 55, step = 3, steps = 12 }
+SGJ.QuestInfo[4975] = { start = "Menara Voidrender", zone = "The Barrens", x = 62.5, y = 35.4, level = 40, req = 35, step = 5, steps = 5 }
+SGJ.QuestInfo[4983] = { start = "Bijou", level = 59, req = 55, step = 3, steps = 3 }
+SGJ.QuestInfo[4986] = { start = "Mulgris Deepriver", zone = "Western Plaguelands", x = 53.7, y = 64.7, level = 56, req = 51, step = 3, steps = 3 }
+SGJ.QuestInfo[5051] = { start = "Janice Felstone", zone = "Western Plaguelands", x = 38.4, y = 54.1, level = 54, req = 50, step = 5, steps = 5 }
+SGJ.QuestInfo[5056] = { start = "Storm Shadowhoof", zone = "Winterspring", x = 61.9, y = 38.4, level = 60, req = 53, step = 3, steps = 4 }
+SGJ.QuestInfo[5057] = { start = "Storm Shadowhoof", zone = "Winterspring", x = 61.9, y = 38.4, level = 60, req = 53, step = 4, steps = 4 }
+SGJ.QuestInfo[5060] = { start = "Locked Cabinet", zone = "Western Plaguelands", x = 47.4, y = 49.6, level = 55, req = 52 }
+SGJ.QuestInfo[5063] = { start = "Malyfous's Catalogue", zone = "Winterspring", x = 61.0, y = 38.8, level = 60, req = 57, step = 2, steps = 2 }
+SGJ.QuestInfo[5064] = { start = "Cliffwatcher Longhorn", zone = "Thousand Needles", x = 45.7, y = 50.7, level = 28, req = 24, step = 3, steps = 3 }
+SGJ.QuestInfo[5067] = { start = "Malyfous's Catalogue", zone = "Winterspring", x = 61.0, y = 38.8, level = 60, req = 57, step = 2, steps = 2 }
+SGJ.QuestInfo[5068] = { start = "Malyfous's Catalogue", zone = "Winterspring", x = 61.0, y = 38.8, level = 60, req = 57, step = 2, steps = 2 }
+SGJ.QuestInfo[5081] = { start = "Marshal Maxwell", zone = "Burning Steppes", x = 84.7, y = 69.0, level = 60, req = 55, step = 3, steps = 3 }
+SGJ.QuestInfo[5088] = { start = "Magatha Grimtotem", zone = "Thunder Bluff", x = 69.9, y = 30.9, level = 28, req = 24, step = 4, steps = 4 }
+SGJ.QuestInfo[5121] = { start = "Donova Snowden", zone = "Winterspring", x = 31.3, y = 45.2, level = 59, req = 52, step = 6, steps = 6 }
+SGJ.QuestInfo[5124] = { start = "Malyfous Darkhammer", zone = "Winterspring", x = 61.0, y = 38.8, level = 60, req = 55, step = 2, steps = 2 }
+SGJ.QuestInfo[5125] = { start = "Aurius", zone = "Stratholme", level = 60, req = 55, step = 2, steps = 2 }
+SGJ.QuestInfo[5147] = { start = "Wanted Poster - Arnak Grimtotem", zone = "Thousand Needles", x = 46.0, y = 50.9, level = 29, req = 25 }
+SGJ.QuestInfo[5151] = { start = "Wizlo Bearingshiner", zone = "Thousand Needles", x = 21.4, y = 32.6, level = 30, req = 24 }
+SGJ.QuestInfo[5166] = { start = "Catalogue of the Wayward", zone = "Western Plaguelands", x = 39.3, y = 66.6, level = 60, req = 57, step = 5, steps = 5 }
+SGJ.QuestInfo[5167] = { start = "Catalogue of the Wayward", zone = "Western Plaguelands", x = 39.3, y = 66.6, level = 60, req = 57, step = 5, steps = 5 }
+SGJ.QuestInfo[5213] = { start = "Betina Bigglezink", zone = "Eastern Plaguelands", x = 71.7, y = 49.9, level = 60, req = 55, step = 2, steps = 2 }
+SGJ.QuestInfo[5214] = { start = "Smokey LaRue", zone = "Eastern Plaguelands", x = 70.9, y = 48.4, level = 60, req = 55 }
+SGJ.QuestInfo[5237] = { start = "Commander Ashlam Valorfist", zone = "Western Plaguelands", x = 42.7, y = 84.0, level = 58, req = 50, step = 12, steps = 13 }
+SGJ.QuestInfo[5242] = { start = "Greta Mosshoof", zone = "Felwood", x = 51.2, y = 82.1, level = 58, req = 48, step = 6, steps = 6 }
+SGJ.QuestInfo[5243] = { start = "Leonid Barthalomew the Revered", zone = "Eastern Plaguelands", x = 71.9, y = 48.3, level = 60, req = 55 }
+SGJ.QuestInfo[5253] = { start = "Wynd Nightchaser", zone = "Winterspring", x = 52.0, y = 30.4, level = 58, req = 53, step = 8, steps = 8 }
+SGJ.QuestInfo[5265] = { start = "Lord Maxwell Tyrosus", zone = "Eastern Plaguelands", x = 71.9, y = 48.4, level = 60, req = 55, step = 5, steps = 5 }
+SGJ.QuestInfo[5282] = { start = "Egan", zone = "Eastern Plaguelands", x = 11.4, y = 26.6, level = 60, req = 55, step = 2, steps = 2 }
+SGJ.QuestInfo[5321] = { start = "Kerlonian Evershade", zone = "Darkshore", x = 44.4, y = 76.4, level = 20, req = 17 }
+SGJ.QuestInfo[5342] = { start = "Alexi Barov", zone = "Tirisfal Glades", x = 83.1, y = 71.6, level = 60, req = 52, step = 2, steps = 2 }
+SGJ.QuestInfo[5344] = { start = "Weldon Barov", zone = "Western Plaguelands", x = 43.5, y = 83.7, level = 60, req = 52, step = 2, steps = 2 }
+SGJ.QuestInfo[5384] = { start = "Eva Sarkhoff", zone = "Western Plaguelands", x = 70.2, y = 73.7, level = 60, req = 55, step = 3, steps = 9 }
+SGJ.QuestInfo[5385] = { start = "Remains of Trey Lightforge", zone = "Felwood", x = 38.5, y = 50.4, level = 57, req = 49, step = 4, steps = 4 }
+SGJ.QuestInfo[5401] = { start = "Argent Officer Pureheart", zone = "Western Plaguelands", x = 43.0, y = 83.5, level = 55, req = 50 }
+SGJ.QuestInfo[5466] = { start = "Magistrate Marduke", zone = "Western Plaguelands", x = 70.6, y = 74.1, level = 60, req = 57, step = 9, steps = 9 }
+SGJ.QuestInfo[5501] = { start = "Bibbly F'utzbuckle", zone = "Desolace", x = 62.3, y = 39.0, level = 39, req = 33 }
+SGJ.QuestInfo[5503] = { start = "Duke Nicholas Zverenhoff", zone = "Eastern Plaguelands", x = 71.6, y = 50.1, level = 55, req = 50 }
+SGJ.QuestInfo[5526] = { start = "Rabine Saturna", zone = "Moonglade", x = 51.7, y = 45.1, level = 60, req = 56, step = 2, steps = 2 }
+SGJ.QuestInfo[5561] = { start = "Smeed Scrabblescrew", zone = "Desolace", x = 60.9, y = 61.9, level = 34, req = 30 }
+SGJ.QuestInfo[5581] = { start = "Taiga Wisemane", zone = "Desolace", x = 25.8, y = 68.2, level = 38, req = 32, step = 2, steps = 2 }
+SGJ.QuestInfo[5621] = { start = "Laurna Morninglight", zone = "Teldrassil", x = 55.6, y = 56.7, level = 4, req = 5, step = 2, steps = 2 }
+SGJ.QuestInfo[5624] = { start = "Priestess Josetta", zone = "Elwynn Forest", x = 43.3, y = 65.7, level = 4, req = 5, step = 2, steps = 2 }
+SGJ.QuestInfo[5648] = { start = "Tai'jin", zone = "Durotar", x = 54.3, y = 42.9, level = 4, req = 5, step = 2, steps = 2 }
+SGJ.QuestInfo[5650] = { start = "Dark Cleric Beryl", zone = "Tirisfal Glades", x = 61.6, y = 52.2, level = 4, req = 5, step = 2, steps = 2 }
+SGJ.QuestInfo[5724] = { start = "Maur Grimtotem", level = 16, req = 9, step = 2, steps = 2 }
+SGJ.QuestInfo[5725] = { start = "Varimathras", zone = "Undercity", x = 56.3, y = 92.2, level = 16, req = 9 }
+SGJ.QuestInfo[5730] = { start = "Neeru Fireblade", zone = "Orgrimmar", x = 49.5, y = 50.6, level = 16, req = 9, step = 5, steps = 5 }
+SGJ.QuestInfo[5821] = { start = "Cork Gizelton", zone = "Desolace", x = 60.4, y = 38.1, level = 35, req = 30 }
+SGJ.QuestInfo[5863] = { start = "Andi Lynn", zone = "Tanaris", x = 52.8, y = 27.4, level = 49, req = 44 }
+SGJ.QuestInfo[5942] = { start = "Pamela Redpath", zone = "Eastern Plaguelands", x = 31.2, y = 78.0, level = 60, req = 50, step = 11, steps = 11 }
+SGJ.QuestInfo[5943] = { start = "Rigger Gizelton", zone = "Desolace", x = 60.3, y = 38.2, level = 38, req = 32 }
+SGJ.QuestInfo[5944] = { start = "Highlord Taelan Fordring", zone = "Western Plaguelands", x = 42.0, y = 14.8, level = 60, req = 52, step = 9, steps = 9 }
+SGJ.QuestInfo[6024] = { start = "Torn Scroll", zone = "Eastern Plaguelands", x = 22.9, y = 73.0, level = 60, req = 54 }
+SGJ.QuestInfo[6027] = { start = "Azore Aldamort", zone = "Desolace", x = 38.9, y = 27.2, level = 38, req = 30, step = 2, steps = 2 }
+SGJ.QuestInfo[6031] = { start = "Meilosh", zone = "Felwood", x = 65.7, y = 2.8, level = 55, req = 50 }
+SGJ.QuestInfo[6041] = { start = "Smokey LaRue", zone = "Eastern Plaguelands", x = 70.9, y = 48.4, level = 58, req = 54, step = 2, steps = 2 }
+SGJ.QuestInfo[6124] = { start = "Alanndarian Nightsong", zone = "Darkshore", x = 37.7, y = 40.7, level = 14, req = 14, step = 4, steps = 5 }
+SGJ.QuestInfo[6134] = { start = "Hornizz Brimbuzzle", zone = "Desolace", x = 47.8, y = 61.8, level = 39, req = 34 }
+SGJ.QuestInfo[6135] = { start = "Nathanos Blightcaller", zone = "Eastern Plaguelands", x = 22.2, y = 63.5, level = 60, req = 56, step = 2, steps = 3 }
+SGJ.QuestInfo[6136] = { start = "Nathanos Blightcaller", zone = "Eastern Plaguelands", x = 22.2, y = 63.5, level = 60, req = 56 }
+SGJ.QuestInfo[6142] = { start = "Mai'Lahii", zone = "Desolace", x = 22.6, y = 72.0, level = 35, req = 31 }
+SGJ.QuestInfo[6161] = { start = "Rackmore's Log", zone = "Desolace", x = 36.1, y = 30.4, level = 36, req = 30 }
+SGJ.QuestInfo[6163] = { start = "Nathanos Blightcaller", zone = "Eastern Plaguelands", x = 22.2, y = 63.5, level = 60, req = 56, step = 3, steps = 3 }
+SGJ.QuestInfo[6187] = { start = "Highlord Bolvar Fordragon", zone = "Stormwind City", x = 80.2, y = 38.3, level = 60, req = 56, step = 6, steps = 6 }
+SGJ.QuestInfo[6283] = { start = "Maggran Earthbinder", zone = "Stonetalon Mountains", x = 47.2, y = 61.2, level = 26, req = 18, step = 2, steps = 2 }
+SGJ.QuestInfo[6284] = { start = "Wanted Poster: Besseleth", zone = "Stonetalon Mountains", x = 59.1, y = 75.7, level = 21, req = 15 }
+SGJ.QuestInfo[6381] = { start = "Tammra Windfield", zone = "Stonetalon Mountains", x = 47.5, y = 58.4, level = 25, req = 17, step = 2, steps = 2 }
+SGJ.QuestInfo[6481] = { start = "Mor'rogal", zone = "Stonetalon Mountains", x = 47.2, y = 64.0, level = 20, req = 14, step = 2, steps = 2 }
+SGJ.QuestInfo[6504] = { start = "Gurda Ragescar", zone = "Ashenvale", x = 70.0, y = 71.2, level = 30, req = 23 }
+SGJ.QuestInfo[6521] = { start = "Varimathras", zone = "Undercity", x = 56.3, y = 92.2, level = 36, req = 28, step = 2, steps = 2 }
+SGJ.QuestInfo[6544] = { start = "Torek", zone = "Ashenvale", x = 68.3, y = 75.3, level = 24, req = 20 }
+SGJ.QuestInfo[6565] = { start = "Je'neu Sancrea", zone = "Ashenvale", x = 11.6, y = 34.3, level = 26, req = 17, step = 2, steps = 2 }
+SGJ.QuestInfo[6571] = { start = "Locke Okarr", zone = "Ashenvale", x = 71.4, y = 67.6, level = 27, req = 22, step = 1, steps = 2 }
+SGJ.QuestInfo[6602] = { start = "Rexxar", zone = "Feralas", x = 46.4, y = 18.2, level = 60, req = 55, step = 12, steps = 12 }
+SGJ.QuestInfo[6621] = { start = "Karang Amakkar", zone = "Ashenvale", x = 11.9, y = 34.5, level = 26, req = 21, step = 2, steps = 2 }
+SGJ.QuestInfo[6641] = { start = "Muglash", zone = "Ashenvale", x = 12.1, y = 34.6, level = 23, req = 20 }
+SGJ.QuestInfo[6845] = { start = "Umber", zone = "Moonglade", x = 44.9, y = 35.6, level = 57, req = 54, step = 8, steps = 9 }
+SGJ.QuestInfo[6922] = { start = "an item: Strange Water Globe", level = 30, req = 21 }
+SGJ.QuestInfo[7003] = { start = "Zorbin Fandazzle", zone = "Feralas", x = 44.8, y = 43.4, level = 48, req = 45, step = 1, steps = 2 }
+SGJ.QuestInfo[7028] = { start = "Willow", zone = "Desolace", x = 62.2, y = 39.6, level = 47, req = 41 }
+SGJ.QuestInfo[7029] = { start = "Vark Battlescar", zone = "Desolace", x = 23.2, y = 70.3, level = 47, req = 41 }
+SGJ.QuestInfo[7064] = { start = "Selendra", zone = "Desolace", x = 26.9, y = 77.7, level = 51, req = 45 }
+SGJ.QuestInfo[7067] = { start = "Centaur Pariah", zone = "Desolace", x = 50.4, y = 86.7, level = 48, req = 39 }
+SGJ.QuestInfo[7068] = { start = "Uthel'nay", zone = "Orgrimmar", x = 39.2, y = 86.3, level = 42, req = 39 }
+SGJ.QuestInfo[7161] = { start = "Warmaster Laggrond", zone = "Alterac Mountains", x = 62.3, y = 58.9, level = 60, req = 51, step = 1, steps = 6 }
+SGJ.QuestInfo[7162] = { start = "Lieutenant Haggerdin", zone = "Alterac Mountains", x = 39.5, y = 81.2, level = 60, req = 51, step = 1, steps = 6 }
+SGJ.QuestInfo[7163] = { start = "Warmaster Laggrond", zone = "Alterac Mountains", x = 62.3, y = 58.9, level = 60, req = 51, step = 2, steps = 6 }
+SGJ.QuestInfo[7164] = { start = "Warmaster Laggrond", zone = "Alterac Mountains", x = 62.3, y = 58.9, level = 60, req = 51, step = 3, steps = 6 }
+SGJ.QuestInfo[7165] = { start = "Warmaster Laggrond", zone = "Alterac Mountains", x = 62.3, y = 58.9, level = 60, req = 51, step = 4, steps = 6 }
+SGJ.QuestInfo[7166] = { start = "Warmaster Laggrond", zone = "Alterac Mountains", x = 62.3, y = 58.9, level = 60, req = 51, step = 5, steps = 6 }
+SGJ.QuestInfo[7167] = { start = "Warmaster Laggrond", zone = "Alterac Mountains", x = 62.3, y = 58.9, level = 60, req = 51, step = 6, steps = 6 }
+SGJ.QuestInfo[7168] = { start = "Lieutenant Haggerdin", zone = "Alterac Mountains", x = 39.5, y = 81.2, level = 60, req = 51, step = 2, steps = 6 }
+SGJ.QuestInfo[7169] = { start = "Lieutenant Haggerdin", zone = "Alterac Mountains", x = 39.5, y = 81.2, level = 60, req = 51, step = 3, steps = 6 }
+SGJ.QuestInfo[7170] = { start = "Lieutenant Haggerdin", zone = "Alterac Mountains", x = 39.5, y = 81.2, level = 60, req = 51, step = 4, steps = 6 }
+SGJ.QuestInfo[7171] = { start = "Lieutenant Haggerdin", zone = "Alterac Mountains", x = 39.5, y = 81.2, level = 60, req = 51, step = 5, steps = 6 }
+SGJ.QuestInfo[7172] = { start = "Lieutenant Haggerdin", zone = "Alterac Mountains", x = 39.5, y = 81.2, level = 60, req = 51, step = 6, steps = 6 }
+SGJ.QuestInfo[7441] = { start = "Azj'Tordin", zone = "Feralas", x = 76.9, y = 37.4, level = 58, req = 54 }
+SGJ.QuestInfo[7462] = { start = "Shen'dralar Ancient", level = 60, req = 56, step = 2, steps = 2 }
+SGJ.QuestInfo[7486] = { start = "Duke Hydraxis", zone = "Azshara", x = 79.3, y = 73.7, level = 60, req = 55, step = 6, steps = 6 }
+SGJ.QuestInfo[7488] = { start = "Latronicus Moonspear", zone = "Feralas", x = 30.4, y = 46.2, level = 57, req = 54, step = 2, steps = 2 }
+SGJ.QuestInfo[7491] = { start = "Thrall", zone = "Orgrimmar", x = 31.7, y = 37.8, level = 60, req = 60, step = 2, steps = 3 }
+SGJ.QuestInfo[7496] = { start = "Highlord Bolvar Fordragon", zone = "Stormwind City", x = 80.2, y = 38.3, level = 60, req = 60, step = 2, steps = 3 }
+SGJ.QuestInfo[7498] = { start = "an item: Garona: A Study on Stealth and Treachery", level = 60, req = 54 }
+SGJ.QuestInfo[7499] = { start = "an item: Codex of Defense", level = 60, req = 54 }
+SGJ.QuestInfo[7500] = { start = "an item: The Arcanist's Cookbook", level = 60, req = 54 }
+SGJ.QuestInfo[7501] = { start = "an item: The Light and How to Swing It", level = 60, req = 54 }
+SGJ.QuestInfo[7502] = { start = "an item: Harnessing Shadows", level = 60, req = 54 }
+SGJ.QuestInfo[7503] = { start = "an item: The Greatest Race of Hunters", level = 60, req = 54 }
+SGJ.QuestInfo[7504] = { start = "an item: Holy Bologna: What the Light Won't Tell You", level = 60, req = 54 }
+SGJ.QuestInfo[7505] = { start = "an item: Frost Shock and You", level = 60, req = 54 }
+SGJ.QuestInfo[7506] = { start = "an item: The Emerald Dream", level = 60, req = 54 }
+SGJ.QuestInfo[7509] = { start = "Lorekeeper Lydros", level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[7541] = { start = "Zor Lonetree", zone = "Orgrimmar", x = 38.9, y = 38.4, level = 40, req = 30, step = 6, steps = 6 }
+SGJ.QuestInfo[7583] = { start = "Daio the Decrepit", zone = "Blasted Lands", x = 34.1, y = 50.1, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[7603] = { start = "Impsy", zone = "Felwood", x = 41.5, y = 45.0, level = 55, req = 50, step = 3, steps = 3 }
+SGJ.QuestInfo[7668] = { start = "Sagorne Creststrider", zone = "Orgrimmar", x = 38.6, y = 36.2, level = 60, req = 58 }
+SGJ.QuestInfo[7701] = { start = "Wanted/Missing/Lost & Found", zone = "Searing Gorge", x = 37.6, y = 26.5, level = 50, req = 45 }
+SGJ.QuestInfo[7704] = { start = "an item: Chambermaid Pillaclencher's Pillow", level = 50, req = 45 }
+SGJ.QuestInfo[7721] = { start = "Zorbin Fandazzle", zone = "Feralas", x = 44.8, y = 43.4, level = 48, req = 45, step = 1, steps = 2 }
+SGJ.QuestInfo[7723] = { start = "Hansel Heavyhands", zone = "Searing Gorge", x = 38.6, y = 27.8, level = 49, req = 45 }
+SGJ.QuestInfo[7724] = { start = "Hansel Heavyhands", zone = "Searing Gorge", x = 38.6, y = 27.8, level = 49, req = 45 }
+SGJ.QuestInfo[7727] = { start = "Hansel Heavyhands", zone = "Searing Gorge", x = 38.6, y = 27.8, level = 49, req = 45 }
+SGJ.QuestInfo[7728] = { start = "Wanted/Missing/Lost & Found", zone = "Searing Gorge", x = 37.6, y = 26.5, level = 48, req = 45 }
+SGJ.QuestInfo[7732] = { start = "Hadoken Swiftstrider", zone = "Feralas", x = 74.9, y = 42.5, level = 48, req = 39, step = 6, steps = 6 }
+SGJ.QuestInfo[7733] = { start = "Pratt McGrubben", zone = "Feralas", x = 30.6, y = 42.7, level = 48, req = 40, step = 2, steps = 2 }
+SGJ.QuestInfo[7734] = { start = "Jangdor Swiftstrider", zone = "Feralas", x = 74.4, y = 42.9, level = 48, req = 40, step = 2, steps = 2 }
+SGJ.QuestInfo[7782] = { start = "Highlord Bolvar Fordragon", zone = "Stormwind City", x = 80.2, y = 38.3, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[7784] = { start = "Thrall", zone = "Orgrimmar", x = 31.7, y = 37.8, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[7787] = { start = "an item: Dormant Wind Kissed Blade", level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[7815] = { start = "Katoom the Angler", zone = "The Hinterlands", x = 80.3, y = 81.5, level = 50, req = 44, step = 1, steps = 2 }
+SGJ.QuestInfo[7838] = { start = "Short John Mithril", zone = "Stranglethorn Vale", x = 29.6, y = 47.4, level = 55, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[7843] = { start = "Otho Moji'ko", zone = "The Hinterlands", x = 79.4, y = 79.1, level = 50, req = 44, step = 3, steps = 3 }
+SGJ.QuestInfo[7847] = { start = "Elder Torntusk", zone = "The Hinterlands", x = 59.7, y = 77.8, level = 51, req = 46, step = 3, steps = 3 }
+SGJ.QuestInfo[7849] = { start = "Huntsman Markhor", zone = "The Hinterlands", x = 79.2, y = 79.5, level = 50, req = 46 }
+SGJ.QuestInfo[7850] = { start = "Primal Torntusk", zone = "The Hinterlands", x = 78.2, y = 81.2, level = 50, req = 46 }
+SGJ.QuestInfo[7861] = { start = "Call to Arms!", zone = "The Hinterlands", x = 79.1, y = 79.0, level = 51, req = 46 }
+SGJ.QuestInfo[7862] = { start = "Call to Arms!", zone = "The Hinterlands", x = 79.1, y = 79.0, level = 51, req = 46 }
+SGJ.QuestInfo[7907] = { start = "an item: Beasts Deck", level = 55, req = 1 }
+SGJ.QuestInfo[7927] = { start = "an item: Portals Deck", level = 55, req = 1 }
+SGJ.QuestInfo[7928] = { start = "an item: Warlords Deck", level = 55, req = 1 }
+SGJ.QuestInfo[7929] = { start = "an item: Elementals Deck", level = 55, req = 1 }
+SGJ.QuestInfo[7930] = { start = "Gelvas Grimegate", zone = "Mulgore", x = 38.2, y = 44.7, level = 60, req = 6 }
+SGJ.QuestInfo[7935] = { start = "Gelvas Grimegate", zone = "Mulgore", x = 38.2, y = 44.7, level = 60, req = 25 }
+SGJ.QuestInfo[7936] = { start = "Gelvas Grimegate", zone = "Mulgore", x = 38.2, y = 44.7, level = 60, req = 45 }
+SGJ.QuestInfo[7940] = { start = "Gelvas Grimegate", zone = "Mulgore", x = 38.2, y = 44.7, level = 60, req = 55 }
+SGJ.QuestInfo[7981] = { start = "Gelvas Grimegate", zone = "Mulgore", x = 38.2, y = 44.7, level = 60, req = 55 }
+SGJ.QuestInfo[8041] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8042] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8043] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8044] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8045] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8046] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8047] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8048] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8049] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8050] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8051] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8052] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8053] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58 }
+SGJ.QuestInfo[8054] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58 }
+SGJ.QuestInfo[8055] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58 }
+SGJ.QuestInfo[8056] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58 }
+SGJ.QuestInfo[8057] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58 }
+SGJ.QuestInfo[8058] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58 }
+SGJ.QuestInfo[8059] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8060] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8061] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8062] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58 }
+SGJ.QuestInfo[8063] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58 }
+SGJ.QuestInfo[8064] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58 }
+SGJ.QuestInfo[8065] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58 }
+SGJ.QuestInfo[8066] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58 }
+SGJ.QuestInfo[8067] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58 }
+SGJ.QuestInfo[8068] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8069] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8070] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8071] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8072] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58 }
+SGJ.QuestInfo[8073] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58 }
+SGJ.QuestInfo[8074] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58 }
+SGJ.QuestInfo[8075] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58 }
+SGJ.QuestInfo[8076] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8077] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58 }
+SGJ.QuestInfo[8078] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58 }
+SGJ.QuestInfo[8079] = { start = "Jin'rokh the Breaker", zone = "Stranglethorn Vale", x = 15.3, y = 14.4, level = 60, req = 58 }
+SGJ.QuestInfo[8101] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8102] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8103] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8104] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8106] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8107] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8108] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8109] = { start = "Al'tabim the All-Seeing", zone = "Stranglethorn Vale", x = 15.3, y = 16.1, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8110] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8111] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8112] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8113] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8116] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8117] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8118] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8119] = { start = "Maywiki of Zuldazar", zone = "Stranglethorn Vale", x = 15.3, y = 16.0, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8141] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8142] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8143] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8144] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8145] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58, step = 1, steps = 4 }
+SGJ.QuestInfo[8146] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58, step = 2, steps = 4 }
+SGJ.QuestInfo[8147] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58, step = 3, steps = 4 }
+SGJ.QuestInfo[8148] = { start = "Falthir the Sightless", zone = "Stranglethorn Vale", x = 14.1, y = 13.7, level = 60, req = 58, step = 4, steps = 4 }
+SGJ.QuestInfo[8181] = { start = "Prospector Ironboot", zone = "Tanaris", x = 66.9, y = 24.0, level = 58, req = 40, step = 7, steps = 8 }
+SGJ.QuestInfo[8183] = { start = "an item: Heart of Hakkar", level = 60, req = 58 }
+SGJ.QuestInfo[8193] = { start = "Riggle Bassbait", zone = "Stranglethorn Vale", x = 27.4, y = 76.8, level = 60, req = 1 }
+SGJ.QuestInfo[8201] = { start = "Exzhal", zone = "Stranglethorn Vale", x = 15.3, y = 15.5, level = 60, req = 58 }
+SGJ.QuestInfo[8221] = { start = "Fishbot 5000", zone = "Stranglethorn Vale", x = 27.3, y = 76.9, level = 60, req = 1 }
+SGJ.QuestInfo[8225] = { start = "Fishbot 5000", zone = "Stranglethorn Vale", x = 27.3, y = 76.9, level = 60, req = 1 }
+SGJ.QuestInfo[8232] = { start = "Ogtinc", zone = "Azshara", x = 42.4, y = 42.6, level = 52, req = 50, step = 4, steps = 4 }
+SGJ.QuestInfo[8236] = { start = "Archmage Xylem", zone = "Azshara", x = 29.2, y = 40.2, level = 52, req = 50, step = 4, steps = 4 }
+SGJ.QuestInfo[8249] = { start = "Fahrad", zone = "Alterac Mountains", x = 84.4, y = 80.3, level = 60, req = 50 }
+SGJ.QuestInfo[8253] = { start = "Archmage Xylem", zone = "Azshara", x = 29.2, y = 40.2, level = 52, req = 50, step = 4, steps = 4 }
+SGJ.QuestInfo[8257] = { start = "Ogtinc", zone = "Azshara", x = 42.4, y = 42.6, level = 52, req = 50, step = 4, steps = 4 }
+SGJ.QuestInfo[8259] = { start = "Sagorne Creststrider", zone = "Orgrimmar", x = 38.6, y = 36.2, level = 60, req = 58 }
+SGJ.QuestInfo[8272] = { start = "Voggah Deathgrip", zone = "Alterac Mountains", x = 63.8, y = 60.5, level = 60, req = 51, step = 3, steps = 3 }
+SGJ.QuestInfo[8273] = { start = "Oran Snakewrithe", zone = "Undercity", x = 73.1, y = 32.8, level = 47, req = 42, step = 3, steps = 3 }
+SGJ.QuestInfo[8283] = { start = "Wanted Poster: Deathclasp", zone = "Silithus", x = 51.4, y = 38.3, level = 59, req = 54 }
+SGJ.QuestInfo[8306] = { start = "Commander Mar'alith", zone = "Silithus", x = 49.2, y = 34.2, level = 60, req = 58, step = 2, steps = 2 }
+SGJ.QuestInfo[8308] = { start = "an item: Brann Bronzebeard's Lost Letter", level = 60, req = 58 }
+SGJ.QuestInfo[8316] = { start = "Geologist Larksbane", zone = "Silithus", x = 49.7, y = 37.5, level = 60, req = 58, step = 5, steps = 5 }
+SGJ.QuestInfo[8321] = { start = "Huum Wildmane", zone = "Silithus", x = 48.6, y = 37.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8332] = { start = "Aurel Goldleaf", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60, step = 2, steps = 5 }
+SGJ.QuestInfo[8341] = { start = "Aurel Goldleaf", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60, step = 2, steps = 5 }
+SGJ.QuestInfo[8366] = { start = "Security Chief Bilgewhizzle", zone = "Tanaris", x = 67.1, y = 23.9, level = 45, req = 40 }
+SGJ.QuestInfo[8376] = { start = "Geologist Larksbane", zone = "Silithus", x = 49.7, y = 37.5, level = 60, req = 58, step = 5, steps = 5 }
+SGJ.QuestInfo[8377] = { start = "Geologist Larksbane", zone = "Silithus", x = 49.7, y = 37.5, level = 60, req = 58, step = 5, steps = 5 }
+SGJ.QuestInfo[8378] = { start = "Geologist Larksbane", zone = "Silithus", x = 49.7, y = 37.5, level = 60, req = 58, step = 5, steps = 5 }
+SGJ.QuestInfo[8379] = { start = "Geologist Larksbane", zone = "Silithus", x = 49.7, y = 37.5, level = 60, req = 58, step = 5, steps = 5 }
+SGJ.QuestInfo[8380] = { start = "Geologist Larksbane", zone = "Silithus", x = 49.7, y = 37.5, level = 60, req = 58, step = 5, steps = 5 }
+SGJ.QuestInfo[8381] = { start = "Geologist Larksbane", zone = "Silithus", x = 49.7, y = 37.5, level = 60, req = 58, step = 5, steps = 5 }
+SGJ.QuestInfo[8382] = { start = "Geologist Larksbane", zone = "Silithus", x = 49.7, y = 37.5, level = 60, req = 58, step = 5, steps = 5 }
+SGJ.QuestInfo[8413] = { start = "Bath'rah the Windwatcher", zone = "Alterac Mountains", x = 80.5, y = 66.9, level = 52, req = 50, step = 3, steps = 3 }
+SGJ.QuestInfo[8418] = { start = "Commander Ashlam Valorfist", zone = "Western Plaguelands", x = 42.7, y = 84.0, level = 52, req = 50, step = 4, steps = 4 }
+SGJ.QuestInfo[8422] = { start = "Impsy", zone = "Felwood", x = 41.5, y = 45.0, level = 52, req = 50, step = 3, steps = 3 }
+SGJ.QuestInfo[8425] = { start = "Fallen Hero of the Horde", zone = "Swamp of Sorrows", x = 34.3, y = 66.1, level = 52, req = 50, step = 4, steps = 4 }
+SGJ.QuestInfo[8447] = { start = "Keeper Remulos", zone = "Moonglade", x = 36.2, y = 41.8, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8460] = { start = "Grazle", zone = "Felwood", x = 50.9, y = 85.0, level = 48, req = 45, step = 1, steps = 2 }
+SGJ.QuestInfo[8461] = { start = "Nafien", zone = "Felwood", x = 64.8, y = 8.1, level = 55, req = 45, step = 1, steps = 2 }
+SGJ.QuestInfo[8464] = { start = "Salfa", zone = "Winterspring", x = 27.7, y = 34.5, level = 58, req = 45, step = 1, steps = 2 }
+SGJ.QuestInfo[8481] = { start = "Gorn One Eye", zone = "Felwood", x = 65.2, y = 2.7, level = 60, req = 45 }
+SGJ.QuestInfo[8544] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8548] = { start = "Vargus", zone = "Silithus", x = 51.2, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8556] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8557] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8558] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8559] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8560] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8561] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8562] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8572] = { start = "Vargus", zone = "Silithus", x = 51.2, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8573] = { start = "Vargus", zone = "Silithus", x = 51.2, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8574] = { start = "Vargus", zone = "Silithus", x = 51.2, y = 38.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8592] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8593] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8594] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8596] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8602] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8603] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8620] = { start = "Narain Soothfancy", zone = "Tanaris", x = 65.2, y = 18.6, level = 60, req = 60, step = 6, steps = 10 }
+SGJ.QuestInfo[8621] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8622] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8623] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8624] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8625] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8626] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8627] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8628] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8629] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8630] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8631] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8632] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8633] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8634] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8637] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8638] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8639] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8640] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8641] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8655] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8656] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8657] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8658] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8659] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8660] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8661] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8662] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8663] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8664] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8665] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8666] = { start = "Vethsera", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8667] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8668] = { start = "Kandrostrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8669] = { start = "Andorgos", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8689] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8690] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8691] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8692] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8693] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8694] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8695] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8696] = { start = "Keyl Swiftclaw", zone = "Silithus", x = 51.8, y = 39.5, level = 60, req = 60 }
+SGJ.QuestInfo[8697] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8698] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8699] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8700] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8701] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8702] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8703] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8704] = { start = "Windcaller Yessendra", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 60 }
+SGJ.QuestInfo[8705] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8706] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8707] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8708] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8709] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8710] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8711] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8712] = { start = "Warden Haro", zone = "Silithus", x = 51.1, y = 38.9, level = 60, req = 60 }
+SGJ.QuestInfo[8729] = { start = "Narain Soothfancy", zone = "Tanaris", x = 65.2, y = 18.6, level = 60, req = 60, step = 8, steps = 10 }
+SGJ.QuestInfo[8730] = { start = "Vaelastrasz the Corrupt", zone = "Blackwing Lair", level = 60, req = 60, step = 8, steps = 10 }
+SGJ.QuestInfo[8736] = { start = "Keeper Remulos", zone = "Moonglade", x = 36.2, y = 41.8, level = 60, req = 60, step = 4, steps = 7 }
+SGJ.QuestInfo[8745] = { start = "Jonathan the Revelator", zone = "Silithus", x = 25.9, y = 91.0, level = 60, req = 60, step = 10, steps = 10 }
+SGJ.QuestInfo[8747] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 1, steps = 5 }
+SGJ.QuestInfo[8748] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 2, steps = 5 }
+SGJ.QuestInfo[8749] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 3, steps = 5 }
+SGJ.QuestInfo[8750] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 4, steps = 5 }
+SGJ.QuestInfo[8752] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 1, steps = 5 }
+SGJ.QuestInfo[8753] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 2, steps = 5 }
+SGJ.QuestInfo[8754] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 3, steps = 5 }
+SGJ.QuestInfo[8755] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 4, steps = 5 }
+SGJ.QuestInfo[8757] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 1, steps = 5 }
+SGJ.QuestInfo[8758] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 2, steps = 5 }
+SGJ.QuestInfo[8759] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 3, steps = 5 }
+SGJ.QuestInfo[8760] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 4, steps = 5 }
+SGJ.QuestInfo[8765] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60 }
+SGJ.QuestInfo[8766] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60 }
+SGJ.QuestInfo[8789] = { start = "Arygos", zone = "Ahn'Qiraj Temple", level = 60, req = 60 }
+SGJ.QuestInfo[8790] = { start = "Merithra of the Dream", zone = "Ahn'Qiraj Temple", level = 60, req = 60 }
+SGJ.QuestInfo[8791] = { start = "an item: Head of Ossirian the Unscarred", level = 60, req = 60 }
+SGJ.QuestInfo[8802] = { start = "Caelestrasz", zone = "Ahn'Qiraj Temple", level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[8864] = { start = "Valadar Starsong", zone = "Moonglade", x = 53.7, y = 35.3, level = 60, req = 1 }
+SGJ.QuestInfo[8865] = { start = "Valadar Starsong", zone = "Moonglade", x = 53.7, y = 35.3, level = 60, req = 1 }
+SGJ.QuestInfo[8905] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8906] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8907] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8908] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8909] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8910] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8911] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8912] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8913] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8914] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8915] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8916] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8917] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8918] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8919] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8920] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 1, steps = 8 }
+SGJ.QuestInfo[8926] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8927] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8931] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8932] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8933] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8934] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8935] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8936] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8937] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8938] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8939] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8940] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8941] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8942] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8943] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8944] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 8, steps = 15 }
+SGJ.QuestInfo[8949] = { start = "Falrin Treeshaper", level = 60, req = 58, step = 7, steps = 12 }
+SGJ.QuestInfo[8951] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 5, steps = 12 }
+SGJ.QuestInfo[8952] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 5, steps = 12 }
+SGJ.QuestInfo[8953] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 5, steps = 12 }
+SGJ.QuestInfo[8954] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 5, steps = 12 }
+SGJ.QuestInfo[8955] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 5, steps = 12 }
+SGJ.QuestInfo[8956] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 5, steps = 12 }
+SGJ.QuestInfo[8957] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 6, steps = 13 }
+SGJ.QuestInfo[8958] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 5, steps = 12 }
+SGJ.QuestInfo[8959] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 5, steps = 12 }
+SGJ.QuestInfo[8999] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9000] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9001] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9002] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9003] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9004] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9005] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9006] = { start = "Deliana", zone = "Dun Morogh", x = 58.1, y = 29.5, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9007] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9008] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9009] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9010] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9011] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9012] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9013] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9014] = { start = "Mokvar", zone = "Orgrimmar", x = 34.9, y = 38.3, level = 60, req = 58, step = 12, steps = 12 }
+SGJ.QuestInfo[9016] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 6, steps = 13 }
+SGJ.QuestInfo[9017] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 6, steps = 13 }
+SGJ.QuestInfo[9018] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 6, steps = 13 }
+SGJ.QuestInfo[9019] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 6, steps = 13 }
+SGJ.QuestInfo[9020] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 6, steps = 13 }
+SGJ.QuestInfo[9021] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 6, steps = 13 }
+SGJ.QuestInfo[9022] = { start = "Anthion Harmon", zone = "Eastern Plaguelands", x = 26.1, y = 11.3, level = 60, req = 58, step = 6, steps = 13 }
+SGJ.QuestInfo[9023] = { start = "Dirk Thunderwood", zone = "Silithus", x = 52.1, y = 39.1, level = 60, req = 60 }
+SGJ.QuestInfo[9034] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9036] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9037] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9038] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9039] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9040] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9041] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9042] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9043] = { start = "Commander Eligor Dawnbringer", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9044] = { start = "Commander Eligor Dawnbringer", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9045] = { start = "Commander Eligor Dawnbringer", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9046] = { start = "Commander Eligor Dawnbringer", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9047] = { start = "Commander Eligor Dawnbringer", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9048] = { start = "Commander Eligor Dawnbringer", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9049] = { start = "Commander Eligor Dawnbringer", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9050] = { start = "Commander Eligor Dawnbringer", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9053] = { start = "Torwa Pathfinder", zone = "Un'Goro Crater", x = 71.6, y = 76.0, level = 52, req = 50, step = 4, steps = 4 }
+SGJ.QuestInfo[9054] = { start = "Huntsman Leopold", zone = "Eastern Plaguelands", x = 71.7, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9055] = { start = "Huntsman Leopold", zone = "Eastern Plaguelands", x = 71.7, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9056] = { start = "Huntsman Leopold", zone = "Eastern Plaguelands", x = 71.7, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9057] = { start = "Huntsman Leopold", zone = "Eastern Plaguelands", x = 71.7, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9058] = { start = "Huntsman Leopold", zone = "Eastern Plaguelands", x = 71.7, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9059] = { start = "Huntsman Leopold", zone = "Eastern Plaguelands", x = 71.7, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9060] = { start = "Huntsman Leopold", zone = "Eastern Plaguelands", x = 71.7, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9061] = { start = "Huntsman Leopold", zone = "Eastern Plaguelands", x = 71.7, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9068] = { start = "Rimblat Earthshatter", zone = "Eastern Plaguelands", x = 71.3, y = 49.4, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9069] = { start = "Rimblat Earthshatter", zone = "Eastern Plaguelands", x = 71.3, y = 49.4, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9070] = { start = "Rimblat Earthshatter", zone = "Eastern Plaguelands", x = 71.3, y = 49.4, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9071] = { start = "Rimblat Earthshatter", zone = "Eastern Plaguelands", x = 71.3, y = 49.4, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9072] = { start = "Rimblat Earthshatter", zone = "Eastern Plaguelands", x = 71.3, y = 49.4, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9073] = { start = "Rimblat Earthshatter", zone = "Eastern Plaguelands", x = 71.3, y = 49.4, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9074] = { start = "Rimblat Earthshatter", zone = "Eastern Plaguelands", x = 71.3, y = 49.4, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9075] = { start = "Rimblat Earthshatter", zone = "Eastern Plaguelands", x = 71.3, y = 49.4, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9077] = { start = "Rohan the Assassin", zone = "Eastern Plaguelands", x = 71.6, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9078] = { start = "Rohan the Assassin", zone = "Eastern Plaguelands", x = 71.6, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9079] = { start = "Rohan the Assassin", zone = "Eastern Plaguelands", x = 71.6, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9080] = { start = "Rohan the Assassin", zone = "Eastern Plaguelands", x = 71.6, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9081] = { start = "Rohan the Assassin", zone = "Eastern Plaguelands", x = 71.6, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9082] = { start = "Rohan the Assassin", zone = "Eastern Plaguelands", x = 71.6, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9083] = { start = "Rohan the Assassin", zone = "Eastern Plaguelands", x = 71.6, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9084] = { start = "Rohan the Assassin", zone = "Eastern Plaguelands", x = 71.6, y = 48.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9086] = { start = "Rayne", zone = "Eastern Plaguelands", x = 71.4, y = 49.3, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9087] = { start = "Rayne", zone = "Eastern Plaguelands", x = 71.4, y = 49.3, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9088] = { start = "Rayne", zone = "Eastern Plaguelands", x = 71.4, y = 49.3, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9089] = { start = "Rayne", zone = "Eastern Plaguelands", x = 71.4, y = 49.3, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9090] = { start = "Rayne", zone = "Eastern Plaguelands", x = 71.4, y = 49.3, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9091] = { start = "Rayne", zone = "Eastern Plaguelands", x = 71.4, y = 49.3, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9092] = { start = "Rayne", zone = "Eastern Plaguelands", x = 71.4, y = 49.3, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9093] = { start = "Rayne", zone = "Eastern Plaguelands", x = 71.4, y = 49.3, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9094] = { start = "Argent Quartermaster", zone = "Dun Morogh", x = 55.8, y = 30.7, level = 60, req = 50, step = 2, steps = 2 }
+SGJ.QuestInfo[9095] = { start = "Archmage Angela Dosantos", zone = "Eastern Plaguelands", x = 71.7, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9096] = { start = "Archmage Angela Dosantos", zone = "Eastern Plaguelands", x = 71.7, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9097] = { start = "Archmage Angela Dosantos", zone = "Eastern Plaguelands", x = 71.7, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9098] = { start = "Archmage Angela Dosantos", zone = "Eastern Plaguelands", x = 71.7, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9099] = { start = "Archmage Angela Dosantos", zone = "Eastern Plaguelands", x = 71.7, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9100] = { start = "Archmage Angela Dosantos", zone = "Eastern Plaguelands", x = 71.7, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9101] = { start = "Archmage Angela Dosantos", zone = "Eastern Plaguelands", x = 71.7, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9102] = { start = "Archmage Angela Dosantos", zone = "Eastern Plaguelands", x = 71.7, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9103] = { start = "Mataus the Wrathcaster", zone = "Eastern Plaguelands", x = 71.6, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9104] = { start = "Mataus the Wrathcaster", zone = "Eastern Plaguelands", x = 71.6, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9105] = { start = "Mataus the Wrathcaster", zone = "Eastern Plaguelands", x = 71.6, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9106] = { start = "Mataus the Wrathcaster", zone = "Eastern Plaguelands", x = 71.6, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9107] = { start = "Mataus the Wrathcaster", zone = "Eastern Plaguelands", x = 71.6, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9108] = { start = "Mataus the Wrathcaster", zone = "Eastern Plaguelands", x = 71.6, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9109] = { start = "Mataus the Wrathcaster", zone = "Eastern Plaguelands", x = 71.6, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9110] = { start = "Mataus the Wrathcaster", zone = "Eastern Plaguelands", x = 71.6, y = 48.7, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9111] = { start = "Father Inigo Montoy", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9112] = { start = "Father Inigo Montoy", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9113] = { start = "Father Inigo Montoy", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9114] = { start = "Father Inigo Montoy", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9115] = { start = "Father Inigo Montoy", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9116] = { start = "Father Inigo Montoy", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9117] = { start = "Father Inigo Montoy", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9118] = { start = "Father Inigo Montoy", zone = "Eastern Plaguelands", x = 71.7, y = 48.6, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9120] = { start = "an item: The Phylactery of Kel'Thuzad", level = 60, req = 60 }
+SGJ.QuestInfo[9227] = { start = "Quartermaster Miranda Breechlock", zone = "Eastern Plaguelands", x = 71.8, y = 50.2, level = 60, req = 55 }
+SGJ.QuestInfo[9228] = { start = "Quartermaster Miranda Breechlock", zone = "Eastern Plaguelands", x = 71.8, y = 50.2, level = 60, req = 55 }
+SGJ.QuestInfo[9230] = { start = "Korfax, Champion of the Light", zone = "Eastern Plaguelands", x = 72.0, y = 48.5, level = 60, req = 60, step = 4, steps = 4 }
+SGJ.QuestInfo[9232] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9234] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9235] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9236] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9237] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9238] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9239] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9240] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9241] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9242] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9243] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9244] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9245] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9246] = { start = "Craftsman Wilhelm", zone = "Eastern Plaguelands", x = 71.2, y = 49.9, level = 60, req = 60, step = 2, steps = 2 }
+SGJ.QuestInfo[9248] = { start = "Aurel Goldleaf", zone = "Silithus", x = 52.0, y = 38.2, level = 60, req = 58 }
+SGJ.QuestInfo[9257] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9269] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9270] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9271] = { start = "Anachronos", zone = "Tanaris", x = 65.3, y = 50.0, level = 60, req = 60, step = 3, steps = 3 }
+SGJ.QuestInfo[9323] = { start = "Festival Flamekeeper", zone = "Orgrimmar", x = 42.6, y = 34.2, level = 60, req = 1 }
+SGJ.QuestInfo[9339] = { start = "Festival Talespinner", zone = "Thunder Bluff", x = 21.5, y = 27.2, level = 60, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[76240] = { start = "Boarton Shadetotem", zone = "Thunder Bluff", x = 39.6, y = 65.6, level = 11, req = 4 }
+SGJ.QuestInfo[78307] = { level = 23, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[79980] = { start = "Pocket Litter", zone = "Stonetalon Mountains", x = 40.8, y = 52.5, level = 24, req = 14, step = 3, steps = 6 }
+SGJ.QuestInfo[86574] = { start = "Night Elf Courier", zone = "Stonetalon Mountains", x = 48.6, y = 39.8, level = 24, req = 20 }
+SGJ.QuestInfo[86576] = { start = "Maggran Earthbinder", zone = "Stonetalon Mountains", x = 47.2, y = 61.0, level = 26, req = 18 }
+SGJ.QuestInfo[86585] = { start = "Mountaineer Ylva", zone = "Loch Modan", x = 31.8, y = 86.2, level = 17, req = 10 }
+SGJ.QuestInfo[86614] = { start = "Discarded Fishing Toolbox", zone = "Loch Modan", x = 48.0, y = 39.7, level = 20, req = 13 }
+SGJ.QuestInfo[86758] = { start = "Marek Ironheart", zone = "Loch Modan", x = 81.8, y = 61.8, level = 16, req = 12 }
+SGJ.QuestInfo[91285] = { start = "Breton Samuels", zone = "Tirisfal Glades", x = 21.8, y = 45.2, level = 11, req = 7, step = 1, steps = 2 }
+SGJ.QuestInfo[91316] = { start = "Jorin Croge", zone = "Tirisfal Glades", x = 22.6, y = 44.8, level = 11, req = 8 }
+SGJ.QuestInfo[91777] = { start = "Marshal Dughan", zone = "Elwynn Forest", x = 42.2, y = 65.8, level = 7, req = 1, step = 8, steps = 8 }
+SGJ.QuestInfo[92401] = { start = "Tabitha Heartweaver", zone = "Silverpine Forest", x = 44.4, y = 42.8, level = 22, req = 15 }
+SGJ.QuestInfo[92421] = { start = "Morbin Lightbane", zone = "Undercity", x = 57.8, y = 89.8, level = 22, req = 15 }
+SGJ.QuestInfo[92422] = { start = "Deathguard Kristof", zone = "Tirisfal Glades", x = 65.2, y = 60.2, level = 22, req = 15 }
+SGJ.QuestInfo[92456] = { level = 33, req = 24 }
+SGJ.QuestInfo[92457] = { level = 33, req = 24 }
+SGJ.QuestInfo[92458] = { level = 33, req = 24 }
+SGJ.QuestInfo[92460] = { start = "Ailee Farheart", zone = "Zephras Isle", x = 42.8, y = 23.4, level = 1, req = 1, step = 1, steps = 2 }
+SGJ.QuestInfo[92461] = { start = "Rorian the Dayseeker", zone = "Zephras Isle", x = 42.0, y = 23.4, level = 1, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[92463] = { start = "Elatrell Featherlight", zone = "Zephras Isle", x = 43.4, y = 24.8, level = 3, req = 2 }
+SGJ.QuestInfo[92469] = { start = "Yala Windwatcher", zone = "Zephras Isle", x = 47.2, y = 21.8, level = 4, req = 3, step = 3, steps = 5 }
+SGJ.QuestInfo[92470] = { start = "Aetheen of the Gales", zone = "Zephras Isle", x = 42.6, y = 23.6, level = 5, req = 2, step = 4, steps = 5 }
+SGJ.QuestInfo[92473] = { start = "Valreaa Valewind", zone = "Zephras Isle", x = 42.4, y = 25.0, level = 4, req = 3 }
+SGJ.QuestInfo[92489] = { start = "High Sorcerer Andromath", zone = "Stormwind City", x = 48.7, y = 87.6, level = 33, req = 24 }
+SGJ.QuestInfo[92517] = { start = "Constable Aonda", zone = "Zephras Isle", x = 45.6, y = 45.4, level = 7, req = 4, step = 2, steps = 2 }
+SGJ.QuestInfo[92528] = { start = "Missionary Jasaan", zone = "Zephras Isle", x = 46.8, y = 56.2, level = 8, req = 5, step = 3, steps = 5 }
+SGJ.QuestInfo[92550] = { start = "Constable Aonda", zone = "Zephras Isle", x = 45.6, y = 45.4, level = 8, req = 5, step = 4, steps = 5 }
+SGJ.QuestInfo[92579] = { start = "Constable Aonda", zone = "Zephras Isle", x = 45.6, y = 45.4, level = 8, req = 6, step = 5, steps = 5 }
+SGJ.QuestInfo[92640] = { start = "Talaanis Shadowsong", zone = "Zephras Isle", x = 66.2, y = 76.6, level = 11, req = 6, step = 5, steps = 7 }
+SGJ.QuestInfo[92644] = { start = "Dead Cultist", zone = "Zephras Isle", x = 56.0, y = 58.8, level = 11, req = 6, step = 3, steps = 7 }
+SGJ.QuestInfo[92645] = { start = "Yorana Windyreed", zone = "Zephras Isle", x = 69.6, y = 67.0, level = 11, req = 6 }
+SGJ.QuestInfo[92646] = { start = "Valennia Stormfist", zone = "Zephras Isle", x = 65.2, y = 50.4, level = 12, req = 7, step = 1, steps = 6 }
+SGJ.QuestInfo[92683] = { start = "Aamelia Windfield", zone = "Zephras Isle", x = 46.6, y = 81.8, level = 9, req = 5 }
+SGJ.QuestInfo[92684] = { start = "Aamelia Windfield", zone = "Zephras Isle", x = 46.6, y = 81.8, level = 9, req = 5 }
+SGJ.QuestInfo[92703] = { start = "Aamelia Windfield", zone = "Zephras Isle", x = 46.6, y = 81.8, level = 9, req = 5, step = 2, steps = 2 }
+SGJ.QuestInfo[92834] = { start = "Elaadrin Evengale", zone = "Zephras Isle", x = 66.6, y = 79.8, level = 11, req = 6, step = 5, steps = 6 }
+SGJ.QuestInfo[92840] = { start = "Elaadrin Evengale", zone = "Zephras Isle", x = 66.6, y = 79.8, level = 11, req = 5, step = 4, steps = 6 }
+SGJ.QuestInfo[92880] = { start = "Yorana Windyreed", zone = "Zephras Isle", x = 69.6, y = 67.0, level = 11, req = 6 }
+SGJ.QuestInfo[93165] = { start = "Vayn Moongaze", zone = "Zephras Isle", x = 63.8, y = 36.0, level = 13, req = 8 }
+SGJ.QuestInfo[93172] = { start = "Strange Hermit", zone = "Zephras Isle", x = 54.0, y = 39.0, level = 13, req = 8 }
+SGJ.QuestInfo[93318] = { start = "Bounty Available: Vulgara the Insatiable!", zone = "Zephras Isle", x = 43.4, y = 45.8, level = 9, req = 4 }
+SGJ.QuestInfo[93320] = { start = "Valennia Stormfist", zone = "Zephras Isle", x = 66.2, y = 76.6, level = 11, req = 6 }
+SGJ.QuestInfo[93739] = { start = "Thrall", zone = "Orgrimmar", x = 32.0, y = 37.8, level = 13, req = 7, step = 6, steps = 6 }
+SGJ.QuestInfo[93746] = { start = "Ayessa Dawnsinger", zone = "Zephras Isle", x = 59.0, y = 79.6, level = 9, req = 4 }
+SGJ.QuestInfo[93797] = { start = "Belann Windwood", zone = "Zephras Isle", x = 62.8, y = 77.4, level = 10, req = 10, step = 2, steps = 2 }
+SGJ.QuestInfo[93963] = { start = "Highlord Bolvar Fordragon", zone = "Stormwind City", x = 78.0, y = 18.0, level = 13, req = 7, step = 6, steps = 6 }
+SGJ.QuestInfo[94003] = { start = "Seena Skybreaker", zone = "Zephras Isle", x = 59.8, y = 72.8, level = 10, req = 10 }
+SGJ.QuestInfo[94411] = { start = "Illaya Amberwind", zone = "Zephras Isle", x = 43.6, y = 44.8, level = 6, req = 4 }
+SGJ.QuestInfo[94413] = { start = "Rathiril Sunlance", zone = "Zephras Isle", x = 45.0, y = 46.4, level = 6, req = 4 }
+SGJ.QuestInfo[95126] = { start = "Ott", zone = "Hillsbrad Foothills", x = 60.4, y = 26.0, level = 25, req = 20 }
+SGJ.QuestInfo[95161] = { start = "Orphan Matron Nightingale", zone = "Stormwind City", x = 47.2, y = 38.4, level = 22, req = 15, step = 2, steps = 2 }
+SGJ.QuestInfo[95195] = { start = "an item: Bloodied Insignia", level = 22, req = 16 }
+SGJ.QuestInfo[95216] = { start = "Theodore Griffs", zone = "Undercity", x = 46.6, y = 72.0, level = 22, req = 16 }
+SGJ.QuestInfo[95250] = { level = 21, req = 16 }
+SGJ.QuestInfo[95508] = { start = "Walton", zone = "The Barrens", x = 42.0, y = 11.4, level = 18, req = 14 }
+SGJ.QuestInfo[95646] = { start = "Rethiel the Greenwarden", zone = "Wetlands", x = 56.2, y = 40.5, level = 31, req = 24 }
+SGJ.QuestInfo[95682] = { level = 31, req = 24 }
+SGJ.QuestInfo[95697] = { start = "Borstan", zone = "Orgrimmar", x = 57.4, y = 53.4, level = 31, req = 24 }
+SGJ.QuestInfo[95795] = { level = 31, req = 24 }
+SGJ.QuestInfo[95885] = { start = "Offering Stone", zone = "Silverpine Forest", x = 58.1, y = 69.9, level = 23, req = 20, step = 3, steps = 3 }
+SGJ.QuestInfo[95981] = { start = "Shadow Priest Allister", zone = "Silverpine Forest", x = 44.0, y = 41.0, level = 20, req = 10 }
+SGJ.QuestInfo[95999] = { start = "Wanted: Incinerator Gar'im", zone = "Redridge Mountains", x = 24.4, y = 46.2, level = 25, req = 16 }
+SGJ.QuestInfo[96130] = { start = "Yaw Sharpmane", zone = "Mulgore", x = 46.8, y = 59.6, level = 5, req = 4 }
+SGJ.QuestInfo[96393] = { start = "Earthseer Farsen", zone = "Dun Morogh", x = 64.8, y = 58.4, level = 16, req = 9, step = 2, steps = 2 }
+SGJ.QuestInfo[96394] = { start = "Afadra Dunwall", zone = "Ironforge", x = 33.0, y = 48.0, level = 15, req = 10 }
+SGJ.QuestInfo[96395] = { level = 15, req = 10 }
+SGJ.QuestInfo[96403] = { start = "Thom Filch", zone = "Ironforge", x = 32.4, y = 44.8, level = 15, req = 10 }
+SGJ.QuestInfo[96984] = { level = 33, req = 24 }
+SGJ.QuestInfo[96986] = { start = "Melisara", zone = "Hillsbrad Foothills", x = 62.6, y = 20.6, level = 33, req = 24 }
+SGJ.QuestInfo[96988] = { start = "Doctor Martin Felben", zone = "Undercity", x = 46.6, y = 74.4, level = 33, req = 24 }
+SGJ.QuestInfo[97003] = { start = "Gur'ak", zone = "The Barrens", x = 52.6, y = 29.0, level = 21, req = 15 }
+SGJ.QuestInfo[97223] = { start = "Xar'Ti", zone = "Durotar", x = 55.2, y = 75.4, level = 8, req = 5 }
+SGJ.QuestInfo[97225] = { start = "Master Vornal", zone = "Durotar", x = 55.8, y = 74.4, level = 9, req = 4 }
+SGJ.QuestInfo[97250] = { start = "Grunt Logmar", zone = "The Barrens", x = 44.6, y = 59.2, level = 23, req = 18 }
+SGJ.QuestInfo[97282] = { start = "Rezlak", zone = "Durotar", x = 46.4, y = 23.0, level = 11, req = 7, step = 2, steps = 2 }
+SGJ.QuestInfo[97290] = { start = "Unfinished Abomination", zone = "Undercity", x = 46.0, y = 62.2, level = 21, req = 16, step = 3, steps = 5 }
+SGJ.QuestInfo[97326] = { start = "Thra", zone = "Orgrimmar", x = 36.8, y = 29.0, level = 15, req = 5 }
+SGJ.QuestInfo[97558] = { start = "Shelene Rhobart", zone = "Tirisfal Glades", x = 65.4, y = 60.0, level = 11, req = 6 }
+SGJ.QuestInfo[98025] = { start = "WANTED: Murkdeep!", zone = "Darkshore", x = 37.2, y = 44.2, level = 13, req = 10 }
+SGJ.QuestInfo[98028] = { start = "an item: Clouded Water Globe", level = 21, req = 17 }
+SGJ.QuestInfo[98093] = { start = "Sulhasa", zone = "The Barrens", x = 47.8, y = 77.6, level = 23, req = 18 }
+SGJ.QuestInfo[98095] = { level = 25, req = 19, step = 2, steps = 2 }
+SGJ.QuestInfo[98191] = { level = 25, req = 20, step = 8, steps = 8 }
+SGJ.QuestInfo[98208] = { start = "Sylessa Duskwhisper", zone = "Wetlands", x = 8.0, y = 55.8, level = 29, req = 22, step = 1, steps = 2 }
+SGJ.QuestInfo[98298] = { start = "Dalar Dawnweaver", zone = "Silverpine Forest", x = 44.2, y = 39.8, level = 16, req = 9, step = 6, steps = 6 }
+SGJ.QuestInfo[98326] = { start = "Gretta Ganter", zone = "Dun Morogh", x = 31.4, y = 44.6, level = 9, req = 5 }
+SGJ.QuestInfo[98403] = { start = "Tallonkai Swiftroot", zone = "Teldrassil", x = 55.4, y = 56.8, level = 12, req = 4, step = 2, steps = 2 }
+SGJ.QuestInfo[98435] = { start = "Mull Thunderhorn", zone = "Mulgore", x = 48.4, y = 60.4, level = 10, req = 4, step = 7, steps = 7 }
+SGJ.QuestInfo[98545] = { start = "Leonid Barthalomew the Revered", zone = "Tirisfal Glades", x = 22.0, y = 44.8, level = 13, req = 10, step = 3, steps = 3 }
+SGJ.QuestInfo[98823] = { level = 31, req = 24, step = 2, steps = 2 }
+SGJ.QuestInfo[98824] = { level = 31, req = 24, step = 2, steps = 2 }

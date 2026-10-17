@@ -245,3 +245,53 @@ L["|cff999999Pick a dungeon from the leaderboard|r"] = "|cff999999Escolha uma ma
 L["|cffaaaaaa[Current / Virtual]|r"] = "|cffaaaaaa[Atual / Virtual]|r"
 L["|cffff0000(IGNORED)|r"] = "|cffff0000(IGNORADO)|r"
 L["Quest: %s"] = "Missão: %s"
+
+-- Added in 3.2.0 (quest rows: PvP Quests, quest chains, holidays)
+L["(quest chains)"] = "(cadeias de missões)"
+L["Include rewards from battleground quests (Alterac Valley)."] = "Incluir recompensas de missões de campo de batalha (Vale Alterac)."
+L["Off by default: most of these need many battleground games."] = "Desativado por padrão: a maioria exige muitas partidas de campo de batalha."
+L["PvP Quests"] = "Missões JxJ"
+L["Rewards at the end of long quest chains."] = "Recompensas no fim de longas cadeias de missões."
+L["Invasion"] = "Invasão"
+
+-- Added in 3.2.0 (quest view: Dungeons / Quests tabs, quest list)
+L["Dungeons"] = "Masmorras"
+L["Quests"] = "Missões"
+L["%d done"] = "%d concluídas"
+L["%d for another faction, class or race"] = "%d de outra facção, classe ou raça"
+L["%d in your log"] = "%d no seu registro"
+L["%d quests"] = "%d missões"
+L["%d quests with upgrades"] = "%d missões com melhorias"
+L["1 quest"] = "1 missão"
+L["1 quest with an upgrade"] = "1 missão com melhoria"
+L["At level %d"] = "No nível %d"
+L["Available"] = "Disponível"
+L["Click a zone for its quests"] = "Clique em uma zona para ver as missões"
+L["Hidden: %s"] = "Ocultas: %s"
+L["In your log"] = "No seu registro"
+L["Pick this one of the %d rewards."] = "Escolha esta entre as %d recompensas."
+L["Quest level %d"] = "Missão de nível %d"
+L["Starts with %s, %s"] = "Começa com %s, %s"
+L["Step %d of a %d-quest chain"] = "Etapa %d de uma cadeia de %d missões"
+L["World Quests is off in Scan Settings."] = "Missões pelo mundo está desativado nas Configurações da busca."
+L["You're here"] = "Você está aqui"
+L["best of %d"] = "a melhor de %d"
+L["level %d"] = "nível %d"
+L["levels %d-%d"] = "níveis %d-%d"
+L["step %d/%d"] = "etapa %d/%d"
+
+-- Added in 3.2.0 (quest view, part 2: Chain Mode list)
+L["%d in log"] = "%d no registro"
+L["No quest upgrades here for your gear."] = "Nenhuma missão aqui melhora seu equipamento."
+L["In your chain set"] = "No seu conjunto em cadeia"
+L["%d added to your chain set"] = "%d adicionadas ao seu conjunto em cadeia"
+L["added to your chain set"] = "adicionado ao seu conjunto em cadeia"
+L["|cff999999Pick a zone from the leaderboard|r"] = "|cff999999Escolha uma zona no ranking|r"
+
+-- Added in 3.2.0 (quest view, part 3: Quests / Character toggle)
+L["Character"] = "Personagem"
+L["Show this zone's quests"] = "Mostrar as missões desta zona"
+L["Show your character with these upgrades"] = "Mostrar seu personagem com estas melhorias"
+
+-- Added in 3.2.0 (quest view, part 4: Chain Mode empty leaderboard)
+L["Your chain set already has the best upgrades in this level range. Raise the level range, or press Reset to start over."] = "Seu conjunto em cadeia já tem as melhores melhorias desta faixa de níveis. Aumente a faixa de níveis ou clique em Redefinir para recomeçar."

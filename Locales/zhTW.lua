@@ -247,3 +247,53 @@ L["|cff999999Pick a dungeon from the leaderboard|r"] = "|cff999999從排行榜�
 L["|cffaaaaaa[Current / Virtual]|r"] = "|cffaaaaaa[目前 / 虛擬]|r"
 L["|cffff0000(IGNORED)|r"] = "|cffff0000（已忽略）|r"
 L["Quest: %s"] = "任務：%s"
+
+-- Added in 3.2.0 (quest rows: PvP Quests, quest chains, holidays)
+L["(quest chains)"] = "（任務鏈）"
+L["Include rewards from battleground quests (Alterac Valley)."] = "包含戰場任務的獎勵（奧特蘭克山谷）。"
+L["Off by default: most of these need many battleground games."] = "預設關閉：大多需要打很多場戰場。"
+L["PvP Quests"] = "PvP任務"
+L["Rewards at the end of long quest chains."] = "長任務鏈最後的獎勵。"
+L["Invasion"] = "入侵"
+
+-- Added in 3.2.0 (quest view: Dungeons / Quests tabs, quest list)
+L["Dungeons"] = "地城"
+L["Quests"] = "任務"
+L["%d done"] = "已完成%d個"
+L["%d for another faction, class or race"] = "%d個屬於其他陣營、職業或種族"
+L["%d in your log"] = "任務日誌中%d個"
+L["%d quests"] = "%d個任務"
+L["%d quests with upgrades"] = "%d個任務有提升"
+L["1 quest"] = "1個任務"
+L["1 quest with an upgrade"] = "1個任務有提升"
+L["At level %d"] = "等級%d起"
+L["Available"] = "可接"
+L["Click a zone for its quests"] = "點擊區域查看其任務"
+L["Hidden: %s"] = "已隱藏：%s"
+L["In your log"] = "在任務日誌中"
+L["Pick this one of the %d rewards."] = "從%d個獎勵中選這個。"
+L["Quest level %d"] = "任務等級%d"
+L["Starts with %s, %s"] = "起始：%s，%s"
+L["Step %d of a %d-quest chain"] = "任務鏈第%d步（共%d個）"
+L["World Quests is off in Scan Settings."] = "掃描設定中已關閉世界任務。"
+L["You're here"] = "你在這裡"
+L["best of %d"] = "%d選一最佳"
+L["level %d"] = "等級%d"
+L["levels %d-%d"] = "等級%d-%d"
+L["step %d/%d"] = "第%d/%d步"
+
+-- Added in 3.2.0 (quest view, part 2: Chain Mode list)
+L["%d in log"] = "日誌中%d個"
+L["No quest upgrades here for your gear."] = "這裡沒有能提升你裝備的任務。"
+L["In your chain set"] = "已加入連鎖套裝"
+L["%d added to your chain set"] = "已將%d個加入連鎖套裝"
+L["added to your chain set"] = "已加入連鎖套裝"
+L["|cff999999Pick a zone from the leaderboard|r"] = "|cff999999從排行榜中選擇一個區域|r"
+
+-- Added in 3.2.0 (quest view, part 3: Quests / Character toggle)
+L["Character"] = "角色"
+L["Show this zone's quests"] = "顯示此區域的任務"
+L["Show your character with these upgrades"] = "顯示裝備這些提升後的角色"
+
+-- Added in 3.2.0 (quest view, part 4: Chain Mode empty leaderboard)
+L["Your chain set already has the best upgrades in this level range. Raise the level range, or press Reset to start over."] = "你的連鎖套裝已有此等級範圍內最好的提升。提高等級範圍，或按重設重新開始。"
