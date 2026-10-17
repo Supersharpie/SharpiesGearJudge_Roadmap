@@ -2,6 +2,12 @@
 
 ## 🚀 v3.1.3
 
+### 🪶 Fixed: Skyborne Quests Shown to Other Races (WoW Forever)
+- **Skyborne-only quests outside Zephras Isle** no longer show for other races. The Skyborne starting chain carries on after the isle, and its rewards were listed for everyone of that faction: Cloak of the Honored Guest (Exploring the Alliance, Stormwind City), Honorbound Cloak (Exploring the Horde, Orgrimmar) and Windbough Wand (Boughs in the Wind, the Skyborne Mage quest). The Roadmap now hides them unless you're Skyborne, as it already did for Zephras Isle itself.
+
+### 🔢 Fixed: Quest Rewards Listed Below the Quest's Level (WoW Forever)
+- A quest reward now counts from the level its quest can be taken, not the lower level printed on the item. 47 rewards move up: Tarnished Locket (Remember That I Love You) from 1 to 15, the City of Dalaran quest rewards from 1 to 24, and others in The Barrens and Undercity. Riverglades Quests now starts at 15, The Barrens Quests at 9 and Undercity Quests at 10.
+
 ## 🚀 v3.1.2
 
 ### 🏰 Forever Dungeons

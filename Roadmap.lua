@@ -1818,6 +1818,7 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
 
     local _, playerClass = UnitClass("player")
     local playerFaction = UnitFactionGroup("player")
+    local playerRace = select(2, UnitRace("player"))
     local currentPhase = Roadmap:GetContentPhase()
     -- A race starting zone (sidebar click included) shows nothing to other races
     local zoneMeta = ZONE_META[zoneKey]
@@ -1829,6 +1830,8 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
         -- Quest rewards: side = one faction's quest, class = a class quest.
         if info.side and info.side ~= playerFaction then allowed = false end
         if info.class and info.class ~= playerClass then allowed = false end
+        -- race = a quest only that race gets outside its starting zone (Skyborne's arrival chain, 2026-10-17)
+        if info.race and info.race ~= playerRace then allowed = false end
         -- Dungeon rows mix boss loot and quest rewards; the source checkboxes pick which.
         if allowed and not ItemSourceAllowed(zoneKey, ZONE_META[zoneKey], info) then allowed = false end
         
