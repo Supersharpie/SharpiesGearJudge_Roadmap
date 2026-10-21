@@ -1159,9 +1159,9 @@ function Roadmap:UpdateSidebar()
         -- The zone you're in: the map arrow on the right (and a tooltip line).
         row.IsHere = questTab and InQuestRowZone(entry.key) or false
         if not row.Here then
-            row.Here = row:CreateTexture(nil, "OVERLAY"); row.Here:SetSize(16, 16); row.Here:SetPoint("RIGHT", -2, 0)
+            row.Here = row:CreateTexture(nil, "OVERLAY"); row.Here:SetSize(24, 24); row.Here:SetPoint("RIGHT", -2, 0)
             row.Here:SetTexture("Interface\\Minimap\\MinimapArrow")
-            row.Score:SetPoint("RIGHT", row, "RIGHT", -18, 0); row.Score:SetJustifyH("LEFT"); row.Score:SetWordWrap(false)
+            row.Score:SetPoint("RIGHT", row, "RIGHT", -28, 0); row.Score:SetJustifyH("LEFT"); row.Score:SetWordWrap(false)
         end
         row.Here:SetShown(row.IsHere)
 

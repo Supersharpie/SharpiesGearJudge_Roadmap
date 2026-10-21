@@ -103,12 +103,14 @@ SGJ.DungeonDB["Ahn'Qiraj Quests"] = {
     [21351] = { name = "Vestments of the Oracle", source = "Vestments of the Oracle", slot = "Chest", type = "Cloth Armor", zone = "Ahn'Qiraj Quests", reqLevel = 60, questID = 8603 },
 }
 
-SGJ.ZoneMeta["Alterac Mountains Quests"] = { name = "Alterac Mountains Quests", min = 26, world = true }
+SGJ.ZoneMeta["Alterac Mountains Quests"] = { name = "Alterac Mountains Quests", min = 25, world = true }
 SGJ.DungeonDB["Alterac Mountains Quests"] = {
+    [277206] = { name = "Brilliant Cloak", source = "Strahnbrad Mystery", slot = "Back", type = "Cloak", zone = "Alterac Mountains Quests", reqLevel = 25, questID = 95534 },
     [3758] = { name = "Crusader Belt", source = "Syndicate Assassins", slot = "Waist", type = "Mail Armor", zone = "Alterac Mountains Quests", reqLevel = 26, questID = 505, side = "Alliance", choice = 505 },
     [3759] = { name = "Insulated Sage Gloves", source = "Syndicate Assassins", slot = "Hands", type = "Cloth Armor", zone = "Alterac Mountains Quests", reqLevel = 26, questID = 505, side = "Alliance", choice = 505 },
     [3763] = { name = "Lunar Buckler", source = "Crushridge Warmongers", slot = "Shield", type = "Shield", zone = "Alterac Mountains Quests", reqLevel = 30, questID = 504, side = "Alliance", choice = 504 },
     [5249] = { name = "Burning Sliver", source = "Crushridge Warmongers", slot = "Ranged", type = "Wand", zone = "Alterac Mountains Quests", reqLevel = 30, questID = 504, side = "Alliance", choice = 504 },
+    [270072] = { name = "Alterac Assassin's Gloves", source = "Crushridge Warmongers", slot = "Hands", type = "Leather Armor", zone = "Alterac Mountains Quests", reqLevel = 30, questID = 504, side = "Alliance", choice = 504 },
 }
 
 SGJ.ZoneMeta["Alterac Valley Quests"] = { name = "Alterac Valley Quests", min = 51, world = true }
@@ -135,15 +137,24 @@ SGJ.ZoneMeta["Arathi Highlands Quests"] = { name = "Arathi Highlands Quests", mi
 SGJ.DungeonDB["Arathi Highlands Quests"] = {
     [9520] = { name = "Silent Hunter", source = "Call to Arms", slot = "One-Hand", type = "Dagger", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 679, side = "Horde", choice = 679 },
     [9521] = { name = "Skullsplitter", source = "Call to Arms", slot = "Two-Hand", type = "Two-Handed Axe", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 679, side = "Horde", choice = 679 },
+    [270069] = { name = "Mindslicer", source = "Call to Arms", slot = "Main Hand", type = "Dagger", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 679, side = "Horde", choice = 679 },
     [4975] = { name = "Vigilant Buckler", source = "Malin's Request", slot = "Shield", type = "Shield", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 697, side = "Alliance", choice = 697 },
     [15104] = { name = "Wingborne Boots", source = "Malin's Request", slot = "Feet", type = "Cloth Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 697, side = "Alliance", choice = 697 },
-    [4741] = { name = "Stromgarde Cavalry Leggings", source = "Stromgarde Badges", slot = "Legs", type = "Mail Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 682, side = "Alliance" },
+    [4741] = { name = "Stromgarde Cavalry Leggings", source = "Stromgarde Badges", slot = "Legs", type = "Mail Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 682, side = "Alliance", choice = 682 },
+    [270056] = { name = "Stromgarde Librarian Leggings", source = "Stromgarde Badges", slot = "Legs", type = "Cloth Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 682, side = "Alliance", choice = 682 },
+    [270057] = { name = "Stromgarde Operative Pants", source = "Stromgarde Badges", slot = "Legs", type = "Leather Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 682, side = "Alliance", choice = 682 },
     [4743] = { name = "Pulsating Crystalline Shard", source = "Summoning the Princess", slot = "Neck", type = "Amulet", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 656 },
     [4976] = { name = "Mistspray Kilt", source = "The Real Threat", slot = "Legs", type = "Leather Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 680, side = "Horde", choice = 680 },
     [4977] = { name = "Sword of Hammerfall", source = "The Real Threat", slot = "Main Hand", type = "One-Handed Sword", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 680, side = "Horde", choice = 680 },
-    [4744] = { name = "Arcane Runed Bracers", source = "Wanted! Marez Cowl", slot = "Wrist", type = "Cloth Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 684, side = "Alliance" },
+    [270079] = { name = "Witchdoctor's Dress", source = "The Real Threat", slot = "Chest", type = "Cloth Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 680, side = "Horde", choice = 680 },
+    [4744] = { name = "Arcane Runed Bracers", source = "Wanted! Marez Cowl", slot = "Wrist", type = "Cloth Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 684, side = "Alliance", choice = 684 },
+    [270067] = { name = "Wild Headdress", source = "Wanted! Marez Cowl", slot = "Head", type = "Leather Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 684, side = "Alliance", choice = 684 },
+    [270068] = { name = "Stromgarde Bracers", source = "Wanted! Marez Cowl", slot = "Wrist", type = "Mail Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 684, side = "Alliance", choice = 684 },
     [4745] = { name = "War Rider Bracers", source = "Wanted! Otto and Falconcrest", slot = "Wrist", type = "Mail Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 685, side = "Alliance", choice = 685 },
     [5247] = { name = "Rod of Sorrow", source = "Wanted! Otto and Falconcrest", slot = "Ranged", type = "Wand", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 685, side = "Alliance", choice = 685 },
+    [270080] = { name = "Arathi Armbands", source = "Wanted! Otto and Falconcrest", slot = "Wrist", type = "Leather Armor", zone = "Arathi Highlands Quests", reqLevel = 30, questID = 685, side = "Alliance", choice = 685 },
+    [278567] = { name = "Item 278567", source = "Ground to Keep", slot = "Head", type = "Cloth Armor", zone = "Arathi Highlands Quests", reqLevel = 32, questID = 92867, choice = 92867 },
+    [280505] = { name = "Item 280505", source = "Ground to Keep", slot = "Chest", type = "Leather Armor", zone = "Arathi Highlands Quests", reqLevel = 32, questID = 92867, choice = 92867 },
     [4507] = { name = "Pit Fighter's Shield", source = "Trol'kalar", slot = "Shield", type = "Shield", zone = "Arathi Highlands Quests", reqLevel = 32, questID = 646, side = "Horde", choice = 646 },
     [4508] = { name = "Blood-tinged Armor", source = "Trol'kalar", slot = "Chest", type = "Mail Armor", zone = "Arathi Highlands Quests", reqLevel = 32, questID = 646, side = "Horde", choice = 646 },
     [4549] = { name = "Seafire Band", source = "Death From Below", slot = "Finger", type = "Ring", zone = "Arathi Highlands Quests", reqLevel = 35, questID = 667, choice = 667 },
@@ -184,9 +195,12 @@ SGJ.DungeonDB["Ashenvale Quests"] = {
     [16661] = { name = "Soft Willow Cape", source = "Je'neu of the Earthen Ring", slot = "Back", type = "Cloak", zone = "Ashenvale Quests", reqLevel = 23, questID = 824, side = "Horde", choice = 824 },
     [16740] = { name = "Shredder Operating Gloves", source = "The Lost Pages", slot = "Hands", type = "Cloth Armor", zone = "Ashenvale Quests", reqLevel = 23, questID = 6504, side = "Horde", choice = 6504 },
     [16741] = { name = "Oilrag Handwraps", source = "The Lost Pages", slot = "Hands", type = "Leather Armor", zone = "Ashenvale Quests", reqLevel = 23, questID = 6504, side = "Horde", choice = 6504 },
-    [5813] = { name = "Emil's Brand", source = "Insane Druids", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Ashenvale Quests", reqLevel = 24, questID = 1012, side = "Alliance" },
+    [5813] = { name = "Emil's Brand", source = "Insane Druids", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Ashenvale Quests", reqLevel = 24, questID = 1012, side = "Alliance", choice = 1012 },
+    [270048] = { name = "Uthil's Cudgel", source = "Insane Druids", slot = "One-Hand", type = "One-Handed Mace", zone = "Ashenvale Quests", reqLevel = 24, questID = 1012, side = "Alliance", choice = 1012 },
+    [270049] = { name = "Mavoris's Warstaff", source = "Insane Druids", slot = "Two-Hand", type = "Staff", zone = "Ashenvale Quests", reqLevel = 24, questID = 1012, side = "Alliance", choice = 1012 },
     [5817] = { name = "Lunaris Bow", source = "Answered Questions", slot = "Ranged", type = "Bow", zone = "Ashenvale Quests", reqLevel = 25, questID = 1044, side = "Alliance", choice = 1044 },
     [5818] = { name = "Moonbeam Wand", source = "Answered Questions", slot = "Ranged", type = "Wand", zone = "Ashenvale Quests", reqLevel = 25, questID = 1044, side = "Alliance", choice = 1044 },
+    [281290] = { name = "Replica Crescent Necklace", source = "Gleaming Crescent Necklace", slot = "Neck", type = "Amulet", zone = "Ashenvale Quests", reqLevel = 25, questID = 98027, side = "Alliance" },
     [5820] = { name = "Faerie Mantle", source = "The Branch of Cenarius", slot = "Shoulder", type = "Cloth Armor", zone = "Ashenvale Quests", reqLevel = 26, questID = 1031, side = "Alliance", choice = 1031 },
     [11229] = { name = "Brightscale Girdle", source = "The Branch of Cenarius", slot = "Waist", type = "Mail Armor", zone = "Ashenvale Quests", reqLevel = 26, questID = 1031, side = "Alliance", choice = 1031 },
 }
@@ -322,12 +336,14 @@ SGJ.QuestDB["City of Dalaran"] = {
     [279842] = { name = "Battle Spaulders", source = "Heart of Disruption", slot = "Shoulder", type = "Mail Armor", zone = "City of Dalaran", reqLevel = 24, questID = 96984, side = "Horde", choice = 96984 },
     [279843] = { name = "Enchanted Sandals", source = "Heart of Disruption", slot = "Feet", type = "Cloth Armor", zone = "City of Dalaran", reqLevel = 24, questID = 96984, side = "Horde", choice = 96984 },
     [279844] = { name = "Striking Staff", source = "Heart of Disruption", slot = "Two-Hand", type = "Staff", zone = "City of Dalaran", reqLevel = 24, questID = 96984, side = "Horde", choice = 96984 },
+    [279845] = { name = "Solid Gold Band", source = "Opportunistic Education", slot = "Finger", type = "Ring", zone = "City of Dalaran", reqLevel = 24, questID = 96987, side = "Horde", choice = 96987 },
+    [279846] = { name = "Larcenist's Belt", source = "Opportunistic Education", slot = "Waist", type = "Leather Armor", zone = "City of Dalaran", reqLevel = 24, questID = 96987, side = "Horde", choice = 96987 },
     [251962] = { name = "Violet Sash", source = "Power Overwhelming", slot = "Waist", type = "Cloth Armor", zone = "City of Dalaran", reqLevel = 24, questID = 92489, side = "Alliance", choice = 92489 },
     [279849] = { name = "Runebound Gloves", source = "Power Overwhelming", slot = "Hands", type = "Leather Armor", zone = "City of Dalaran", reqLevel = 24, questID = 92489, side = "Alliance", choice = 92489 },
     [279847] = { name = "Unstable Power Core", source = "Source of Power", slot = "Ranged", type = "Wand", zone = "City of Dalaran", reqLevel = 24, questID = 96988, side = "Horde", choice = 96988 },
     [279848] = { name = "Construct Cloak", source = "Source of Power", slot = "Back", type = "Cloak", zone = "City of Dalaran", reqLevel = 24, questID = 96988, side = "Horde", choice = 96988 },
-    [279837] = { name = "Fallen Guard's Pendant", source = "Starving Arcane", slot = "Neck", type = "Amulet", zone = "City of Dalaran", reqLevel = 24, questID = 92457, choice = 92457 },
-    [279838] = { name = "Arcane Infused Rod", source = "Starving Arcane", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "City of Dalaran", reqLevel = 24, questID = 92457, choice = 92457 },
+    [279837] = { name = "Fallen Guard's Pendant", source = "Starving Arcane", slot = "Neck", type = "Amulet", zone = "City of Dalaran", reqLevel = 24, questID = 92457, side = "Alliance", choice = 92457 },
+    [279838] = { name = "Arcane Infused Rod", source = "Starving Arcane", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "City of Dalaran", reqLevel = 24, questID = 92457, side = "Alliance", choice = 92457 },
     [251963] = { name = "Gravewalker Boots", source = "The Grave Knight", slot = "Feet", type = "Leather Armor", zone = "City of Dalaran", reqLevel = 24, questID = 96986, side = "Horde", choice = 96986 },
     [251965] = { name = "Undead Knight's Bracers", source = "The Grave Knight", slot = "Wrist", type = "Mail Armor", zone = "City of Dalaran", reqLevel = 24, questID = 96986, side = "Horde", choice = 96986 },
 }
@@ -434,6 +450,8 @@ SGJ.ZoneMeta["Desolace Quests"] = { name = "Desolace Quests", min = 25, world = 
 SGJ.DungeonDB["Desolace Quests"] = {
     [6746] = { name = "Basalt Buckler", source = "The Corrupter", slot = "Shield", type = "Shield", zone = "Desolace Quests", reqLevel = 25, questID = 1488, side = "Horde", choice = 1488 },
     [6747] = { name = "Enforcer Pauldrons", source = "The Corrupter", slot = "Shoulder", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 25, questID = 1488, side = "Horde", choice = 1488 },
+    [277514] = { name = "Aka'rai's Tattered Vestments", source = "Hate the Hatefury", slot = "Chest", type = "Cloth Armor", zone = "Desolace Quests", reqLevel = 28, questID = 97265, side = "Horde", choice = 97265 },
+    [277515] = { name = "Dagger of Deals", source = "Hate the Hatefury", slot = "One-Hand", type = "Dagger", zone = "Desolace Quests", reqLevel = 28, questID = 97265, side = "Horde", choice = 97265 },
     [15689] = { name = "Trader's Ring", source = "Bodyguard for Hire", slot = "Finger", type = "Ring", zone = "Desolace Quests", reqLevel = 30, questID = 5821 },
     [16791] = { name = "Silkstream Cuffs", source = "Book of the Ancients", slot = "Wrist", type = "Cloth Armor", zone = "Desolace Quests", reqLevel = 30, questID = 6027, choice = 6027 },
     [16793] = { name = "Arcmetal Shoulders", source = "Book of the Ancients", slot = "Shoulder", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 30, questID = 6027, choice = 6027 },
@@ -459,15 +477,25 @@ SGJ.DungeonDB["Desolace Quests"] = {
     [15691] = { name = "Sidegunner Shottie", source = "Gizelton Caravan", slot = "Ranged", type = "Gun", zone = "Desolace Quests", reqLevel = 32, questID = 5943, choice = 5943 },
     [15692] = { name = "Kodo Brander", source = "Gizelton Caravan", slot = "Ranged", type = "Wand", zone = "Desolace Quests", reqLevel = 32, questID = 5943, choice = 5943 },
     [15695] = { name = "Studded Ring Shield", source = "Gizelton Caravan", slot = "Shield", type = "Shield", zone = "Desolace Quests", reqLevel = 32, questID = 5943, choice = 5943 },
+    [270065] = { name = "Farseer's Forgotten Shield", source = "Gizelton Caravan", slot = "Shield", type = "Shield", zone = "Desolace Quests", reqLevel = 32, questID = 5943, choice = 5943 },
     [16794] = { name = "Gripsteel Wristguards", source = "Portals of the Legion", slot = "Wrist", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 32, questID = 5581, side = "Horde", choice = 5581 },
     [16873] = { name = "Braidfur Gloves", source = "Portals of the Legion", slot = "Hands", type = "Leather Armor", zone = "Desolace Quests", reqLevel = 32, questID = 5581, side = "Horde", choice = 5581 },
     [15690] = { name = "Kodobone Necklace", source = "Bone Collector", slot = "Neck", type = "Amulet", zone = "Desolace Quests", reqLevel = 33, questID = 5501 },
     [15864] = { name = "Condor Bracers", source = "Ghost-o-plasm Round Up", slot = "Wrist", type = "Cloth Armor", zone = "Desolace Quests", reqLevel = 34, questID = 6134, choice = 6134 },
     [15865] = { name = "Anchorhold Buckler", source = "Ghost-o-plasm Round Up", slot = "Shield", type = "Shield", zone = "Desolace Quests", reqLevel = 34, questID = 6134, choice = 6134 },
-    [6773] = { name = "Kolkar Marauder Chain", source = "Khan Hratha", slot = "Chest", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 35, questID = 1380, choice = 1380 },
-    [6774] = { name = "Traitor's Finger", source = "Khan Hratha", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Desolace Quests", reqLevel = 35, questID = 1380, choice = 1380 },
-    [6788] = { name = "Kolkar Hunter's Belt", source = "Khan Hratha", slot = "Waist", type = "Leather Armor", zone = "Desolace Quests", reqLevel = 35, questID = 1381, choice = 1381 },
+    [6773] = { name = "Kolkar Marauder Chain", source = "Khan Hratha", slot = "Chest", type = "Mail Armor", zone = "Desolace Quests", reqLevel = 35, questID = 1380 },
+    [6774] = { name = "Traitor's Finger", source = "Khan Hratha", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Desolace Quests", reqLevel = 35, questID = 1380 },
+    [6788] = { name = "Kolkar Hunter's Belt", source = "Khan Hratha", slot = "Waist", type = "Leather Armor", zone = "Desolace Quests", reqLevel = 35, questID = 1381 },
     [6789] = { name = "Ceremonial Centaur Blanket", source = "Khan Hratha", slot = "Back", type = "Cloak", zone = "Desolace Quests", reqLevel = 35, questID = 1381, choice = 1381 },
+    [271800] = { name = "Scavenged Magram Armament", source = "Khan Jehn", slot = "Two-Hand", type = "Polearm", zone = "Desolace Quests", reqLevel = 35, questID = 93196, choice = 93196 },
+    [271801] = { name = "Abandoned Ferocity", source = "Khan Jehn", slot = "Two-Hand", type = "Two-Handed Axe", zone = "Desolace Quests", reqLevel = 35, questID = 93128, choice = 93128 },
+    [271802] = { name = "Bludgeon of Betrayed Virtues", source = "Khan Jehn", slot = "One-Hand", type = "One-Handed Mace", zone = "Desolace Quests", reqLevel = 35, questID = 93128, choice = 93128 },
+    [271803] = { name = "Greatstaff of the Necrokhans", source = "Khan Jehn", slot = "Two-Hand", type = "Staff", zone = "Desolace Quests", reqLevel = 35, questID = 93196, choice = 93196 },
+    [271804] = { name = "Soulsplatter Mace", source = "Khan Jehn", slot = "Main Hand", type = "One-Handed Mace", zone = "Desolace Quests", reqLevel = 35, questID = 93196, choice = 93196 },
+    [271805] = { name = "Thrice-Damned Effigy", source = "Khan Jehn", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Desolace Quests", reqLevel = 35, questID = 93128, choice = 93128 },
+    [271794] = { name = "Centaur Spear", source = "Test Your Theory", slot = "Two-Hand", type = "Polearm", zone = "Desolace Quests", reqLevel = 35, questID = 93045, choice = 93045 },
+    [271795] = { name = "Wanderer's Broadsword", source = "Test Your Theory", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Desolace Quests", reqLevel = 35, questID = 93045, choice = 93045 },
+    [271799] = { name = "Desert Crawler's Claw", source = "Test Your Theory", slot = "Main Hand", type = "Dagger", zone = "Desolace Quests", reqLevel = 35, questID = 93045, choice = 93045 },
 }
 
 SGJ.QuestDB["Dire Maul"] = {
@@ -498,6 +526,7 @@ SGJ.ZoneMeta["Druid Quests"] = { name = "Druid Quests", min = 14, world = true }
 SGJ.DungeonDB["Druid Quests"] = {
     [15866] = { name = "Veildust Medicine Bag", source = "Curing the Sick", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Druid Quests", reqLevel = 14, questID = 6124, class = "DRUID" },
     [16608] = { name = "Aquarius Belt", source = "Aquatic Form", slot = "Waist", type = "Leather Armor", zone = "Druid Quests", reqLevel = 16, questID = 31, class = "DRUID" },
+    [263411] = { name = "Idol of Shifting Tides", source = "Aquatic Form", slot = "Relic", type = "Idol", zone = "Druid Quests", reqLevel = 16, questID = 31, class = "DRUID" },
     [22272] = { name = "Forest's Embrace", source = "A Better Ingredient", slot = "Chest", type = "Leather Armor", zone = "Druid Quests", reqLevel = 50, questID = 9053, class = "DRUID", choice = 9053 },
     [22274] = { name = "Grizzled Pelt", source = "A Better Ingredient", slot = "Chest", type = "Leather Armor", zone = "Druid Quests", reqLevel = 50, questID = 9053, class = "DRUID", choice = 9053 },
     [22458] = { name = "Moonshadow Stave", source = "A Better Ingredient", slot = "Two-Hand", type = "Staff", zone = "Druid Quests", reqLevel = 50, questID = 9053, class = "DRUID", choice = 9053 },
@@ -522,6 +551,7 @@ SGJ.DungeonDB["Dun Morogh Quests"] = {
     [1011] = { name = "Sharp Axe", source = "Return to Bellowfiz", slot = "Main Hand", type = "One-Handed Axe", zone = "Dun Morogh Quests", reqLevel = 2, questID = 320, side = "Alliance", choice = 320 },
     [10547] = { name = "Camping Knife", source = "Return to Bellowfiz", slot = "One-Hand", type = "Dagger", zone = "Dun Morogh Quests", reqLevel = 2, questID = 320, side = "Alliance", choice = 320 },
     [281322] = { name = "Frosthowl's Footwarmers", source = "Frosthowl", slot = "Feet", type = "Leather Armor", zone = "Dun Morogh Quests", reqLevel = 5, questID = 98326, side = "Alliance" },
+    [286737] = { name = "Avala's Binding", source = "Rime's Wrath", slot = "Finger", type = "Ring", zone = "Dun Morogh Quests", reqLevel = 5, questID = 99161, side = "Alliance" },
     [2326] = { name = "Ivy-weave Bracers", source = "The Perfect Stout", slot = "Wrist", type = "Cloth Armor", zone = "Dun Morogh Quests", reqLevel = 5, questID = 315, side = "Alliance", choice = 315 },
     [2905] = { name = "Goat Fur Cloak", source = "The Perfect Stout", slot = "Back", type = "Cloak", zone = "Dun Morogh Quests", reqLevel = 5, questID = 315, side = "Alliance", choice = 315 },
     [2817] = { name = "Soft Leather Tunic", source = "Protecting the Herd", slot = "Chest", type = "Leather Armor", zone = "Dun Morogh Quests", reqLevel = 6, questID = 314, side = "Alliance", choice = 314 },
@@ -559,6 +589,8 @@ SGJ.DungeonDB["Durotar Quests"] = {
     [4936] = { name = "Dirt-trodden Boots", source = "From The Wreckage....", slot = "Feet", type = "Cloth Armor", zone = "Durotar Quests", reqLevel = 3, questID = 825, side = "Horde", choice = 825 },
     [4942] = { name = "Tiger Hide Boots", source = "Dark Storms", slot = "Feet", type = "Leather Armor", zone = "Durotar Quests", reqLevel = 4, questID = 806, side = "Horde" },
     [281268] = { name = "Depleted Ritual Band", source = "Forgotten Loa Idols", slot = "Finger", type = "Ring", zone = "Durotar Quests", reqLevel = 4, questID = 97225, side = "Horde" },
+    [286728] = { name = "Kolkar Hammer", source = "Lost in the Shadows", slot = "One-Hand", type = "One-Handed Mace", zone = "Durotar Quests", reqLevel = 4, questID = 99123, side = "Horde", choice = 99123 },
+    [286729] = { name = "Kolkar Bow", source = "Lost in the Shadows", slot = "Ranged", type = "Bow", zone = "Durotar Quests", reqLevel = 4, questID = 99123, side = "Horde", choice = 99123 },
     [4939] = { name = "Steady Bastard Sword", source = "Skull Rock", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Durotar Quests", reqLevel = 4, questID = 827, side = "Horde", choice = 827 },
     [4947] = { name = "Jagged Dagger", source = "Skull Rock", slot = "One-Hand", type = "Dagger", zone = "Durotar Quests", reqLevel = 4, questID = 827, side = "Horde", choice = 827 },
     [4948] = { name = "Stinging Mace", source = "Skull Rock", slot = "Main Hand", type = "One-Handed Mace", zone = "Durotar Quests", reqLevel = 4, questID = 827, side = "Horde", choice = 827 },
@@ -575,6 +607,8 @@ SGJ.DungeonDB["Durotar Quests"] = {
     [281274] = { name = "Makeshift Stormcaller", source = "Stormy Potential", slot = "Two-Hand", type = "Staff", zone = "Durotar Quests", reqLevel = 7, questID = 97282, side = "Horde" },
     [4944] = { name = "Handsewn Cloak", source = "Lost But Not Forgotten", slot = "Back", type = "Cloak", zone = "Durotar Quests", reqLevel = 8, questID = 816, side = "Horde" },
     [5420] = { name = "Banshee Armor", source = "The Demon Seed", slot = "Chest", type = "Cloth Armor", zone = "Durotar Quests", reqLevel = 9, questID = 924, side = "Horde" },
+    [286730] = { name = "Pristine Orcish Dagger", source = "Threat from Below", slot = "One-Hand", type = "Dagger", zone = "Durotar Quests", reqLevel = 10, questID = 99052, side = "Horde", choice = 99052 },
+    [286731] = { name = "Aggor's Refitted Belt", source = "Threat from Below", slot = "Waist", type = "Mail Armor", zone = "Durotar Quests", reqLevel = 10, questID = 99052, side = "Horde", choice = 99052 },
 }
 
 SGJ.ZoneMeta["Duskwood Quests"] = { name = "Duskwood Quests", min = 17, world = true }
@@ -592,10 +626,12 @@ SGJ.DungeonDB["Duskwood Quests"] = {
     [7344] = { name = "Torch of Holy Flame", source = "Morbent Fel", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Duskwood Quests", reqLevel = 20, questID = 55, side = "Alliance" },
     [2043] = { name = "Ring of Forlorn Spirits", source = "The Legend of Stalvan", slot = "Finger", type = "Ring", zone = "Duskwood Quests", reqLevel = 22, questID = 98, side = "Alliance", choice = 98 },
     [2044] = { name = "Crescent of Forlorn Spirits", source = "The Legend of Stalvan", slot = "Main Hand", type = "One-Handed Axe", zone = "Duskwood Quests", reqLevel = 22, questID = 98, side = "Alliance", choice = 98 },
+    [270053] = { name = "Ring of Ruin", source = "The Legend of Stalvan", slot = "Finger", type = "Ring", zone = "Duskwood Quests", reqLevel = 22, questID = 98, side = "Alliance", choice = 98 },
     [1547] = { name = "Shield of the Faith", source = "Worgen in the Woods", slot = "Shield", type = "Shield", zone = "Duskwood Quests", reqLevel = 23, questID = 223, side = "Alliance", choice = 223 },
     [2902] = { name = "Cloak of the Faith", source = "Worgen in the Woods", slot = "Back", type = "Cloak", zone = "Duskwood Quests", reqLevel = 23, questID = 223, side = "Alliance", choice = 223 },
     [5244] = { name = "Consecrated Wand", source = "Worgen in the Woods", slot = "Ranged", type = "Wand", zone = "Duskwood Quests", reqLevel = 23, questID = 223, side = "Alliance" },
     [2000] = { name = "Archeus", source = "A Daughter's Love", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Duskwood Quests", reqLevel = 28, questID = 231, side = "Alliance" },
+    [270051] = { name = "Ladimore Heirloom Ring", source = "A Daughter's Love", slot = "Finger", type = "Ring", zone = "Duskwood Quests", reqLevel = 28, questID = 231, side = "Alliance" },
     [6832] = { name = "Cloak of Blight", source = "Nothing But The Truth", slot = "Back", type = "Cloak", zone = "Duskwood Quests", reqLevel = 37, questID = 1383, side = "Horde", choice = 1383 },
     [11265] = { name = "Cragwood Maul", source = "Nothing But The Truth", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Duskwood Quests", reqLevel = 37, questID = 1383, side = "Horde", choice = 1383 },
 }
@@ -604,7 +640,8 @@ SGJ.ZoneMeta["Dustwallow Marsh Quests"] = { name = "Dustwallow Marsh Quests", mi
 SGJ.DungeonDB["Dustwallow Marsh Quests"] = {
     [6719] = { name = "Windborne Belt", source = "Highperch Venom", slot = "Waist", type = "Leather Armor", zone = "Dustwallow Marsh Quests", reqLevel = 25, questID = 1135, side = "Alliance" },
     [5016] = { name = "Artisan's Trousers", source = "Jarl Needs a Blade", slot = "Legs", type = "Cloth Armor", zone = "Dustwallow Marsh Quests", reqLevel = 30, questID = 1203 },
-    [9622] = { name = "Reedknot Ring", source = "Jarl Needs a Blade", slot = "Finger", type = "Ring", zone = "Dustwallow Marsh Quests", reqLevel = 30, questID = 1203 },
+    [9622] = { name = "Reedknot Ring", source = "Jarl Needs a Blade", slot = "Finger", type = "Ring", zone = "Dustwallow Marsh Quests", reqLevel = 30, questID = 1203, choice = 1203 },
+    [270052] = { name = "Swamp Ring", source = "Jarl Needs a Blade", slot = "Finger", type = "Ring", zone = "Dustwallow Marsh Quests", reqLevel = 30, questID = 1203, choice = 1203 },
     [6797] = { name = "Eyepoker", source = "Questioning Reethe", slot = "Ranged", type = "Wand", zone = "Dustwallow Marsh Quests", reqLevel = 30, questID = 1273, side = "Horde", choice = 1273 },
     [6798] = { name = "Blasting Hackbut", source = "Questioning Reethe", slot = "Ranged", type = "Gun", zone = "Dustwallow Marsh Quests", reqLevel = 30, questID = 1273, side = "Horde", choice = 1273 },
     [18585] = { name = "Band of Allegiance", source = "Service to the Horde", slot = "Finger", type = "Ring", zone = "Dustwallow Marsh Quests", reqLevel = 30, questID = 7541, side = "Horde", choice = 7541 },
@@ -675,6 +712,7 @@ SGJ.DungeonDB["Elwynn Forest Quests"] = {
     [5580] = { name = "Militia Hammer", source = "Brotherhood of Thieves", slot = "Main Hand", type = "One-Handed Mace", zone = "Elwynn Forest Quests", reqLevel = 2, questID = 18, side = "Alliance", choice = 18 },
     [2690] = { name = "Latched Belt", source = "Grape Manifest", slot = "Waist", type = "Mail Armor", zone = "Elwynn Forest Quests", reqLevel = 2, questID = 3905, side = "Alliance", choice = 3905 },
     [11475] = { name = "Wine-stained Cloak", source = "Grape Manifest", slot = "Back", type = "Cloak", zone = "Elwynn Forest Quests", reqLevel = 2, questID = 3905, side = "Alliance", choice = 3905 },
+    [286733] = { name = "Fightin' Fish", source = "An Enticing Offer", slot = "One-Hand", type = "One-Handed Mace", zone = "Elwynn Forest Quests", reqLevel = 4, questID = 99130, side = "Alliance" },
     [983] = { name = "Red Linen Sash", source = "Red Linen Goods", slot = "Waist", type = "Cloth Armor", zone = "Elwynn Forest Quests", reqLevel = 4, questID = 83, side = "Alliance" },
     [1359] = { name = "Lion-stamped Gloves", source = "Goldtooth", slot = "Hands", type = "Leather Armor", zone = "Elwynn Forest Quests", reqLevel = 5, questID = 87, side = "Alliance" },
     [6084] = { name = "Stormwind Guard Leggings", source = "WANTED: \"Hogger\"", slot = "Legs", type = "Mail Armor", zone = "Elwynn Forest Quests", reqLevel = 5, questID = 176, side = "Alliance", choice = 176 },
@@ -702,7 +740,7 @@ SGJ.DungeonDB["Epic Quests"] = {
 }
 
 SGJ.QuestDB["Excavation Site"] = {
-    [280766] = { name = "Satchel of Potions", source = "Changing Tastes", slot = "Trinket", type = "Trinket", zone = "Excavation Site", reqLevel = 24, questID = 95697, side = "Horde", choice = 95697 },
+    [280766] = { name = "Satchel of Potions", source = "Changing Tastes", slot = "Trinket", type = "Trinket", zone = "Excavation Site", reqLevel = 24, questID = 95697 },
     [280805] = { name = "Serrated Raptor Claw", source = "Changing Tastes", slot = "One-Hand", type = "Dagger", zone = "Excavation Site", reqLevel = 24, questID = 95697, side = "Horde", choice = 95697 },
     [271719] = { name = "Furs of the Earthen Ring", source = "Earthen Echo", slot = "Back", type = "Cloak", zone = "Excavation Site", reqLevel = 24, questID = 98823, side = "Horde", choice = 98823 },
     [271766] = { name = "Heavehammer", source = "Earthen Echo", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Excavation Site", reqLevel = 24, questID = 98823 },
@@ -836,11 +874,14 @@ SGJ.DungeonDB["Hillsbrad Foothills Quests"] = {
     [2230] = { name = "Gloves of Brawn", source = "Elixir of Pain", slot = "Hands", type = "Mail Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 21, questID = 501, side = "Horde", choice = 501 },
     [3741] = { name = "Stomping Boots", source = "Elixir of Pain", slot = "Feet", type = "Leather Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 21, questID = 501, side = "Horde", choice = 501 },
     [6482] = { name = "Firewalker Boots", source = "Elixir of Pain", slot = "Feet", type = "Cloth Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 21, questID = 501, side = "Horde", choice = 501 },
+    [279388] = { name = "Brewer's Bracers", source = "Brewer's Trade", slot = "Wrist", type = "Mail Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 23, questID = 98071, side = "Alliance" },
     [3747] = { name = "Meditative Sash", source = "Elixir of Agony", slot = "Waist", type = "Leather Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 24, questID = 515, side = "Horde", choice = 515 },
     [3749] = { name = "High Apothecary Cloak", source = "Elixir of Agony", slot = "Back", type = "Cloak", zone = "Hillsbrad Foothills Quests", reqLevel = 24, questID = 515, side = "Horde", choice = 515 },
+    [276727] = { name = "Glistening Stompers", source = "Elixir of Agony", slot = "Feet", type = "Mail Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 24, questID = 515, side = "Horde", choice = 515 },
     [3755] = { name = "Fish Gutter", source = "Stormwind Ho!", slot = "Main Hand", type = "One-Handed Axe", zone = "Hillsbrad Foothills Quests", reqLevel = 25, questID = 562, side = "Alliance" },
     [3750] = { name = "Ribbed Breastplate", source = "Humbert's Sword", slot = "Chest", type = "Leather Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 26, questID = 547, side = "Horde", choice = 547 },
     [3751] = { name = "Mercenary Leggings", source = "Humbert's Sword", slot = "Legs", type = "Mail Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 26, questID = 547, side = "Horde", choice = 547 },
+    [270046] = { name = "Ethereal Mantle", source = "Humbert's Sword", slot = "Shoulder", type = "Cloth Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 26, questID = 547, side = "Horde", choice = 547 },
     [2805] = { name = "Yeti Fur Cloak", source = "Bartolo's Yeti Fur Cloak", slot = "Back", type = "Cloak", zone = "Hillsbrad Foothills Quests", reqLevel = 29, questID = 565, side = "Alliance" },
     [3764] = { name = "Mantis Boots", source = "Taretha's Gift", slot = "Feet", type = "Cloth Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 29, questID = 508, side = "Horde", choice = 508 },
     [3765] = { name = "Brigand's Pauldrons", source = "Taretha's Gift", slot = "Shoulder", type = "Mail Armor", zone = "Hillsbrad Foothills Quests", reqLevel = 29, questID = 508, side = "Horde", choice = 508 },
@@ -1065,12 +1106,14 @@ SGJ.DungeonDB["Mulgore Quests"] = {
     [4906] = { name = "Rainwalker Boots", source = "Rite of Vision", slot = "Feet", type = "Leather Armor", zone = "Mulgore Quests", reqLevel = 3, questID = 772, side = "Horde", choice = 772 },
     [4958] = { name = "Sun-beaten Cloak", source = "Rite of Vision", slot = "Back", type = "Cloak", zone = "Mulgore Quests", reqLevel = 3, questID = 772, side = "Horde", choice = 772 },
     [4909] = { name = "Kodo Hunter's Leggings", source = "Rites of the Earthmother", slot = "Legs", type = "Leather Armor", zone = "Mulgore Quests", reqLevel = 3, questID = 776, side = "Horde" },
+    [281266] = { name = "Furred Belt", source = "Chakuyak", slot = "Waist", type = "Leather Armor", zone = "Mulgore Quests", reqLevel = 4, questID = 96130, side = "Horde" },
     [277988] = { name = "Hoof-Holstered Blade", source = "Stalk With The Earthmother", slot = "One-Hand", type = "Dagger", zone = "Mulgore Quests", reqLevel = 4, questID = 76240, side = "Horde", choice = 76240 },
     [278002] = { name = "Valley Cosh", source = "Stalk With The Earthmother", slot = "Main Hand", type = "One-Handed Mace", zone = "Mulgore Quests", reqLevel = 4, questID = 76240, side = "Horde", choice = 76240 },
+    [286740] = { name = "Proud Brave's Guard", source = "The High Chieftain", slot = "Shield", type = "Shield", zone = "Mulgore Quests", reqLevel = 4, questID = 99082, side = "Horde", choice = 99082 },
+    [286741] = { name = "Centaur Skull Basher", source = "The High Chieftain", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Mulgore Quests", reqLevel = 4, questID = 99082, side = "Horde", choice = 99082 },
     [4963] = { name = "Thunderhorn Cloak", source = "Thunderhorn Cleansing", slot = "Back", type = "Cloak", zone = "Mulgore Quests", reqLevel = 4, questID = 758, side = "Horde" },
     [3443] = { name = "Ceremonial Tomahawk", source = "Thunderhorn's Report", slot = "Main Hand", type = "One-Handed Axe", zone = "Mulgore Quests", reqLevel = 4, questID = 98435, side = "Horde" },
     [4961] = { name = "Dreamwatcher Staff", source = "Thunderhorn's Report", slot = "Two-Hand", type = "Staff", zone = "Mulgore Quests", reqLevel = 4, questID = 98435, side = "Horde" },
-    [281266] = { name = "Furred Belt", source = "Chakuyak", slot = "Waist", type = "Leather Armor", zone = "Mulgore Quests", reqLevel = 5, questID = 96130, side = "Horde" },
     [4972] = { name = "Cliff Runner Boots", source = "Mazzranache", slot = "Feet", type = "Mail Armor", zone = "Mulgore Quests", reqLevel = 5, questID = 766, side = "Horde", choice = 766 },
     [4973] = { name = "Plains Hunter Wristguards", source = "Mazzranache", slot = "Wrist", type = "Leather Armor", zone = "Mulgore Quests", reqLevel = 5, questID = 766, side = "Horde", choice = 766 },
     [4964] = { name = "Goblin Smasher", source = "Supervisor Fizsprocket", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Mulgore Quests", reqLevel = 5, questID = 765, side = "Horde", choice = 765 },
@@ -1079,6 +1122,8 @@ SGJ.DungeonDB["Mulgore Quests"] = {
     [4970] = { name = "Rough-hewn Kodo Leggings", source = "Dwarven Digging", slot = "Legs", type = "Leather Armor", zone = "Mulgore Quests", reqLevel = 6, questID = 746, side = "Horde", choice = 746 },
     [3079] = { name = "Skorn's Rifle", source = "The Demon Scarred Cloak", slot = "Ranged", type = "Gun", zone = "Mulgore Quests", reqLevel = 6, questID = 770, side = "Horde", choice = 770 },
     [4971] = { name = "Skorn's Hammer", source = "The Demon Scarred Cloak", slot = "Main Hand", type = "One-Handed Mace", zone = "Mulgore Quests", reqLevel = 6, questID = 770, side = "Horde", choice = 770 },
+    [273654] = { name = "Crystal Thread Cloak", source = "Stronger than Steel", slot = "Back", type = "Cloak", zone = "Mulgore Quests", reqLevel = 23, questID = 96260, side = "Horde" },
+    [276895] = { name = "Transformative Cocoon", source = "The Broodmother", slot = "Trinket", type = "Trinket", zone = "Mulgore Quests", reqLevel = 23, questID = 96261, side = "Horde" },
 }
 
 SGJ.ZoneMeta["Naxxramas Quests"] = { name = "Naxxramas Quests", min = 60, dungeon = true }
@@ -1281,6 +1326,7 @@ SGJ.DungeonDB["Paladin Quests"] = {
     [246164] = { name = "Skullthumper", source = "Murlocs at the Gates", slot = "Main Hand", type = "One-Handed Mace", zone = "Paladin Quests", reqLevel = 7, questID = 91285, side = "Horde", class = "PALADIN", choice = 91285 },
     [246165] = { name = "Driftwood Smasher", source = "Murlocs at the Gates", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Paladin Quests", reqLevel = 7, questID = 91285, side = "Horde", class = "PALADIN", choice = 91285 },
     [246265] = { name = "Salvaged Wooden Tower Shield", source = "Making Repairs", slot = "Shield", type = "Shield", zone = "Paladin Quests", reqLevel = 8, questID = 91316, side = "Horde", class = "PALADIN" },
+    [267369] = { name = "Wolfsbane", source = "Old Fire-Eye", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Paladin Quests", reqLevel = 20, questID = 95140, side = "Horde", class = "PALADIN" },
     [268484] = { name = "Moonsilver Blade", source = "The Moonsilver Blade", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Paladin Quests", reqLevel = 20, questID = 95126, side = "Horde", class = "PALADIN" },
     [6953] = { name = "Verigan's Fist", source = "The Test of Righteousness", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Paladin Quests", reqLevel = 20, questID = 1806, side = "Alliance", class = "PALADIN" },
     [9607] = { name = "Bastion of Stormwind", source = "The Tome of Valor", slot = "Shield", type = "Shield", zone = "Paladin Quests", reqLevel = 20, questID = 1652, side = "Alliance", class = "PALADIN" },
@@ -1313,6 +1359,7 @@ SGJ.QuestDB["Razorfen Downs"] = {
     [17039] = { name = "Skullbreaker", source = "An Unholy Alliance", slot = "Main Hand", type = "One-Handed Mace", zone = "Razorfen Downs", reqLevel = 28, questID = 6521, side = "Horde", choice = 6521 },
     [17042] = { name = "Nail Spitter", source = "An Unholy Alliance", slot = "Ranged", type = "Gun", zone = "Razorfen Downs", reqLevel = 28, questID = 6521, side = "Horde", choice = 6521 },
     [17043] = { name = "Zealot's Robe", source = "An Unholy Alliance", slot = "Chest", type = "Cloth Armor", zone = "Razorfen Downs", reqLevel = 28, questID = 6521, side = "Horde", choice = 6521 },
+    [270054] = { name = "Cultist's Chestguard", source = "An Unholy Alliance", slot = "Chest", type = "Leather Armor", zone = "Razorfen Downs", reqLevel = 28, questID = 6521, side = "Horde", choice = 6521 },
     [10710] = { name = "Dragonclaw Ring", source = "Extinguishing the Idol", slot = "Finger", type = "Ring", zone = "Razorfen Downs", reqLevel = 32, questID = 3525 },
     [10823] = { name = "Vanquisher's Sword", source = "Bring the End", slot = "One-Hand", type = "One-Handed Sword", zone = "Razorfen Downs", reqLevel = 37, questID = 3341 },
     [10824] = { name = "Amberglow Talisman", source = "Bring the End", slot = "Neck", type = "Amulet", zone = "Razorfen Downs", reqLevel = 37, questID = 3341 },
@@ -1325,11 +1372,11 @@ SGJ.QuestDB["Razorfen Kraul"] = {
     [274078] = { name = "Boar Signet", source = "Willix the Importer", slot = "Finger", type = "Ring", zone = "Razorfen Kraul", reqLevel = 22, questID = 1144, choice = 1144 },
     [6751] = { name = "Mourning Shawl", source = "Mortality Wanes", slot = "Back", type = "Cloak", zone = "Razorfen Kraul", reqLevel = 25, questID = 1142, side = "Alliance", choice = 1142 },
     [6752] = { name = "Lancer Boots", source = "Mortality Wanes", slot = "Feet", type = "Leather Armor", zone = "Razorfen Kraul", reqLevel = 25, questID = 1142, side = "Alliance", choice = 1142 },
+    [270047] = { name = "Sentinel's Boots", source = "Mortality Wanes", slot = "Feet", type = "Mail Armor", zone = "Razorfen Kraul", reqLevel = 25, questID = 1142, side = "Alliance", choice = 1142 },
     [4197] = { name = "Berylline Pads", source = "A Vengeful Fate", slot = "Shoulder", type = "Cloth Armor", zone = "Razorfen Kraul", reqLevel = 29, questID = 1102 },
     [6725] = { name = "Marbled Buckler", source = "A Vengeful Fate", slot = "Shield", type = "Shield", zone = "Razorfen Kraul", reqLevel = 29, questID = 1102 },
     [6742] = { name = "Stonefist Girdle", source = "A Vengeful Fate", slot = "Waist", type = "Mail Armor", zone = "Razorfen Kraul", reqLevel = 29, questID = 1102 },
-    [274084] = { name = "Quilboar Blaster", source = "A Vengeful Fate", slot = "Ranged", type = "Gun", zone = "Razorfen Kraul", reqLevel = 29, questID = 1102, side = "Horde" },
-    [3041] = { name = "\"Mage-Eye\" Blunderbuss", source = "The Crone of the Kraul", slot = "Ranged", type = "Gun", zone = "Razorfen Kraul", reqLevel = 29, questID = 1101, side = "Alliance" },
+    [274084] = { name = "Quilboar Blaster", source = "A Vengeful Fate", slot = "Ranged", type = "Gun", zone = "Razorfen Kraul", reqLevel = 29, questID = 1102 },
 }
 
 SGJ.ZoneMeta["Redridge Mountains Quests"] = { name = "Redridge Mountains Quests", min = 12, world = true }
@@ -1366,6 +1413,7 @@ SGJ.ZoneMeta["Rogue Quests"] = { name = "Rogue Quests", min = 1, world = true }
 SGJ.DungeonDB["Rogue Quests"] = {
     [277210] = { name = "Pyrewood Signet Ring", source = "The Horn of Xelthos", slot = "Finger", type = "Ring", zone = "Rogue Quests", reqLevel = 1, questID = 78307, class = "ROGUE" },
     [7298] = { name = "Blade of Cunning", source = "Destiny Calls", slot = "One-Hand", type = "Dagger", zone = "Rogue Quests", reqLevel = 10, questID = 2242, class = "ROGUE" },
+    [277246] = { name = "Ruby-Adorned Blade", source = "The Eye of Bhossca", slot = "One-Hand", type = "One-Handed Sword", zone = "Rogue Quests", reqLevel = 25, questID = 78676, class = "ROGUE" },
     [20086] = { name = "Dusksteel Throwing Knife", source = "Junkboxes Needed", slot = "Thrown", type = "Thrown", zone = "Rogue Quests", reqLevel = 50, questID = 8249, class = "ROGUE" },
     [19982] = { name = "Duskbat Drape", source = "The Azure Key", slot = "Back", type = "Cloak", zone = "Rogue Quests", reqLevel = 50, questID = 8236, class = "ROGUE", choice = 8236 },
     [19984] = { name = "Ebon Mask", source = "The Azure Key", slot = "Head", type = "Leather Armor", zone = "Rogue Quests", reqLevel = 50, questID = 8236, class = "ROGUE", choice = 8236 },
@@ -1401,6 +1449,8 @@ SGJ.QuestDB["Scarlet Monastery"] = {
     [7749] = { name = "Omega Orb", source = "Compendium of the Fallen", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Scarlet Monastery", reqLevel = 28, questID = 1049, side = "Horde", choice = 1049 },
     [17508] = { name = "Forcestone Buckler", source = "Compendium of the Fallen", slot = "Shield", type = "Shield", zone = "Scarlet Monastery", reqLevel = 28, questID = 1049, side = "Horde", choice = 1049 },
     [7746] = { name = "Explorers' League Commendation", source = "Mythology of the Titans", slot = "Neck", type = "Amulet", zone = "Scarlet Monastery", reqLevel = 28, questID = 1050, side = "Alliance" },
+    [276898] = { name = "Salve and Salvation", source = "Past Due", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Scarlet Monastery", reqLevel = 30, questID = 96800, side = "Alliance", choice = 96800 },
+    [276899] = { name = "Knucklebound Thimble", source = "Past Due", slot = "Finger", type = "Ring", zone = "Scarlet Monastery", reqLevel = 30, questID = 96800, side = "Alliance", choice = 96800 },
     [6802] = { name = "Sword of Omen", source = "Into The Scarlet Monastery", slot = "One-Hand", type = "One-Handed Sword", zone = "Scarlet Monastery", reqLevel = 33, questID = 1048, side = "Horde", choice = 1048 },
     [6803] = { name = "Prophetic Cane", source = "Into The Scarlet Monastery", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Scarlet Monastery", reqLevel = 33, questID = 1048, side = "Horde", choice = 1048 },
     [10711] = { name = "Dragon's Blood Necklace", source = "Into The Scarlet Monastery", slot = "Neck", type = "Amulet", zone = "Scarlet Monastery", reqLevel = 33, questID = 1048, side = "Horde", choice = 1048 },
@@ -1458,11 +1508,23 @@ SGJ.QuestDB["Shadowfang Keep"] = {
 SGJ.ZoneMeta["Shaman Quests"] = { name = "Shaman Quests", min = 10, world = true }
 SGJ.DungeonDB["Shaman Quests"] = {
     [6654] = { name = "Torch of the Eternal Flame", source = "Call of Fire", slot = "Held In Off-hand", type = "Miscellaneous", zone = "Shaman Quests", reqLevel = 10, questID = 1526, class = "SHAMAN" },
+    [263412] = { name = "Totem of Charged Flames", source = "Call of Fire", slot = "Relic", type = "Totem", zone = "Shaman Quests", reqLevel = 10, questID = 97257, class = "SHAMAN" },
+    [280604] = { name = "Rage of the Storm", source = "The Tempest's Weapons", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Shaman Quests", reqLevel = 30, questID = 96016, side = "Alliance", class = "SHAMAN", choice = 96016 },
+    [280605] = { name = "Tidebringer's Claw", source = "The Tempest's Weapons", slot = "Main Hand", type = "Fist Weapon", zone = "Shaman Quests", reqLevel = 30, questID = 96016, side = "Alliance", class = "SHAMAN", choice = 96016 },
+    [280607] = { name = "Lightning's Grasp", source = "The Tempest's Weapons", slot = "Main Hand", type = "Fist Weapon", zone = "Shaman Quests", reqLevel = 30, questID = 96016, side = "Alliance", class = "SHAMAN", choice = 96016 },
+    [280696] = { name = "Elementalist's Guard", source = "The Tempest's Weapons", slot = "Shield", type = "Shield", zone = "Shaman Quests", reqLevel = 30, questID = 96016, side = "Alliance", class = "SHAMAN" },
     [20369] = { name = "Azurite Fists", source = "Da Voodoo", slot = "Hands", type = "Mail Armor", zone = "Shaman Quests", reqLevel = 50, questID = 8413, side = "Horde", class = "SHAMAN", choice = 8413 },
     [20503] = { name = "Enamored Water Spirit", source = "Da Voodoo", slot = "Trinket", type = "Trinket", zone = "Shaman Quests", reqLevel = 50, questID = 8413, side = "Horde", class = "SHAMAN", choice = 8413 },
     [20556] = { name = "Wildstaff", source = "Da Voodoo", slot = "Two-Hand", type = "Staff", zone = "Shaman Quests", reqLevel = 50, questID = 8413, side = "Horde", class = "SHAMAN", choice = 8413 },
     [20134] = { name = "Skyfury Helm", source = "A More Fitting Reward", slot = "Head", type = "Mail Armor", zone = "Shaman Quests", reqLevel = 58, questID = 8259, side = "Horde", class = "SHAMAN" },
     [18807] = { name = "Helm of Latent Power", source = "The Darkreaver Menace", slot = "Head", type = "Mail Armor", zone = "Shaman Quests", reqLevel = 58, questID = 7668, side = "Horde", class = "SHAMAN" },
+}
+
+SGJ.ZoneMeta["Shen'dralas Quests"] = { name = "Shen'dralas Quests", min = 35, world = true }
+SGJ.DungeonDB["Shen'dralas Quests"] = {
+    [271796] = { name = "Blade of the Magram Clan", source = "Proof of Concept", slot = "One-Hand", type = "One-Handed Sword", zone = "Shen'dralas Quests", reqLevel = 35, questID = 92873, choice = 92873 },
+    [271797] = { name = "Staff of Revelations", source = "Proof of Concept", slot = "Two-Hand", type = "Staff", zone = "Shen'dralas Quests", reqLevel = 35, questID = 92873, choice = 92873 },
+    [271798] = { name = "Desperate Barrier", source = "Proof of Concept", slot = "Shield", type = "Shield", zone = "Shen'dralas Quests", reqLevel = 35, questID = 92873, choice = 92873 },
 }
 
 SGJ.ZoneMeta["Silithus Quests"] = { name = "Silithus Quests", min = 54, world = true }
@@ -1601,19 +1663,28 @@ SGJ.ZoneMeta["Stranglethorn Vale Quests"] = { name = "Stranglethorn Vale Quests"
 SGJ.DungeonDB["Stranglethorn Vale Quests"] = {
     [17686] = { name = "Master Hunter's Bow", source = "Big Game Hunter", slot = "Ranged", type = "Bow", zone = "Stranglethorn Vale Quests", reqLevel = 28, questID = 208, choice = 208 },
     [17687] = { name = "Master Hunter's Rifle", source = "Big Game Hunter", slot = "Ranged", type = "Gun", zone = "Stranglethorn Vale Quests", reqLevel = 28, questID = 208, choice = 208 },
+    [270084] = { name = "Master Hunter's Wand", source = "Big Game Hunter", slot = "Ranged", type = "Wand", zone = "Stranglethorn Vale Quests", reqLevel = 28, questID = 208, choice = 208 },
+    [270085] = { name = "Master Hunter's Spellsword", source = "Big Game Hunter", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Stranglethorn Vale Quests", reqLevel = 28, questID = 208, choice = 208 },
     [4108] = { name = "Panther Hunter Leggings", source = "Panther Mastery", slot = "Legs", type = "Leather Armor", zone = "Stranglethorn Vale Quests", reqLevel = 28, questID = 193 },
     [4119] = { name = "Raptor Hunter Tunic", source = "Raptor Mastery", slot = "Chest", type = "Leather Armor", zone = "Stranglethorn Vale Quests", reqLevel = 28, questID = 197 },
     [4107] = { name = "Tiger Hunter Gloves", source = "Tiger Mastery", slot = "Hands", type = "Leather Armor", zone = "Stranglethorn Vale Quests", reqLevel = 28, questID = 188 },
     [4126] = { name = "Guerrilla Cleaver", source = "Bad Medicine", slot = "Main Hand", type = "One-Handed Axe", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 204, side = "Alliance", choice = 204 },
     [4140] = { name = "Palm Frond Mantle", source = "Bad Medicine", slot = "Shoulder", type = "Cloth Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 204, side = "Alliance", choice = 204 },
     [4135] = { name = "Bloodbone Band", source = "Bloody Bone Necklaces", slot = "Finger", type = "Ring", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 596, side = "Horde" },
-    [4127] = { name = "Shrapnel Blaster", source = "Colonel Kurzen", slot = "Ranged", type = "Gun", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 202, side = "Alliance" },
-    [4129] = { name = "Collection Plate", source = "Cracking Maury's Foot", slot = "Shield", type = "Shield", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 613 },
+    [4127] = { name = "Shrapnel Blaster", source = "Colonel Kurzen", slot = "Ranged", type = "Gun", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 202, side = "Alliance", choice = 202 },
+    [270070] = { name = "Madman's Blade", source = "Colonel Kurzen", slot = "Main Hand", type = "Dagger", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 202, side = "Alliance", choice = 202 },
+    [270071] = { name = "Dark Hearted Hammer", source = "Colonel Kurzen", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 202, side = "Alliance", choice = 202 },
+    [4129] = { name = "Collection Plate", source = "Cracking Maury's Foot", slot = "Shield", type = "Shield", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 613, choice = 613 },
+    [270090] = { name = "Beggar's Leggings", source = "Cracking Maury's Foot", slot = "Legs", type = "Cloth Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 613, choice = 613 },
+    [270091] = { name = "Seadog's Battered Cuffs", source = "Cracking Maury's Foot", slot = "Wrist", type = "Leather Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 613, choice = 613 },
     [4132] = { name = "Darkspear Armsplints", source = "Headhunting", slot = "Wrist", type = "Mail Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 582, side = "Horde", choice = 582 },
     [4133] = { name = "Darkspear Cuffs", source = "Headhunting", slot = "Wrist", type = "Cloth Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 582, side = "Horde", choice = 582 },
     [4125] = { name = "Tranquil Orb", source = "Mai'Zoth", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 206, side = "Alliance" },
     [4123] = { name = "Frost Metal Pauldrons", source = "Report to Doren", slot = "Shoulder", type = "Mail Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 331, side = "Alliance", choice = 331 },
     [4139] = { name = "Junglewalker Sandals", source = "Report to Doren", slot = "Feet", type = "Cloth Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 331, side = "Alliance", choice = 331 },
+    [277214] = { name = "Crusty Cuffs", source = "Returning to Port", slot = "Wrist", type = "Cloth Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 97048, choice = 97048 },
+    [277224] = { name = "Kurzen Headshrinker's Cinch", source = "Returning to Port", slot = "Waist", type = "Leather Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 97048, choice = 97048 },
+    [277232] = { name = "Jailer's Discarded Chain", source = "Returning to Port", slot = "Waist", type = "Mail Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 97048, choice = 97048 },
     [4134] = { name = "Nimboya's Mystical Staff", source = "Saving Yenniku", slot = "Two-Hand", type = "Staff", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 592, side = "Horde", choice = 592 },
     [6723] = { name = "Medal of Courage", source = "Saving Yenniku", slot = "Neck", type = "Amulet", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 592, side = "Horde", choice = 592 },
     [4136] = { name = "Darkspear Boots", source = "Split Bone Necklace", slot = "Feet", type = "Mail Armor", zone = "Stranglethorn Vale Quests", reqLevel = 30, questID = 598, side = "Horde", choice = 598 },
@@ -1636,6 +1707,7 @@ SGJ.DungeonDB["Stranglethorn Vale Quests"] = {
     [4117] = { name = "Scorching Sash", source = "Akiris by the Bundle", slot = "Waist", type = "Cloth Armor", zone = "Stranglethorn Vale Quests", reqLevel = 38, questID = 617 },
     [20218] = { name = "Faded Hakkari Cloak", source = "Confront Yeh'kinya", slot = "Back", type = "Cloak", zone = "Stranglethorn Vale Quests", reqLevel = 40, questID = 8181, choice = 8181 },
     [20219] = { name = "Tattered Hakkari Cape", source = "Confront Yeh'kinya", slot = "Back", type = "Cloak", zone = "Stranglethorn Vale Quests", reqLevel = 40, questID = 8181, choice = 8181 },
+    [277256] = { name = "Dudd's Second-Favorite Wand", source = "Partial Mystical Notes", slot = "Ranged", type = "Wand", zone = "Stranglethorn Vale Quests", reqLevel = 40, questID = 95384 },
     [4113] = { name = "Medicine Blanket", source = "Stranglethorn Fever", slot = "Back", type = "Cloak", zone = "Stranglethorn Vale Quests", reqLevel = 40, questID = 348 },
     [10696] = { name = "Enchanted Azsharite Felbane Sword", source = "Enchanted Azsharite Fel Weaponry", slot = "Main Hand", type = "One-Handed Sword", zone = "Stranglethorn Vale Quests", reqLevel = 45, questID = 3625, choice = 3625 },
     [10697] = { name = "Enchanted Azsharite Felbane Dagger", source = "Enchanted Azsharite Fel Weaponry", slot = "One-Hand", type = "Dagger", zone = "Stranglethorn Vale Quests", reqLevel = 45, questID = 3625, choice = 3625 },
@@ -1761,6 +1833,7 @@ SGJ.DungeonDB["Teldrassil Quests"] = {
     [5393] = { name = "Thistlewood Staff", source = "Webwood Venom", slot = "Two-Hand", type = "Staff", zone = "Teldrassil Quests", reqLevel = 3, questID = 916, side = "Alliance", choice = 916 },
     [5586] = { name = "Thistlewood Blade", source = "Webwood Venom", slot = "Main Hand", type = "One-Handed Sword", zone = "Teldrassil Quests", reqLevel = 3, questID = 916, side = "Alliance", choice = 916 },
     [10544] = { name = "Thistlewood Maul", source = "Webwood Venom", slot = "Main Hand", type = "One-Handed Mace", zone = "Teldrassil Quests", reqLevel = 3, questID = 916, side = "Alliance", choice = 916 },
+    [286735] = { name = "Sentinel's Slasher", source = "Escaping Ban'ethil", slot = "One-Hand", type = "One-Handed Sword", zone = "Teldrassil Quests", reqLevel = 4, questID = 99053, side = "Alliance", choice = 99053 },
     [5458] = { name = "Dirtwood Belt", source = "Oakenscowl", slot = "Waist", type = "Cloth Armor", zone = "Teldrassil Quests", reqLevel = 4, questID = 2499, side = "Alliance", choice = 2499 },
     [5589] = { name = "Moss-covered Gauntlets", source = "Oakenscowl", slot = "Hands", type = "Mail Armor", zone = "Teldrassil Quests", reqLevel = 4, questID = 2499, side = "Alliance", choice = 2499 },
     [9599] = { name = "Barkmail Leggings", source = "The Relics of Wakening", slot = "Legs", type = "Mail Armor", zone = "Teldrassil Quests", reqLevel = 4, questID = 483, side = "Alliance", choice = 483 },
@@ -1876,6 +1949,7 @@ SGJ.QuestDB["The Stockade"] = {
     [270029] = { name = "Town Clerk's Mittens", source = "Crime and Punishment", slot = "Hands", type = "Cloth Armor", zone = "The Stockade", reqLevel = 22, questID = 377, side = "Alliance", choice = 377 },
     [1264] = { name = "Headbasher", source = "The Fury Runs Deep", slot = "Two-Hand", type = "Two-Handed Mace", zone = "The Stockade", reqLevel = 22, questID = 378, side = "Alliance", choice = 378 },
     [3562] = { name = "Belt of Vindication", source = "The Fury Runs Deep", slot = "Waist", type = "Leather Armor", zone = "The Stockade", reqLevel = 22, questID = 378, side = "Alliance", choice = 378 },
+    [270036] = { name = "Magistrate's Pantaloons", source = "The Fury Runs Deep", slot = "Legs", type = "Cloth Armor", zone = "The Stockade", reqLevel = 22, questID = 378, side = "Alliance", choice = 378 },
     [1317] = { name = "Hardened Root Staff", source = "What Comes Around...", slot = "Two-Hand", type = "Staff", zone = "The Stockade", reqLevel = 22, questID = 386, side = "Alliance", choice = 386 },
     [3400] = { name = "Lucine Longsword", source = "What Comes Around...", slot = "Main Hand", type = "One-Handed Sword", zone = "The Stockade", reqLevel = 22, questID = 386, side = "Alliance", choice = 386 },
     [270027] = { name = "Ursine Hammer", source = "What Comes Around...", slot = "Two-Hand", type = "Two-Handed Mace", zone = "The Stockade", reqLevel = 22, questID = 386, side = "Alliance", choice = 386 },
@@ -1899,6 +1973,7 @@ SGJ.DungeonDB["Thousand Needles Quests"] = {
     [15464] = { name = "Brute Hammer", source = "Arikara", slot = "Two-Hand", type = "Two-Handed Mace", zone = "Thousand Needles Quests", reqLevel = 24, questID = 5088, side = "Horde", choice = 5088 },
     [15465] = { name = "Stingshot Wand", source = "Arikara", slot = "Ranged", type = "Wand", zone = "Thousand Needles Quests", reqLevel = 24, questID = 5088, side = "Horde", choice = 5088 },
     [15466] = { name = "Clink Shield", source = "Arikara", slot = "Shield", type = "Shield", zone = "Thousand Needles Quests", reqLevel = 24, questID = 5088, side = "Horde", choice = 5088 },
+    [270037] = { name = "Smouldering Leggings", source = "Arikara", slot = "Legs", type = "Leather Armor", zone = "Thousand Needles Quests", reqLevel = 24, questID = 5088, side = "Horde", choice = 5088 },
     [15457] = { name = "Desert Shoulders", source = "Grimtotem Spying", slot = "Shoulder", type = "Cloth Armor", zone = "Thousand Needles Quests", reqLevel = 24, questID = 5064, side = "Horde", choice = 5064 },
     [15458] = { name = "Tundra Boots", source = "Grimtotem Spying", slot = "Feet", type = "Leather Armor", zone = "Thousand Needles Quests", reqLevel = 24, questID = 5064, side = "Horde", choice = 5064 },
     [15459] = { name = "Grimtoll Wristguards", source = "Grimtotem Spying", slot = "Wrist", type = "Mail Armor", zone = "Thousand Needles Quests", reqLevel = 24, questID = 5064, side = "Horde", choice = 5064 },
@@ -1909,6 +1984,7 @@ SGJ.DungeonDB["Thousand Needles Quests"] = {
     [15469] = { name = "Windsong Cinch", source = "Free at Last", slot = "Waist", type = "Leather Armor", zone = "Thousand Needles Quests", reqLevel = 25, questID = 4904, side = "Horde", choice = 4904 },
     [15470] = { name = "Plainsguard Leggings", source = "Wanted - Arnak Grimtotem", slot = "Legs", type = "Mail Armor", zone = "Thousand Needles Quests", reqLevel = 25, questID = 5147, side = "Horde", choice = 5147 },
     [15471] = { name = "Brawnhide Armor", source = "Wanted - Arnak Grimtotem", slot = "Chest", type = "Leather Armor", zone = "Thousand Needles Quests", reqLevel = 25, questID = 5147, side = "Horde", choice = 5147 },
+    [281295] = { name = "Pelt Pants", source = "Packaged Pristine Pelts", slot = "Legs", type = "Leather Armor", zone = "Thousand Needles Quests", reqLevel = 27, questID = 98156, side = "Alliance" },
     [6729] = { name = "Fizzle's Zippy Lighter", source = "News for Fizzle", slot = "Ranged", type = "Wand", zone = "Thousand Needles Quests", reqLevel = 28, questID = 1137, choice = 1137 },
     [6732] = { name = "Gnomish Mechanic's Gloves", source = "News for Fizzle", slot = "Hands", type = "Leather Armor", zone = "Thousand Needles Quests", reqLevel = 28, questID = 1137, choice = 1137 },
     [6737] = { name = "Dryleaf Pants", source = "Parts of the Swarm", slot = "Legs", type = "Cloth Armor", zone = "Thousand Needles Quests", reqLevel = 28, questID = 1184, side = "Horde", choice = 1184 },
@@ -1960,6 +2036,9 @@ SGJ.DungeonDB["Tirisfal Glades Quests"] = {
     [281283] = { name = "Patchwing Pants", source = "Hides for the Forsaken", slot = "Legs", type = "Cloth Armor", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 97558, side = "Horde", choice = 97558 },
     [281284] = { name = "Howlhide Vest", source = "Hides for the Forsaken", slot = "Chest", type = "Leather Armor", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 97558, side = "Horde", choice = 97558 },
     [281285] = { name = "Finscale Soles", source = "Hides for the Forsaken", slot = "Feet", type = "Mail Armor", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 97558, side = "Horde", choice = 97558 },
+    [286742] = { name = "Riptear's Cleaver", source = "Rear Guard Patrol", slot = "Two-Hand", type = "Two-Handed Axe", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 99156, side = "Horde", choice = 99156 },
+    [286743] = { name = "Riptear's Spare Arm", source = "Rear Guard Patrol", slot = "Ranged", type = "Wand", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 99156, side = "Horde", choice = 99156 },
+    [286744] = { name = "Thrice-Stitched Flesh", source = "Rear Guard Patrol", slot = "Back", type = "Cloak", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 99156, side = "Horde", choice = 99156 },
     [3447] = { name = "Cryptwalker Boots", source = "The Mills Overrun", slot = "Feet", type = "Mail Armor", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 426, side = "Horde", choice = 426 },
     [3834] = { name = "Sturdy Cloth Trousers", source = "The Mills Overrun", slot = "Legs", type = "Cloth Armor", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 426, side = "Horde", choice = 426 },
     [3444] = { name = "Tiller's Vest", source = "WANTED: Maggot Eye", slot = "Chest", type = "Leather Armor", zone = "Tirisfal Glades Quests", reqLevel = 6, questID = 398, side = "Horde", choice = 398 },
@@ -1974,11 +2053,16 @@ SGJ.DungeonDB["Tirisfal Glades Quests"] = {
 }
 
 SGJ.QuestDB["Uldaman"] = {
-    [4980] = { name = "Prospector Gloves", source = "Agmond's Fate", slot = "Hands", type = "Leather Armor", zone = "Uldaman", reqLevel = 30, questID = 704, side = "Alliance" },
+    [4980] = { name = "Prospector Gloves", source = "Agmond's Fate", slot = "Hands", type = "Leather Armor", zone = "Uldaman", reqLevel = 30, questID = 704, side = "Alliance", choice = 704 },
+    [270059] = { name = "Restorer's Fine Gloves", source = "Agmond's Fate", slot = "Hands", type = "Cloth Armor", zone = "Uldaman", reqLevel = 30, questID = 704, side = "Alliance", choice = 704 },
+    [270060] = { name = "Excavator Gauntlets", source = "Agmond's Fate", slot = "Hands", type = "Mail Armor", zone = "Uldaman", reqLevel = 30, questID = 704, side = "Alliance", choice = 704 },
     [9522] = { name = "Energized Stone Circle", source = "Power Stones", slot = "Shield", type = "Shield", zone = "Uldaman", reqLevel = 30, questID = 2418, choice = 2418 },
     [10358] = { name = "Duracin Bracers", source = "Power Stones", slot = "Wrist", type = "Mail Armor", zone = "Uldaman", reqLevel = 30, questID = 2418, choice = 2418 },
     [10359] = { name = "Everlast Boots", source = "Power Stones", slot = "Feet", type = "Cloth Armor", zone = "Uldaman", reqLevel = 30, questID = 2418, choice = 2418 },
-    [4746] = { name = "Doomsayer's Robe", source = "Solution to Doom", slot = "Chest", type = "Cloth Armor", zone = "Uldaman", reqLevel = 30, questID = 709 },
+    [270055] = { name = "Charged Leather Bracers", source = "Power Stones", slot = "Wrist", type = "Leather Armor", zone = "Uldaman", reqLevel = 30, questID = 2418, choice = 2418 },
+    [4746] = { name = "Doomsayer's Robe", source = "Solution to Doom", slot = "Chest", type = "Cloth Armor", zone = "Uldaman", reqLevel = 30, questID = 709, choice = 709 },
+    [270074] = { name = "Doomcaller's Pants", source = "Solution to Doom", slot = "Legs", type = "Leather Armor", zone = "Uldaman", reqLevel = 30, questID = 709, choice = 709 },
+    [270075] = { name = "Fists of Impending Doom", source = "Solution to Doom", slot = "Hands", type = "Mail Armor", zone = "Uldaman", reqLevel = 30, questID = 709, choice = 709 },
     [9626] = { name = "Dwarven Charge", source = "The Hidden Chamber", slot = "Two-Hand", type = "Two-Handed Axe", zone = "Uldaman", reqLevel = 35, questID = 2240, side = "Alliance", choice = 2240 },
     [9627] = { name = "Explorer's League Lodestar", source = "The Hidden Chamber", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Uldaman", reqLevel = 35, questID = 2240, side = "Alliance", choice = 2240 },
     [6723] = { name = "Medal of Courage", source = "The Lost Tablets of Will", slot = "Neck", type = "Amulet", zone = "Uldaman", reqLevel = 35, questID = 1139, side = "Alliance" },
@@ -2154,6 +2238,8 @@ SGJ.DungeonDB["Wetlands Quests"] = {
     [2949] = { name = "Mariner Boots", source = "Return the Statuette", slot = "Feet", type = "Leather Armor", zone = "Wetlands Quests", reqLevel = 20, questID = 286, side = "Alliance", choice = 286 },
     [2950] = { name = "Icicle Rod", source = "Return the Statuette", slot = "Two-Hand", type = "Staff", zone = "Wetlands Quests", reqLevel = 20, questID = 286, side = "Alliance", choice = 286 },
     [281318] = { name = "Bouquet of Auberdine Flowers", source = "Bloom of the Heavens", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Wetlands Quests", reqLevel = 22, questID = 98208 },
+    [281309] = { name = "Razormaw Shorts", source = "Carnage", slot = "Legs", type = "Leather Armor", zone = "Wetlands Quests", reqLevel = 22, questID = 98283, choice = 98283 },
+    [281310] = { name = "Carnage Trousers", source = "Carnage", slot = "Legs", type = "Leather Armor", zone = "Wetlands Quests", reqLevel = 22, questID = 98283, choice = 98283 },
     [2943] = { name = "Eye of Paleth", source = "Cleansing the Eye", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Wetlands Quests", reqLevel = 22, questID = 293, side = "Alliance" },
     [3493] = { name = "Raptor's End", source = "Ormer's Revenge", slot = "Ranged", type = "Bow", zone = "Wetlands Quests", reqLevel = 22, questID = 296, side = "Alliance", choice = 296 },
     [3566] = { name = "Raptorbane Armor", source = "Ormer's Revenge", slot = "Chest", type = "Leather Armor", zone = "Wetlands Quests", reqLevel = 22, questID = 296, side = "Alliance", choice = 296 },
@@ -2161,8 +2247,20 @@ SGJ.DungeonDB["Wetlands Quests"] = {
     [2913] = { name = "Silk Mantle of Gamn", source = "Uncovering the Past", slot = "Shoulder", type = "Cloth Armor", zone = "Wetlands Quests", reqLevel = 22, questID = 299, side = "Alliance" },
     [3209] = { name = "Ancient War Sword", source = "Defeat Nek'rosh", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Wetlands Quests", reqLevel = 23, questID = 474, side = "Alliance", choice = 474 },
     [6194] = { name = "Barreling Reaper", source = "Defeat Nek'rosh", slot = "Main Hand", type = "One-Handed Axe", zone = "Wetlands Quests", reqLevel = 23, questID = 474, side = "Alliance", choice = 474 },
+    [281306] = { name = "Flamescarred Spellbook", source = "Old Habits", slot = "Held In Off-hand", type = "Held In Off-hand", zone = "Wetlands Quests", reqLevel = 23, questID = 98223, side = "Alliance", choice = 98223 },
+    [281307] = { name = "Dragonmaw Buckler", source = "Old Habits", slot = "Shield", type = "Shield", zone = "Wetlands Quests", reqLevel = 23, questID = 98223, side = "Alliance", choice = 98223 },
+    [281304] = { name = "Prospector's Signet", source = "Understanding Our Present", slot = "Finger", type = "Ring", zone = "Wetlands Quests", reqLevel = 23, questID = 98216, side = "Alliance", choice = 98216 },
+    [281305] = { name = "Excavation Cloak", source = "Understanding Our Present", slot = "Back", type = "Cloak", zone = "Wetlands Quests", reqLevel = 23, questID = 98216, side = "Alliance", choice = 98216 },
+    [281319] = { name = "Golem War Cloak", source = "Gleaning Our Future", slot = "Back", type = "Cloak", zone = "Wetlands Quests", reqLevel = 24, questID = 98310, side = "Alliance", choice = 98310 },
+    [281320] = { name = "Rune-Etched Ring", source = "Gleaning Our Future", slot = "Finger", type = "Ring", zone = "Wetlands Quests", reqLevel = 24, questID = 98310, side = "Alliance", choice = 98310 },
+    [281321] = { name = "Giantstone Medallion", source = "Gleaning Our Future", slot = "Neck", type = "Amulet", zone = "Wetlands Quests", reqLevel = 24, questID = 98310, side = "Alliance", choice = 98310 },
+    [281312] = { name = "Fallen Dragon's Scepter", source = "Stopping the Cycle", slot = "Two-Hand", type = "Staff", zone = "Wetlands Quests", reqLevel = 24, questID = 98297, side = "Alliance", choice = 98297 },
+    [281313] = { name = "Trusty Sword", source = "Stopping the Cycle", slot = "Two-Hand", type = "Two-Handed Sword", zone = "Wetlands Quests", reqLevel = 24, questID = 98297, side = "Alliance", choice = 98297 },
+    [281314] = { name = "Subdued Dragon's Fang", source = "Stopping the Cycle", slot = "One-Hand", type = "Dagger", zone = "Wetlands Quests", reqLevel = 24, questID = 98297, side = "Alliance", choice = 98297 },
     [2916] = { name = "Gold Lion Shield", source = "A Grim Task", slot = "Shield", type = "Shield", zone = "Wetlands Quests", reqLevel = 26, questID = 304, side = "Alliance", choice = 304 },
     [2917] = { name = "Tranquil Ring", source = "A Grim Task", slot = "Finger", type = "Ring", zone = "Wetlands Quests", reqLevel = 26, questID = 304, side = "Alliance", choice = 304 },
+    [270050] = { name = "Fury Ring", source = "A Grim Task", slot = "Finger", type = "Ring", zone = "Wetlands Quests", reqLevel = 26, questID = 304, side = "Alliance", choice = 304 },
+    [281258] = { name = "Essene's Hope", source = "Sentiments of the Lost", slot = "Neck", type = "Amulet", zone = "Wetlands Quests", reqLevel = 28, questID = 88758, side = "Alliance" },
     [4504] = { name = "Dwarven Guard Cloak", source = "The Thandol Span", slot = "Back", type = "Cloak", zone = "Wetlands Quests", reqLevel = 28, questID = 633, side = "Alliance", choice = 633 },
     [4505] = { name = "Swampland Trousers", source = "The Thandol Span", slot = "Legs", type = "Cloth Armor", zone = "Wetlands Quests", reqLevel = 28, questID = 633, side = "Alliance", choice = 633 },
 }
@@ -2378,7 +2476,7 @@ SGJ.QuestInfo[253] = { start = "Lord Ello Ebonlocke", zone = "Duskwood", x = 71.
 SGJ.QuestInfo[256] = { start = "WANTED", zone = "Loch Modan", x = 37.3, y = 46.5, level = 22, req = 17 }
 SGJ.QuestInfo[257] = { start = "Daryl the Youngling", zone = "Loch Modan", x = 83.5, y = 65.5, level = 16, req = 11, step = 1, steps = 4 }
 SGJ.QuestInfo[258] = { start = "Daryl the Youngling", zone = "Loch Modan", x = 83.5, y = 65.5, level = 17, req = 11, step = 2, steps = 4 }
-SGJ.QuestInfo[275] = { start = "Rethiel the Greenwarden", zone = "Wetlands", x = 56.4, y = 40.4, level = 26, req = 20, step = 4, steps = 4 }
+SGJ.QuestInfo[275] = { start = "Rethiel the Greenwarden", zone = "Wetlands", x = 56.4, y = 40.4, level = 26, req = 20, step = 4, steps = 5 }
 SGJ.QuestInfo[283] = { start = "Explosive Charge", zone = "Loch Modan", x = 50.6, y = 14.3, level = 20, req = 16, step = 7, steps = 7 }
 SGJ.QuestInfo[286] = { start = "Half-buried Barrel", zone = "Wetlands", x = 13.9, y = 34.8, level = 25, req = 20, step = 5, steps = 8 }
 SGJ.QuestInfo[287] = { start = "Senir Whitebeard", zone = "Dun Morogh", x = 46.7, y = 53.8, level = 9, req = 7, step = 5, steps = 6 }
@@ -2600,7 +2698,6 @@ SGJ.QuestInfo[1089] = { start = "Braelyn Firehand", zone = "Stonetalon Mountains
 SGJ.QuestInfo[1092] = { start = "Piznik", zone = "Stonetalon Mountains", x = 71.9, y = 60.0, level = 22, req = 17, step = 2, steps = 2 }
 SGJ.QuestInfo[1096] = { start = "Ziz Fizziks", zone = "Stonetalon Mountains", x = 59.0, y = 62.6, level = 27, req = 16, step = 5, steps = 5 }
 SGJ.QuestInfo[1098] = { start = "High Executor Hadrec", zone = "Silverpine Forest", x = 43.4, y = 40.9, level = 25, req = 18 }
-SGJ.QuestInfo[1101] = { start = "Falfindel Waywarder", zone = "Feralas", x = 89.6, y = 46.6, level = 34, req = 29, step = 2, steps = 2 }
 SGJ.QuestInfo[1102] = { start = "Auld Stonespire", zone = "Thunder Bluff", x = 36.0, y = 59.9, level = 34, req = 29 }
 SGJ.QuestInfo[1135] = { start = "Fiora Longears", zone = "Dustwallow Marsh", x = 66.5, y = 45.1, level = 30, req = 25 }
 SGJ.QuestInfo[1136] = { start = "Melor Stonehoof", zone = "Thunder Bluff", x = 61.5, y = 80.9, level = 37, req = 26, step = 3, steps = 3 }
@@ -2632,7 +2729,7 @@ SGJ.QuestInfo[1318] = { level = 60, req = 56 }
 SGJ.QuestInfo[1358] = { start = "Apothecary Zinge", zone = "Undercity", x = 50.1, y = 68.0, level = 15, req = 10, step = 5, steps = 5 }
 SGJ.QuestInfo[1364] = { start = "Acolyte Dellis", zone = "Stormwind City", x = 51.4, y = 73.8, level = 41, req = 37, step = 2, steps = 2 }
 SGJ.QuestInfo[1366] = { start = "Felgur Twocuts", zone = "Desolace", x = 56.2, y = 59.6, level = 31, req = 30, step = 2, steps = 2 }
-SGJ.QuestInfo[1370] = { start = "Uthek the Wise", zone = "Desolace", x = 36.2, y = 79.2, level = 35, req = 30, step = 3, steps = 6 }
+SGJ.QuestInfo[1370] = { start = "Uthek the Wise", zone = "Desolace", x = 36.2, y = 79.2, level = 35, req = 30, step = 3, steps = 9 }
 SGJ.QuestInfo[1380] = { start = "Uthek the Wise", zone = "Desolace", x = 36.2, y = 79.2, level = 42, req = 30, step = 6, steps = 6 }
 SGJ.QuestInfo[1381] = { start = "Warug", zone = "Desolace", x = 75.0, y = 68.2, level = 42, req = 30, step = 6, steps = 6 }
 SGJ.QuestInfo[1383] = { start = "Apothecary Faustin", zone = "Duskwood", x = 87.5, y = 35.2, level = 42, req = 37, step = 2, steps = 4 }
@@ -3311,12 +3408,14 @@ SGJ.QuestInfo[9323] = { start = "Festival Flamekeeper", zone = "Orgrimmar", x = 
 SGJ.QuestInfo[9339] = { start = "Festival Talespinner", zone = "Thunder Bluff", x = 21.5, y = 27.2, level = 60, req = 1, step = 2, steps = 2 }
 SGJ.QuestInfo[76240] = { start = "Boarton Shadetotem", zone = "Thunder Bluff", x = 39.6, y = 65.6, level = 11, req = 4 }
 SGJ.QuestInfo[78307] = { level = 23, req = 1, step = 2, steps = 2 }
+SGJ.QuestInfo[78676] = { start = "Dead Drop", zone = "Silverpine Forest", x = 47.1, y = 71.1, level = 35, req = 25 }
 SGJ.QuestInfo[79980] = { start = "Pocket Litter", zone = "Stonetalon Mountains", x = 40.8, y = 52.5, level = 24, req = 14, step = 3, steps = 6 }
 SGJ.QuestInfo[86574] = { start = "Night Elf Courier", zone = "Stonetalon Mountains", x = 48.6, y = 39.8, level = 24, req = 20 }
 SGJ.QuestInfo[86576] = { start = "Maggran Earthbinder", zone = "Stonetalon Mountains", x = 47.2, y = 61.0, level = 26, req = 18 }
 SGJ.QuestInfo[86585] = { start = "Mountaineer Ylva", zone = "Loch Modan", x = 31.8, y = 86.2, level = 17, req = 10 }
 SGJ.QuestInfo[86614] = { start = "Discarded Fishing Toolbox", zone = "Loch Modan", x = 48.0, y = 39.7, level = 20, req = 13 }
 SGJ.QuestInfo[86758] = { start = "Marek Ironheart", zone = "Loch Modan", x = 81.8, y = 61.8, level = 16, req = 12 }
+SGJ.QuestInfo[88758] = { start = "Essene Villard", zone = "Wetlands", x = 51.4, y = 9.0, level = 33, req = 28, step = 3, steps = 3 }
 SGJ.QuestInfo[91285] = { start = "Breton Samuels", zone = "Tirisfal Glades", x = 21.8, y = 45.2, level = 11, req = 7, step = 1, steps = 2 }
 SGJ.QuestInfo[91316] = { start = "Jorin Croge", zone = "Tirisfal Glades", x = 22.6, y = 44.8, level = 11, req = 8 }
 SGJ.QuestInfo[91777] = { start = "Marshal Dughan", zone = "Elwynn Forest", x = 42.2, y = 65.8, level = 7, req = 1, step = 8, steps = 8 }
@@ -3325,14 +3424,14 @@ SGJ.QuestInfo[92421] = { start = "Morbin Lightbane", zone = "Undercity", x = 57.
 SGJ.QuestInfo[92422] = { start = "Deathguard Kristof", zone = "Tirisfal Glades", x = 65.2, y = 60.2, level = 22, req = 15 }
 SGJ.QuestInfo[92456] = { level = 33, req = 24 }
 SGJ.QuestInfo[92457] = { level = 33, req = 24 }
-SGJ.QuestInfo[92458] = { level = 33, req = 24 }
+SGJ.QuestInfo[92458] = { level = 33, req = 24, step = 2, steps = 3 }
 SGJ.QuestInfo[92460] = { start = "Ailee Farheart", zone = "Zephras Isle", x = 42.8, y = 23.4, level = 1, req = 1, step = 1, steps = 2 }
 SGJ.QuestInfo[92461] = { start = "Rorian the Dayseeker", zone = "Zephras Isle", x = 42.0, y = 23.4, level = 1, req = 1, step = 2, steps = 2 }
 SGJ.QuestInfo[92463] = { start = "Elatrell Featherlight", zone = "Zephras Isle", x = 43.4, y = 24.8, level = 3, req = 2 }
 SGJ.QuestInfo[92469] = { start = "Yala Windwatcher", zone = "Zephras Isle", x = 47.2, y = 21.8, level = 4, req = 3, step = 3, steps = 5 }
 SGJ.QuestInfo[92470] = { start = "Aetheen of the Gales", zone = "Zephras Isle", x = 42.6, y = 23.6, level = 5, req = 2, step = 4, steps = 5 }
 SGJ.QuestInfo[92473] = { start = "Valreaa Valewind", zone = "Zephras Isle", x = 42.4, y = 25.0, level = 4, req = 3 }
-SGJ.QuestInfo[92489] = { start = "High Sorcerer Andromath", zone = "Stormwind City", x = 48.7, y = 87.6, level = 33, req = 24 }
+SGJ.QuestInfo[92489] = { start = "High Sorcerer Andromath", zone = "Stormwind City", x = 37.6, y = 81.6, level = 33, req = 24 }
 SGJ.QuestInfo[92517] = { start = "Constable Aonda", zone = "Zephras Isle", x = 45.6, y = 45.4, level = 7, req = 4, step = 2, steps = 2 }
 SGJ.QuestInfo[92528] = { start = "Missionary Jasaan", zone = "Zephras Isle", x = 46.8, y = 56.2, level = 8, req = 5, step = 3, steps = 5 }
 SGJ.QuestInfo[92550] = { start = "Constable Aonda", zone = "Zephras Isle", x = 45.6, y = 45.4, level = 8, req = 5, step = 4, steps = 5 }
@@ -3346,9 +3445,14 @@ SGJ.QuestInfo[92684] = { start = "Aamelia Windfield", zone = "Zephras Isle", x =
 SGJ.QuestInfo[92703] = { start = "Aamelia Windfield", zone = "Zephras Isle", x = 46.6, y = 81.8, level = 9, req = 5, step = 2, steps = 2 }
 SGJ.QuestInfo[92834] = { start = "Elaadrin Evengale", zone = "Zephras Isle", x = 66.6, y = 79.8, level = 11, req = 6, step = 5, steps = 6 }
 SGJ.QuestInfo[92840] = { start = "Elaadrin Evengale", zone = "Zephras Isle", x = 66.6, y = 79.8, level = 11, req = 5, step = 4, steps = 6 }
+SGJ.QuestInfo[92867] = { level = 39, req = 32 }
+SGJ.QuestInfo[92873] = { level = 41, req = 35, step = 8, steps = 13 }
 SGJ.QuestInfo[92880] = { start = "Yorana Windyreed", zone = "Zephras Isle", x = 69.6, y = 67.0, level = 11, req = 6 }
+SGJ.QuestInfo[93045] = { level = 38, req = 35, step = 9, steps = 9 }
+SGJ.QuestInfo[93128] = { level = 42, req = 35, step = 3, steps = 3 }
 SGJ.QuestInfo[93165] = { start = "Vayn Moongaze", zone = "Zephras Isle", x = 63.8, y = 36.0, level = 13, req = 8 }
 SGJ.QuestInfo[93172] = { start = "Strange Hermit", zone = "Zephras Isle", x = 54.0, y = 39.0, level = 13, req = 8 }
+SGJ.QuestInfo[93196] = { level = 42, req = 35, step = 13, steps = 13 }
 SGJ.QuestInfo[93318] = { start = "Bounty Available: Vulgara the Insatiable!", zone = "Zephras Isle", x = 43.4, y = 45.8, level = 9, req = 4 }
 SGJ.QuestInfo[93320] = { start = "Valennia Stormfist", zone = "Zephras Isle", x = 66.2, y = 76.6, level = 11, req = 6 }
 SGJ.QuestInfo[93739] = { start = "Thrall", zone = "Orgrimmar", x = 32.0, y = 37.8, level = 13, req = 7, step = 6, steps = 6 }
@@ -3359,44 +3463,70 @@ SGJ.QuestInfo[94003] = { start = "Seena Skybreaker", zone = "Zephras Isle", x = 
 SGJ.QuestInfo[94411] = { start = "Illaya Amberwind", zone = "Zephras Isle", x = 43.6, y = 44.8, level = 6, req = 4 }
 SGJ.QuestInfo[94413] = { start = "Rathiril Sunlance", zone = "Zephras Isle", x = 45.0, y = 46.4, level = 6, req = 4 }
 SGJ.QuestInfo[95126] = { start = "Ott", zone = "Hillsbrad Foothills", x = 60.4, y = 26.0, level = 25, req = 20 }
+SGJ.QuestInfo[95140] = { start = "Lumina Windsinger", zone = "Silverpine Forest", x = 43.2, y = 41.0, level = 26, req = 20 }
 SGJ.QuestInfo[95161] = { start = "Orphan Matron Nightingale", zone = "Stormwind City", x = 47.2, y = 38.4, level = 22, req = 15, step = 2, steps = 2 }
 SGJ.QuestInfo[95195] = { start = "an item: Bloodied Insignia", level = 22, req = 16 }
 SGJ.QuestInfo[95216] = { start = "Theodore Griffs", zone = "Undercity", x = 46.6, y = 72.0, level = 22, req = 16 }
-SGJ.QuestInfo[95250] = { level = 21, req = 16 }
+SGJ.QuestInfo[95250] = { start = "Captain Truman", zone = "Ruins of Lordaeron", level = 21, req = 16 }
+SGJ.QuestInfo[95384] = { start = "an item: Item 213127", level = 40, req = 32 }
 SGJ.QuestInfo[95508] = { start = "Walton", zone = "The Barrens", x = 42.0, y = 11.4, level = 18, req = 14 }
-SGJ.QuestInfo[95646] = { start = "Rethiel the Greenwarden", zone = "Wetlands", x = 56.2, y = 40.5, level = 31, req = 24 }
-SGJ.QuestInfo[95682] = { level = 31, req = 24 }
+SGJ.QuestInfo[95534] = { start = "an item: Singed Note", level = 36, req = 25 }
+SGJ.QuestInfo[95646] = { start = "Rethiel the Greenwarden", zone = "Wetlands", x = 56.2, y = 40.4, level = 31, req = 24 }
+SGJ.QuestInfo[95682] = { start = "Deathstalker Agent", zone = "Wetlands", x = 51.4, y = 59.2, level = 31, req = 24, step = 2, steps = 2 }
 SGJ.QuestInfo[95697] = { start = "Borstan", zone = "Orgrimmar", x = 57.4, y = 53.4, level = 31, req = 24 }
 SGJ.QuestInfo[95795] = { level = 31, req = 24 }
 SGJ.QuestInfo[95885] = { start = "Offering Stone", zone = "Silverpine Forest", x = 58.1, y = 69.9, level = 23, req = 20, step = 3, steps = 3 }
 SGJ.QuestInfo[95981] = { start = "Shadow Priest Allister", zone = "Silverpine Forest", x = 44.0, y = 41.0, level = 20, req = 10 }
 SGJ.QuestInfo[95999] = { start = "Wanted: Incinerator Gar'im", zone = "Redridge Mountains", x = 24.4, y = 46.2, level = 25, req = 16 }
+SGJ.QuestInfo[96016] = { level = 40, req = 30, step = 5, steps = 5 }
 SGJ.QuestInfo[96130] = { start = "Yaw Sharpmane", zone = "Mulgore", x = 46.8, y = 59.6, level = 5, req = 4 }
+SGJ.QuestInfo[96260] = { start = "Yorn Grimtotem", zone = "Mulgore", x = 32.4, y = 20.0, level = 30, req = 23 }
+SGJ.QuestInfo[96261] = { start = "Muln Earthfury", zone = "Mulgore", x = 33.4, y = 22.4, level = 31, req = 23 }
 SGJ.QuestInfo[96393] = { start = "Earthseer Farsen", zone = "Dun Morogh", x = 64.8, y = 58.4, level = 16, req = 9, step = 2, steps = 2 }
 SGJ.QuestInfo[96394] = { start = "Afadra Dunwall", zone = "Ironforge", x = 33.0, y = 48.0, level = 15, req = 10 }
-SGJ.QuestInfo[96395] = { level = 15, req = 10 }
+SGJ.QuestInfo[96395] = { start = "Ghostly Attendant", zone = "The Hall of Thanes", level = 15, req = 10 }
 SGJ.QuestInfo[96403] = { start = "Thom Filch", zone = "Ironforge", x = 32.4, y = 44.8, level = 15, req = 10 }
-SGJ.QuestInfo[96984] = { level = 33, req = 24 }
+SGJ.QuestInfo[96800] = { start = "Magus Olvek", zone = "Alterac Mountains", x = 9.8, y = 63.0, level = 38, req = 30 }
+SGJ.QuestInfo[96984] = { start = "Image of Archmage Modera", zone = "Silverpine Forest", x = 68.6, y = 45.2, level = 33, req = 24, step = 2, steps = 3 }
 SGJ.QuestInfo[96986] = { start = "Melisara", zone = "Hillsbrad Foothills", x = 62.6, y = 20.6, level = 33, req = 24 }
+SGJ.QuestInfo[96987] = { level = 33, req = 24 }
 SGJ.QuestInfo[96988] = { start = "Doctor Martin Felben", zone = "Undercity", x = 46.6, y = 74.4, level = 33, req = 24 }
 SGJ.QuestInfo[97003] = { start = "Gur'ak", zone = "The Barrens", x = 52.6, y = 29.0, level = 21, req = 15 }
+SGJ.QuestInfo[97048] = { level = 38, req = 30 }
 SGJ.QuestInfo[97223] = { start = "Xar'Ti", zone = "Durotar", x = 55.2, y = 75.4, level = 8, req = 5 }
 SGJ.QuestInfo[97225] = { start = "Master Vornal", zone = "Durotar", x = 55.8, y = 74.4, level = 9, req = 4 }
 SGJ.QuestInfo[97250] = { start = "Grunt Logmar", zone = "The Barrens", x = 44.6, y = 59.2, level = 23, req = 18 }
+SGJ.QuestInfo[97257] = { start = "Olariaan Swiftburn", zone = "Zephras Isle", x = 51.2, y = 86.0, level = 10, req = 10, step = 2, steps = 2 }
+SGJ.QuestInfo[97265] = { start = "Aka'rai", zone = "Desolace", x = 25.2, y = 67.2, level = 33, req = 28 }
 SGJ.QuestInfo[97282] = { start = "Rezlak", zone = "Durotar", x = 46.4, y = 23.0, level = 11, req = 7, step = 2, steps = 2 }
 SGJ.QuestInfo[97290] = { start = "Unfinished Abomination", zone = "Undercity", x = 46.0, y = 62.2, level = 21, req = 16, step = 3, steps = 5 }
 SGJ.QuestInfo[97326] = { start = "Thra", zone = "Orgrimmar", x = 36.8, y = 29.0, level = 15, req = 5 }
 SGJ.QuestInfo[97558] = { start = "Shelene Rhobart", zone = "Tirisfal Glades", x = 65.4, y = 60.0, level = 11, req = 6 }
 SGJ.QuestInfo[98025] = { start = "WANTED: Murkdeep!", zone = "Darkshore", x = 37.2, y = 44.2, level = 13, req = 10 }
+SGJ.QuestInfo[98027] = { start = "Gleaming Crescent Pendant", zone = "Ashenvale", x = 63.0, y = 71.5, level = 29, req = 25 }
 SGJ.QuestInfo[98028] = { start = "an item: Clouded Water Globe", level = 21, req = 17 }
+SGJ.QuestInfo[98071] = { start = "Brewmeister Bilger", zone = "Hillsbrad Foothills", x = 52.0, y = 58.6, level = 27, req = 23 }
 SGJ.QuestInfo[98093] = { start = "Sulhasa", zone = "The Barrens", x = 47.8, y = 77.6, level = 23, req = 18 }
 SGJ.QuestInfo[98095] = { level = 25, req = 19, step = 2, steps = 2 }
+SGJ.QuestInfo[98156] = { level = 31, req = 27, step = 2, steps = 2 }
 SGJ.QuestInfo[98191] = { level = 25, req = 20, step = 8, steps = 8 }
 SGJ.QuestInfo[98208] = { start = "Sylessa Duskwhisper", zone = "Wetlands", x = 8.0, y = 55.8, level = 29, req = 22, step = 1, steps = 2 }
+SGJ.QuestInfo[98216] = { start = "Prospector Whelgar", zone = "Wetlands", x = 38.8, y = 52.2, level = 31, req = 23, step = 2, steps = 4 }
+SGJ.QuestInfo[98223] = { start = "Tattered Spellbook", zone = "Wetlands", x = 53.5, y = 54.5, level = 31, req = 23 }
+SGJ.QuestInfo[98283] = { start = "Rethiel the Greenwarden", zone = "Wetlands", x = 56.2, y = 40.4, level = 30, req = 22, step = 5, steps = 5 }
+SGJ.QuestInfo[98297] = { start = "Howin Kindfeather", zone = "Wetlands", x = 49.4, y = 42.0, level = 34, req = 24 }
 SGJ.QuestInfo[98298] = { start = "Dalar Dawnweaver", zone = "Silverpine Forest", x = 44.2, y = 39.8, level = 16, req = 9, step = 6, steps = 6 }
+SGJ.QuestInfo[98310] = { start = "Prospector Whelgar", zone = "Wetlands", x = 38.8, y = 52.2, level = 32, req = 24, step = 3, steps = 4 }
 SGJ.QuestInfo[98326] = { start = "Gretta Ganter", zone = "Dun Morogh", x = 31.4, y = 44.6, level = 9, req = 5 }
 SGJ.QuestInfo[98403] = { start = "Tallonkai Swiftroot", zone = "Teldrassil", x = 55.4, y = 56.8, level = 12, req = 4, step = 2, steps = 2 }
 SGJ.QuestInfo[98435] = { start = "Mull Thunderhorn", zone = "Mulgore", x = 48.4, y = 60.4, level = 10, req = 4, step = 7, steps = 7 }
 SGJ.QuestInfo[98545] = { start = "Leonid Barthalomew the Revered", zone = "Tirisfal Glades", x = 22.0, y = 44.8, level = 13, req = 10, step = 3, steps = 3 }
-SGJ.QuestInfo[98823] = { level = 31, req = 24, step = 2, steps = 2 }
-SGJ.QuestInfo[98824] = { level = 31, req = 24, step = 2, steps = 2 }
+SGJ.QuestInfo[98823] = { start = "Bashana Runetotem", zone = "Thunder Bluff", x = 70.8, y = 33.8, level = 31, req = 24, step = 2, steps = 2 }
+SGJ.QuestInfo[98824] = { start = "Prospector Whelgar", zone = "Wetlands", x = 38.8, y = 52.2, level = 31, req = 24, step = 2, steps = 2 }
+SGJ.QuestInfo[99052] = { start = "Orgnil Soulscar", zone = "Durotar", x = 52.2, y = 43.2, level = 12, req = 10 }
+SGJ.QuestInfo[99053] = { start = "Sentinel Lynessa Duskblossom", zone = "Teldrassil", x = 44.6, y = 58.9, level = 9, req = 4 }
+SGJ.QuestInfo[99082] = { start = "Baine Bloodhoof", zone = "Mulgore", x = 47.4, y = 60.2, level = 9, req = 4, step = 5, steps = 5 }
+SGJ.QuestInfo[99123] = { start = "Pal'juh", zone = "Durotar", x = 46.2, y = 78.6, level = 8, req = 4 }
+SGJ.QuestInfo[99130] = { start = "Remy \"Two Times\"", zone = "Elwynn Forest", x = 42.2, y = 67.2, level = 7, req = 4 }
+SGJ.QuestInfo[99156] = { start = "Deathguard Linnea", zone = "Tirisfal Glades", x = 65.4, y = 60.2, level = 13, req = 6, step = 2, steps = 2 }
+SGJ.QuestInfo[99161] = { start = "Father Gavin", zone = "Dun Morogh", x = 57.6, y = 44.8, level = 8, req = 5 }

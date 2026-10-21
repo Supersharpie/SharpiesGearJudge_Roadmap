@@ -1,5 +1,20 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.2.1
+
+### 🗺️ Dungeon Loot Updated to the Latest Beta Build (WoW Forever)
+- **9 new trash drops:** 7 in the City of Dalaran (Violet Sorcerer's Sandals, Leggings and Wraps, Roused Nature Footwraps, Construct's Grips, Tattered Kirin Tor Cloak, Guardian's Emblem) and 2 in the Excavation Site (Ancient Cleaver, Excavated Dagger).
+- **27 drops now show WoW Forever's required level** instead of Classic's (Gnomeregan, Scarlet Monastery, Razorfen Downs, Uldaman, Wailing Caverns), so they're suggested at the right level.
+- Blindwatcher's Sight (Shadowfang Keep) is listed as cloth armor.
+
+### 📜 Quest Rewards Updated (WoW Forever)
+- **94 more quest rewards** from the latest quest data (2,025, was 1,931), across about 30 zones: Wetlands, Desolace, Stranglethorn Vale and Arathi Highlands gain the most, plus new Shaman, Druid, Paladin and Rogue class quest rewards and new dungeon quest rewards in Uldaman, the City of Dalaran, Scarlet Monastery, Razorfen Downs and Kraul and the Stockade.
+- A new quest zone, **Shen'dralas**.
+- Five rewards are now marked as choose-one, two as Alliance-only, and Razorfen Kraul's "Mage-Eye" Blunderbuss is no longer a quest reward there.
+
+### 📍 Bigger "You're Here" Marker
+- The arrow on the quest zone you're standing in is half as large again, so it reads as the map's "you're here" arrow.
+
 ## 🚀 v3.2.0
 
 ### 📜 A Quest View
