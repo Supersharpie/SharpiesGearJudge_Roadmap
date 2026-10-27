@@ -1,5 +1,10 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.2.2
+
+### 🎨 New Look
+- Matches Gear Judge's new window: colored section titles, slimmer bars and your class color as the accent.
+
 ## 🚀 v3.2.1
 
 ### 🗺️ Dungeon Loot Updated to the Latest Beta Build (WoW Forever)

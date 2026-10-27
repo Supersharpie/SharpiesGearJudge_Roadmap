@@ -17,6 +17,11 @@ end
 
 local L = SGJ.L or setmetatable({}, { __index = function(t, k) return k end })
 
+-- Core theme helpers: an older core without SGJ.Theme keeps the fallback colours.
+local function Heading(fs, color, width) if SGJ.StyleHeading then SGJ.StyleHeading(fs, color, width) end end
+local function TC(key, r, g, b, a) local c = SGJ.Theme and SGJ.Theme[key]; if c then return c[1], c[2], c[3], c[4] or a end return r, g, b, a end
+local function THex(key, fallback) local c = SGJ.Theme and SGJ.Theme[key]; if not c then return fallback end return string.format("|cff%02x%02x%02x", c[1] * 255, c[2] * 255, c[3] * 255) end
+
 -- Zone/dungeon names are translated at display time. "<Zone> Quests" rows are shown
 -- through the "%s Quests" format so only the zone part needs a translation.
 local function ZoneDisplayName(name)
@@ -486,9 +491,9 @@ function Roadmap:CreateLevelRangeSlider(parent, width)
     local track = CreateFrame("Button", nil, holder)
     track:SetSize(W, 20); track:SetPoint("TOPLEFT")
     track:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-    local edge = track:CreateTexture(nil, "BACKGROUND", nil, -1); edge:SetPoint("TOPLEFT", -1, 1); edge:SetPoint("BOTTOMRIGHT", 1, -1); edge:SetColorTexture(0.33, 0.33, 0.33, 1)
-    local bg = track:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetColorTexture(0.1, 0.1, 0.1, 1)
-    local fill = track:CreateTexture(nil, "ARTWORK"); fill:SetColorTexture(1, 0.82, 0, 0.3)
+    local edge = track:CreateTexture(nil, "BACKGROUND", nil, -1); edge:SetPoint("TOPLEFT", -1, 1); edge:SetPoint("BOTTOMRIGHT", 1, -1); edge:SetColorTexture(TC("Edge", 0.33, 0.33, 0.33, 1))
+    local bg = track:CreateTexture(nil, "BACKGROUND"); bg:SetAllPoints(); bg:SetColorTexture(TC("Panel", 0.1, 0.1, 0.1, 1))
+    local fill = track:CreateTexture(nil, "ARTWORK"); fill:SetColorTexture(TC("Accent", 1, 0.82, 0, 0.3))
 
     -- Label sits on its own layer so the handles never cover it
     local textLayer = CreateFrame("Frame", nil, track)
@@ -496,7 +501,7 @@ function Roadmap:CreateLevelRangeSlider(parent, width)
     local text = textLayer:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"); text:SetPoint("CENTER")
 
     local count = holder:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-    count:SetPoint("TOPLEFT", track, "BOTTOMLEFT", 0, -3); count:SetTextColor(0.6, 0.6, 0.6)
+    count:SetPoint("TOPLEFT", track, "BOTTOMLEFT", 0, -3); count:SetTextColor(TC("Muted", 0.6, 0.6, 0.6))
 
     local span = W - THUMB_W
     local function XForValue(v) return THUMB_W / 2 + (v - 1) / math.max(1, cap - 1) * span end
@@ -537,9 +542,9 @@ function Roadmap:CreateLevelRangeSlider(parent, width)
     for i = 1, 2 do
         local t = CreateFrame("Button", nil, track)
         t:SetSize(THUMB_W, 24); t:SetFrameLevel(track:GetFrameLevel() + 2)
-        local tex = t:CreateTexture(nil, "OVERLAY"); tex:SetAllPoints(); tex:SetColorTexture(0.85, 0.68, 0.0, 1)
-        t:SetScript("OnEnter", function() tex:SetColorTexture(1, 0.85, 0.1, 1) end)
-        t:SetScript("OnLeave", function() tex:SetColorTexture(0.85, 0.68, 0.0, 1) end)
+        local tex = t:CreateTexture(nil, "OVERLAY"); tex:SetAllPoints(); tex:SetColorTexture(TC("Accent", 0.85, 0.68, 0.0, 1))
+        t:SetScript("OnEnter", function() tex:SetColorTexture(TC("Value", 1, 0.85, 0.1, 1)) end)
+        t:SetScript("OnLeave", function() tex:SetColorTexture(TC("Accent", 0.85, 0.68, 0.0, 1)) end)
         t:SetScript("OnMouseDown", function(self)
             -- Only move when the rounded level changes: each move recounts the zones.
             local last
@@ -637,6 +642,7 @@ end
 local function MakeCheck(parent, name, label, checked, onClick)
     local cb = CreateFrame("CheckButton", name, parent, "ChatConfigCheckButtonTemplate")
     cb:SetChecked(checked); SetCheckLabel(cb, label)
+    local fs = cb.Text or _G[name .. "Text"]; if fs and SGJ.Theme then fs:SetTextColor(TC("Text")) end
     cb:SetScript("OnClick", onClick)
     return cb
 end
@@ -656,10 +662,10 @@ function Roadmap.InitView(parent)
     f.Center:SetPoint("TOPLEFT", f.LeftCol, "TOPRIGHT"); f.Center:SetPoint("BOTTOMRIGHT", f.RightCol, "BOTTOMLEFT")
 
     for _, col in ipairs({ f.LeftCol, f.RightCol }) do
-        local shade = col:CreateTexture(nil, "BACKGROUND"); shade:SetAllPoints(); shade:SetColorTexture(0, 0, 0, 0.25)
+        local shade = col:CreateTexture(nil, "BACKGROUND"); shade:SetAllPoints(); shade:SetColorTexture(TC("Panel", 0, 0, 0, 0.25))
     end
     local function Divider(col, side)
-        local t = col:CreateTexture(nil, "BORDER"); t:SetColorTexture(1, 1, 1, 0.08); t:SetWidth(1)
+        local t = col:CreateTexture(nil, "BORDER"); t:SetColorTexture(TC("Edge", 1, 1, 1, 0.08)); t:SetWidth(1)
         t:SetPoint("TOP" .. side, 0, 0); t:SetPoint("BOTTOM" .. side, 0, 0)
     end
     Divider(f.LeftCol, "RIGHT"); Divider(f.RightCol, "LEFT")
@@ -692,9 +698,12 @@ function Roadmap.InitView(parent)
 
     f.Title = f.Center:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
     f.Title:SetPoint("TOP", 0, -10); f.Title:SetText(L["Upgrade Roadmap"]); f.Title:SetTextColor(1, 0.82, 0)
+    -- Centred title: the underline spans the text, centred under it
+    Heading(f.Title, "Gold", f.Title:GetStringWidth())
+    if f.Title.Underline then f.Title.Underline:SetWidth(f.Title:GetStringWidth()); f.Title.Underline:ClearAllPoints(); f.Title.Underline:SetPoint("TOP", f.Title, "BOTTOM", 0, -4) end
 
     f.Summary = f.Center:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-    f.Summary:SetPoint("TOP", f.Title, "BOTTOM", 0, -4); f.Summary:SetWidth(LEFT_W + 80); f.Summary:SetWordWrap(false)
+    f.Summary:SetPoint("TOP", f.Title, "BOTTOM", 0, f.Title.Underline and -9 or -4); f.Summary:SetWidth(LEFT_W + 80); f.Summary:SetWordWrap(false)
 
     -- Quest list: replaces the character model while a quest zone is open.
     local qp = CreateFrame("Frame", nil, f.Center)
@@ -704,10 +713,10 @@ function Roadmap.InitView(parent)
     qp.Head = qp:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
     -- Stops short of the Character button at the top right.
     qp.Head:SetPoint("TOPLEFT", 0, 0); qp.Head:SetPoint("RIGHT", qp, "RIGHT", -90, 0)
-    qp.Head:SetJustifyH("LEFT"); qp.Head:SetWordWrap(false); qp.Head:SetTextColor(0.7, 0.7, 0.7)
+    qp.Head:SetJustifyH("LEFT"); qp.Head:SetWordWrap(false); qp.Head:SetTextColor(TC("Muted", 0.7, 0.7, 0.7))
     qp.Foot = qp:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     qp.Foot:SetPoint("BOTTOMLEFT", 0, 0); qp.Foot:SetPoint("RIGHT", qp, "RIGHT", 0, 0)
-    qp.Foot:SetJustifyH("LEFT"); qp.Foot:SetTextColor(0.5, 0.5, 0.5)
+    qp.Foot:SetJustifyH("LEFT"); qp.Foot:SetTextColor(TC("Muted", 0.5, 0.5, 0.5))
     qp.Scroll = CreateFrame("ScrollFrame", nil, qp, "UIPanelScrollFrameTemplate")
     qp.Scroll:SetPoint("TOPLEFT", 0, -18); qp.Scroll:SetPoint("BOTTOMRIGHT", -24, 16)
     qp.Child = CreateFrame("Frame", nil, qp.Scroll); qp.Child:SetSize(200, 10)
@@ -740,7 +749,7 @@ function Roadmap.InitView(parent)
     f.HelpText = f.Center:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     f.HelpText:SetPoint("BOTTOM", 0, 12)
     f.HelpText:SetText(L["Click a slot: upgrades  |  Right-click: ignore"])
-    f.HelpText:SetTextColor(0.5, 0.5, 0.5)
+    f.HelpText:SetTextColor(TC("Muted", 0.5, 0.5, 0.5))
 
     -- ==========================================
     -- LEFT: SCAN SETTINGS (top to bottom in the order you use them)
@@ -748,10 +757,11 @@ function Roadmap.InitView(parent)
     local LC = f.LeftCol
     local header = LC:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     header:SetPoint("TOPLEFT", 12, -12); header:SetText(L["Scan Settings"])
+    Heading(header, "Gold", LEFT_W - 24)
 
-    -- 1. Mode
+    -- 1. Mode (clear of the heading's underline)
     local modeDropDown = CreateFrame("Frame", "SGJ_RoadmapModeDropDown", LC, "UIDropDownMenuTemplate")
-    modeDropDown:SetPoint("TOPLEFT", LC, "TOPLEFT", -6, -30)
+    modeDropDown:SetPoint("TOPLEFT", LC, "TOPLEFT", -6, header.Underline and -35 or -30)
     UIDropDownMenu_SetWidth(modeDropDown, 150)
     UIDropDownMenu_Initialize(modeDropDown, function(self, level)
         local info = UIDropDownMenu_CreateInfo()
@@ -940,12 +950,23 @@ function Roadmap.InitView(parent)
     Roadmap:InitSidebar(f.RightCol)
 
     f.ProgressBar = CreateFrame("StatusBar", nil, f.RightCol)
-    f.ProgressBar:SetSize(RIGHT_W - 24, 12)
-    f.ProgressBar:SetPoint("TOP", 0, -46)
-    f.ProgressBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
-    f.ProgressBar:GetStatusBarTexture():SetHorizTile(false)
-    f.ProgressBar:SetMinMaxValues(0, 100); f.ProgressBar:SetValue(0); f.ProgressBar:SetStatusBarColor(0, 1, 0); f.ProgressBar:Hide()
-    f.ProgressBar.Bg = f.ProgressBar:CreateTexture(nil, "BACKGROUND"); f.ProgressBar.Bg:SetAllPoints(true); f.ProgressBar.Bg:SetColorTexture(0.2, 0.2, 0.2, 0.6)
+    if SGJ.Theme then
+        -- Thin flat bar: accent gradient on a faint track
+        local a = SGJ.Theme.Accent
+        f.ProgressBar:SetSize(RIGHT_W - 24, 3)
+        f.ProgressBar:SetPoint("TOP", 0, -50)
+        f.ProgressBar:SetStatusBarTexture("Interface\\Buttons\\WHITE8X8")
+        f.ProgressBar:GetStatusBarTexture():SetGradient("HORIZONTAL", CreateColor(a[1] * 0.4, a[2] * 0.4, a[3] * 0.4, 1), CreateColor(a[1], a[2], a[3], 1))
+        f.ProgressBar:SetMinMaxValues(0, 100); f.ProgressBar:SetValue(0); f.ProgressBar:Hide()
+        f.ProgressBar.Bg = f.ProgressBar:CreateTexture(nil, "BACKGROUND"); f.ProgressBar.Bg:SetAllPoints(true); f.ProgressBar.Bg:SetColorTexture(1, 1, 1, 0.06)
+    else
+        f.ProgressBar:SetSize(RIGHT_W - 24, 12)
+        f.ProgressBar:SetPoint("TOP", 0, -46)
+        f.ProgressBar:SetStatusBarTexture("Interface\\TargetingFrame\\UI-StatusBar")
+        f.ProgressBar:GetStatusBarTexture():SetHorizTile(false)
+        f.ProgressBar:SetMinMaxValues(0, 100); f.ProgressBar:SetValue(0); f.ProgressBar:SetStatusBarColor(0, 1, 0); f.ProgressBar:Hide()
+        f.ProgressBar.Bg = f.ProgressBar:CreateTexture(nil, "BACKGROUND"); f.ProgressBar.Bg:SetAllPoints(true); f.ProgressBar.Bg:SetColorTexture(0.2, 0.2, 0.2, 0.6)
+    end
 
     f:SetScript("OnShow", function()
         if f.Model then f.Model:SetUnit("player") end
@@ -992,11 +1013,11 @@ function Roadmap:InitSidebar(parent)
 
     local sub = sb:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     sub:SetPoint("TOP", 0, -37)
-    sub:SetTextColor(0.6, 0.6, 0.6)
+    sub:SetTextColor(TC("Muted", 0.6, 0.6, 0.6))
 
     local empty = sb:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     empty:SetPoint("TOP", 0, -70); empty:SetWidth(parent:GetWidth() - 24)
-    empty:SetTextColor(0.6, 0.6, 0.6)
+    empty:SetTextColor(TC("Muted", 0.6, 0.6, 0.6))
 
     local scroll = CreateFrame("ScrollFrame", "SGJ_RoadmapScroll", sb, "UIPanelScrollFrameTemplate")
     scroll:SetPoint("TOPLEFT", 6, -64)
@@ -1038,7 +1059,12 @@ function Roadmap:UpdateSidebar()
         local on = (t.key == Roadmap.LeaderTab)
         local n = (t.key == "quests") and nQ or nD
         t.Text:SetText(L[t.label] .. ((Roadmap.HasScanned or n > 0) and (" (" .. n .. ")") or ""))
-        if on then t:SetBackdropColor(0.30, 0.22, 0.05, 0.85); t:SetBackdropBorderColor(1, 0.82, 0, 0.9)
+        if SGJ.Theme then
+            -- Chosen tab: faint fill, accent border and text; the other muted on a flat panel
+            local th = SGJ.Theme
+            if on then t:SetBackdropColor(1, 1, 1, 0.06); t:SetBackdropBorderColor(th.Accent[1], th.Accent[2], th.Accent[3], 0.6); t.Text:SetTextColor(unpack(th.Accent))
+            else t:SetBackdropColor(unpack(th.Panel)); t:SetBackdropBorderColor(unpack(th.Edge)); t.Text:SetTextColor(unpack(th.Muted)) end
+        elseif on then t:SetBackdropColor(0.30, 0.22, 0.05, 0.85); t:SetBackdropBorderColor(1, 0.82, 0, 0.9)
         else t:SetBackdropColor(0.08, 0.08, 0.08, 0.85); t:SetBackdropBorderColor(1, 1, 1, 0.12) end
     end
     if Roadmap.Sidebar.Sub then
@@ -1063,6 +1089,14 @@ function Roadmap:UpdateSidebar()
 
             row.Sel = row:CreateTexture(nil, "BACKGROUND")
             row.Sel:SetAllPoints(); row.Sel:SetColorTexture(1, 0.82, 0, 0.12); row.Sel:Hide()
+            if SGJ.Theme then
+                -- Selected: faint fill with an accent bar on the left; a faint separator under every row
+                row.Sel:SetColorTexture(1, 1, 1, 0.06)
+                row.SelBar = row:CreateTexture(nil, "ARTWORK"); row.SelBar:SetWidth(2)
+                row.SelBar:SetPoint("TOPLEFT"); row.SelBar:SetPoint("BOTTOMLEFT"); row.SelBar:SetColorTexture(TC("Accent", 1, 1, 1, 1)); row.SelBar:Hide()
+                row.Sep = row:CreateTexture(nil, "BORDER"); row.Sep:SetHeight(1); row.Sep:SetColorTexture(1, 1, 1, 0.05)
+                row.Sep:SetPoint("TOPLEFT", row, "BOTTOMLEFT", 0, -1); row.Sep:SetPoint("TOPRIGHT", row, "BOTTOMRIGHT", 0, -1)
+            end
 
             row.Icon = row:CreateTexture(nil, "OVERLAY")
             row.Icon:SetSize(24, 24)
@@ -1074,7 +1108,7 @@ function Roadmap:UpdateSidebar()
 
             row.Score = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
             row.Score:SetPoint("TOPLEFT", row.Text, "BOTTOMLEFT", 0, -2)
-            row.Score:SetTextColor(0, 1, 0)
+            row.Score:SetTextColor(TC("Value", 0, 1, 0))
 
             row:RegisterForClicks("AnyUp")
             
@@ -1094,8 +1128,8 @@ function Roadmap:UpdateSidebar()
                 end
             end)
             
-            row:SetScript("OnLeave", function(self) 
-                self.Text:SetTextColor(1,0.82,0)
+            row:SetScript("OnLeave", function(self)
+                if self.TextColor then self.Text:SetTextColor(unpack(self.TextColor)) else self.Text:SetTextColor(1,0.82,0) end
                 GameTooltip:Hide()
             end)
             
@@ -1171,7 +1205,14 @@ function Roadmap:UpdateSidebar()
             row.Icon:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
         end
         
-        row.Sel:SetShown(entry.key == Roadmap.SelectedZone)
+        local sel = (entry.key == Roadmap.SelectedZone)
+        row.Sel:SetShown(sel)
+        if row.SelBar then
+            -- Selected row in the accent colour, the rest in plain text colour
+            row.SelBar:SetShown(sel)
+            row.TextColor = sel and SGJ.Theme.Accent or SGJ.Theme.Text
+            row.Text:SetTextColor(unpack(row.TextColor))
+        end
         row:Show()
         y = y - 34
     end
@@ -2353,7 +2394,7 @@ function Roadmap:RefreshQuestPanel()
     if not show then return end
     if not qp.Empty then
         qp.Empty = qp:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-        qp.Empty:SetPoint("TOP", 0, -40); qp.Empty:SetWidth(220); qp.Empty:SetTextColor(0.6, 0.6, 0.6)
+        qp.Empty:SetPoint("TOP", 0, -40); qp.Empty:SetWidth(220); qp.Empty:SetTextColor(TC("Muted", 0.6, 0.6, 0.6))
     end
     qp.Empty:SetShown(#data.rows == 0)
     qp.Empty:SetText(L["No quest upgrades here for your gear."])
@@ -2367,7 +2408,7 @@ function Roadmap:RefreshQuestPanel()
             row = CreateFrame("Button", nil, qp.Child, "BackdropTemplate")
             row:SetHeight(QROW_H - 4)
             row:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1 })
-            row:SetBackdropColor(0.08, 0.08, 0.08, 0.85)
+            row:SetBackdropColor(TC("Panel", 0.08, 0.08, 0.08, 0.85))
             local hl = row:CreateTexture(nil, "HIGHLIGHT"); hl:SetAllPoints(); hl:SetColorTexture(1, 1, 1, 0.06)
             row.Icon = row:CreateTexture(nil, "ARTWORK"); row.Icon:SetSize(28, 28); row.Icon:SetPoint("LEFT", 5, 0)
             row.Gain = row:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall"); row.Gain:SetPoint("TOPRIGHT", -6, -5)
@@ -2377,7 +2418,7 @@ function Roadmap:RefreshQuestPanel()
             row.Name:SetJustifyH("LEFT"); row.Name:SetWordWrap(false)
             row.Sub = row:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
             row.Sub:SetPoint("BOTTOMLEFT", row.Icon, "BOTTOMRIGHT", 6, 1); row.Sub:SetPoint("RIGHT", row.Status, "LEFT", -6, 0)
-            row.Sub:SetJustifyH("LEFT"); row.Sub:SetWordWrap(false); row.Sub:SetTextColor(0.65, 0.65, 0.65)
+            row.Sub:SetJustifyH("LEFT"); row.Sub:SetWordWrap(false); row.Sub:SetTextColor(TC("Muted", 0.65, 0.65, 0.65))
             row:SetScript("OnEnter", QuestRowTooltip)
             row:SetScript("OnLeave", GameTooltip_Hide)
             row:SetScript("OnClick", function(self)
@@ -2393,7 +2434,7 @@ function Roadmap:RefreshQuestPanel()
         name = (color and color.hex or "|cffffffff") .. (name or "?") .. "|r"
         if q.choices and q.choices > 1 then name = name .. " |cff999999" .. string.format(L["best of %d"], q.choices) .. "|r" end
         row.Name:SetText(name)
-        row.Gain:SetText(string.format("|cff00ff00+%.1f|r", q.gain))
+        row.Gain:SetText(string.format("%s+%.1f|r", THex("Value", "|cff00ff00"), q.gain))
         local qi = SGJ.QuestInfo and SGJ.QuestInfo[q.questID]
         local sub = { q.info.source or "?" }
         if qi and qi.level then
@@ -2411,10 +2452,10 @@ function Roadmap:RefreshQuestPanel()
             row:SetBackdropBorderColor(0.33, 0.85, 0.33, 0.7)
         elseif need > level then
             row.Status:SetText("|cff999999" .. string.format(L["At level %d"], need) .. "|r")
-            row:SetBackdropBorderColor(1, 1, 1, 0.12)
+            row:SetBackdropBorderColor(TC("Edge", 1, 1, 1, 0.12))
         else
             row.Status:SetText("|cff7fb2ff" .. L["Available"] .. "|r")
-            row:SetBackdropBorderColor(1, 1, 1, 0.12)
+            row:SetBackdropBorderColor(TC("Edge", 1, 1, 1, 0.12))
         end
         row:Show()
     end
@@ -2520,7 +2561,7 @@ function Roadmap:RefreshUI()
             local line
             if upgradeCount == 1 then line = string.format(L["%d upgrade, +%.1f"], upgradeCount, upgradeGain)
             else line = string.format(L["%d upgrades, +%.1f"], upgradeCount, upgradeGain) end
-            line = "|cff00ff00" .. line .. "|r"
+            line = THex("Value", "|cff00ff00") .. line .. "|r"
             if zoneName then line = string.format(L["%s: %s"], zoneName, line) end
             f.Summary:SetText(line)
         elseif zoneName and Roadmap.ChainMode and Roadmap.ChainTaken and Roadmap.ChainTaken.zone == zone then
@@ -2564,9 +2605,9 @@ end
 function Roadmap:ShowExportPopup()
     if not Roadmap.ExportFrame then
         local f = CreateFrame("Frame", "SGJ_RoadmapExport", UIParent, "BackdropTemplate"); f:SetSize(400, 200); f:SetPoint("CENTER"); f:SetFrameStrata("DIALOG"); f:EnableMouse(true)
-        f:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8", edgeFile="Interface\\Buttons\\WHITE8X8", edgeSize=1}); f:SetBackdropColor(0,0,0,0.9); f:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
-        
-        f.Title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"); f.Title:SetPoint("TOP", 0, -10); f.Title:SetText(L["Export to The Lab"])
+        f:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8", edgeFile="Interface\\Buttons\\WHITE8X8", edgeSize=1}); f:SetBackdropColor(TC("Window", 0, 0, 0, 0.9)); f:SetBackdropBorderColor(TC("Edge", 0.6, 0.6, 0.6, 1))
+
+        f.Title = f:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge"); f.Title:SetPoint("TOP", 0, -10); f.Title:SetText(L["Export to The Lab"]); Heading(f.Title, "Gold", nil)
         
         local scroll = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate"); scroll:SetPoint("TOPLEFT", 20, -40); scroll:SetPoint("BOTTOMRIGHT", -40, 40)
         local eb = CreateFrame("EditBox", nil, scroll); eb:SetSize(340, 200); eb:SetMultiLine(true); eb:SetFontObject("GameFontHighlight"); eb:SetAutoFocus(false); scroll:SetScrollChild(eb); f.EditBox = eb
@@ -2603,10 +2644,10 @@ function Roadmap.OnSlotClick(self)
     if not self.FilteredItems then return end
     if not Roadmap.Popup then
         Roadmap.Popup = CreateFrame("Frame", "SGJ_RoadmapPopup", UIParent, "BackdropTemplate"); Roadmap.Popup:SetSize(320, 150)
-        Roadmap.Popup:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8", edgeFile="Interface\\Buttons\\WHITE8X8", edgeSize=1}); Roadmap.Popup:SetBackdropColor(0.1, 0.1, 0.1, 0.95); Roadmap.Popup:SetBackdropBorderColor(0, 1, 0, 1)
+        Roadmap.Popup:SetBackdrop({bgFile="Interface\\Buttons\\WHITE8X8", edgeFile="Interface\\Buttons\\WHITE8X8", edgeSize=1}); Roadmap.Popup:SetBackdropColor(TC("Window", 0.1, 0.1, 0.1, 0.95)); Roadmap.Popup:SetBackdropBorderColor(TC("Edge", 0, 1, 0, 1))
         Roadmap.Popup:SetFrameStrata("DIALOG"); Roadmap.Popup:SetClampedToScreen(true); Roadmap.Popup:EnableMouse(true)
         Roadmap.Popup:SetScript("OnLeave", function() if not Roadmap.Popup:IsMouseOver() then Roadmap.Popup:Hide() end end)
-        Roadmap.Popup.Header = Roadmap.Popup:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"); Roadmap.Popup.Header:SetPoint("TOPLEFT", 5, -5); Roadmap.Popup.Header:SetText(L["Top Upgrades (Shift: Link)"]); Roadmap.Popup.Header:SetTextColor(0.6, 0.6, 0.6)
+        Roadmap.Popup.Header = Roadmap.Popup:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall"); Roadmap.Popup.Header:SetPoint("TOPLEFT", 5, -5); Roadmap.Popup.Header:SetText(L["Top Upgrades (Shift: Link)"]); Roadmap.Popup.Header:SetTextColor(TC("Muted", 0.6, 0.6, 0.6))
         Roadmap.Popup.Rows = {}
         table.insert(UISpecialFrames, "SGJ_RoadmapPopup") -- Escape closes it
     end
@@ -2628,7 +2669,7 @@ function Roadmap.OnSlotClick(self)
             row.Btn1:RegisterForClicks("AnyUp")
             
             -- Plus Sign (Middle)
-            row.Plus = row:CreateFontString(nil, "OVERLAY", "GameFontNormal"); row.Plus:SetText("+"); row.Plus:SetTextColor(0.5, 0.5, 0.5)
+            row.Plus = row:CreateFontString(nil, "OVERLAY", "GameFontNormal"); row.Plus:SetText("+"); row.Plus:SetTextColor(TC("Muted", 0.5, 0.5, 0.5))
             
             -- Partner Item Button (Right)
             row.Btn2 = CreateFrame("Button", nil, row)
@@ -2674,7 +2715,7 @@ function Roadmap.OnSlotClick(self)
         
         -- SETUP SCORE
         -- Color logic for downgrade/upgrade
-        if item.gain > 0 then row.Gain:SetTextColor(0, 1, 0); row.Gain:SetText("+"..string.format("%.1f", item.gain))
+        if item.gain > 0 then row.Gain:SetTextColor(TC("Value", 0, 1, 0)); row.Gain:SetText("+"..string.format("%.1f", item.gain))
         else row.Gain:SetTextColor(1, 0, 0); row.Gain:SetText(string.format("%.1f", item.gain)) end
         
         row:Show()
