@@ -1,6 +1,6 @@
 # Roadmap Plugin for Sharpie's Gear Judge (SGJ)
 
-**Version 3.2.0** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
+**Version 3.2.2** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
 
 **Roadmap** is a progression planning tool for **Sharpie's Gear Judge**. It scans every dungeon, plus the quest rewards in every zone, to build a personalized "Upgrade Leaderboard" showing which dungeons and quest zones offer the biggest power gains for your character.
 
@@ -72,7 +72,7 @@
 1.  Ensure you have the main addon **Sharpie's Gear Judge** installed.
 2.  Place the `SharpiesGearJudge_Roadmap` folder into your `Interface/AddOns` directory.
 3.  Reload your UI (`/reload`).
-4.  Open Sharpie's Gear Judge and click the **Roadmap Tab** (Map Icon).
+4.  Open Sharpie's Gear Judge and click the **Roadmap** tab.
 
 ## Usage
 
