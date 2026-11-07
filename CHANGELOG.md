@@ -1,5 +1,14 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.2.3
+
+### 🗺️ Dungeon Loot Updated (WoW Forever)
+- **4 new Uldaman drops** from the Obsidian Sentinel (level 39): Rock Sentinel Slicer, Axe of Lingering Dread, Dark Golem Breastplate and White Obsidian Wand.
+
+### 📜 Quest Rewards Updated (WoW Forever)
+- **7 new thrown weapons** as quest rewards, levels 6-24: Footman's Pocketknife (Elwynn Forest), Rezlak's Spare Knife (Durotar), Darnassian Knife (Darkshore), Cheese Knife (Loch Modan), Dragonmaw Skinflayer (Wetlands), Beastculler's Knife (The Barrens) and Wizlo's Tuning Wrench (Thousand Needles).
+- Meddlesome Mages (Zephras Isle) now gives only the Idol of Shifting Tides.
+
 ## 🚀 v3.2.2
 
 ### 🎨 New Look
