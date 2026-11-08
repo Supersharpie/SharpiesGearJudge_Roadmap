@@ -1806,7 +1806,8 @@ function Roadmap:GetSimulationGains(itemLink, defaultSlotID, weights, specName, 
             end
         end
         
-        if allowedByFocus and gain > 0.1 then
+        -- the core tooltip's own upgrade threshold (MSC.VERDICT_EPS, 0.01): was 0.1, so small upgrades were left out
+        if allowedByFocus and gain > (SGJ.VERDICT_EPS or 0.01) then
             results[targetSlot] = { gain = gain, pair = pairedItem }
         end
       end

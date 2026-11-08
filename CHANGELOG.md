@@ -1,5 +1,10 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.2.4
+
+### 🐛 Fixes
+- Small upgrades are suggested now: the cutoff matches Gear Judge's tooltip (0.01 instead of 0.1).
+
 ## 🚀 v3.2.3
 
 ### 🗺️ Dungeon Loot Updated (WoW Forever)
