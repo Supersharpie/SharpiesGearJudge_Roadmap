@@ -673,6 +673,21 @@ function Roadmap.InitView(parent)
     -- ==========================================
     -- CENTRE: CHARACTER MODEL
     -- ==========================================
+    -- Mouse-wheel zoom: some clients' DressUpModel has no Get/SetPortraitZoom (a wheel turn
+    -- errored); then the camera distance is scaled instead.
+    local function ZoomModel(m, delta)
+        if m.GetPortraitZoom and m.SetPortraitZoom then
+            local z = (m:GetPortraitZoom() or 0) + (delta > 0 and 0.1 or -0.1)
+            m:SetPortraitZoom(math.max(m.minZoom or 0, math.min(m.maxZoom or 1, z)))
+        elseif m.SetCamDistanceScale then
+            m.sgjZoom = math.max(0.4, math.min(1.6, (m.sgjZoom or 1) - delta * 0.1))
+            m:SetCamDistanceScale(m.sgjZoom)
+        end
+    end
+    local function ResetZoom(m)
+        if m.SetPortraitZoom then m:SetPortraitZoom(0) end
+        if m.SetCamDistanceScale then m.sgjZoom = 1; m:SetCamDistanceScale(1) end
+    end
     local modelSuccess = pcall(function()
         f.Model = CreateFrame("DressUpModel", "SGJ_RoadmapModel", f.Center, "ModelWithControlsTemplate")
         f.Model:SetPoint("TOPLEFT", f.Center, "TOPLEFT", SLOT_SIZE + 10, -50)
@@ -684,8 +699,8 @@ function Roadmap.InitView(parent)
         -- Stay in the window's strata (it's HIGH): a BACKGROUND model is drawn behind
         -- the whole window. Just above the centre panel so the slot buttons stay on top.
         f.Model:SetFrameLevel(f.Center:GetFrameLevel() + 1)
-        f.Model:SetScript("OnMouseWheel", function(self, delta) local z = self:GetPortraitZoom(); if delta > 0 then self:SetPortraitZoom(z + 0.1) else self:SetPortraitZoom(z - 0.1) end end)
-        f.Model:SetScript("OnMouseDown", function(self, button) if button == "LeftButton" then self.isRotating = true; local x, y = GetCursorPosition(); self.prevX = x; self:SetScript("OnUpdate", function(self) if self.isRotating then local cx, cy = GetCursorPosition(); self:SetFacing(self:GetFacing() + ((cx - self.prevX) * 0.01)); self.prevX = cx end end) elseif button == "RightButton" then self:Undress(); self:SetUnit("player"); self:SetPortraitZoom(0) end end)
+        f.Model:SetScript("OnMouseWheel", ZoomModel)
+        f.Model:SetScript("OnMouseDown", function(self, button) if button == "LeftButton" then self.isRotating = true; local x, y = GetCursorPosition(); self.prevX = x; self:SetScript("OnUpdate", function(self) if self.isRotating then local cx, cy = GetCursorPosition(); self:SetFacing(self:GetFacing() + ((cx - self.prevX) * 0.01)); self.prevX = cx end end) elseif button == "RightButton" then self:Undress(); self:SetUnit("player"); ResetZoom(self) end end)
         f.Model:SetScript("OnMouseUp", function(self) self.isRotating = false; self:SetScript("OnUpdate", nil) end)
     end)
 

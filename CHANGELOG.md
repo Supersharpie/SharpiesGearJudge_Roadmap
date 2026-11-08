@@ -1,5 +1,10 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.2.5
+
+### 🐛 Fixes
+- Scrolling the mouse wheel over the character model no longer causes an error. The model zooms by camera distance where the game has no portrait zoom.
+
 ## 🚀 v3.2.4
 
 ### 🐛 Fixes
