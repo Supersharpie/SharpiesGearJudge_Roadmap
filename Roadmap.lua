@@ -66,6 +66,7 @@ local function QuestDone(questID)
     return ok and done and true or false
 end
 
+
 -- Profession quest rows ("Fishing Quests") only show for characters who have that
 -- profession. Skill line IDs, matched through GetProfessions where the client has it,
 -- else by the skill's name (English or translated) in the skill list.
@@ -197,6 +198,118 @@ end
 
 local Roadmap = {}
 SGJ.Roadmap = Roadmap
+
+-- =============================================================
+-- [[ QUESTIEDB (optional companion) ]]
+-- With the QuestieDB addon loaded, the quest list reads its public QuestDB / NpcDB
+-- tables at run time (nothing of it is copied into Roadmap): earlier quests a reward
+-- quest needs, quests that lock each other out, reputation needs and quest givers.
+-- Without it everything works as before.
+-- =============================================================
+local QuestieCache = {}
+local function QuestieGet(questID, key)
+    local db = _G.QuestDB
+    if type(db) ~= "table" or type(db.Get) ~= "function" or not questID then return nil end
+    local c = QuestieCache[questID]
+    if not c then c = {}; QuestieCache[questID] = c end
+    local v = c[key]
+    if v == nil then
+        local ok, got = pcall(db.Get, questID, key)
+        v = (ok and got ~= nil) and got or false
+        c[key] = v
+    end
+    return v or nil
+end
+function Roadmap.HasQuestie()
+    return type(_G.QuestDB) == "table" and type(_G.QuestDB.Get) == "function"
+end
+
+-- A quest another one locks out (one of a choose-one set already done) can't be taken.
+local function QuestLockedOut(questID)
+    local ex = QuestieGet(questID, "exclusiveTo")
+    if type(ex) ~= "table" then return false end
+    for _, other in ipairs(ex) do
+        if other ~= questID and QuestDone(other) then return true end
+    end
+    return false
+end
+
+-- The first earlier quest still missing, or nil. preQuestSingle: any one of them;
+-- preQuestGroup: all of them (a negative ID there must NOT be done).
+local function MissingPrereq(questID)
+    local single = QuestieGet(questID, "preQuestSingle")
+    if type(single) == "table" and #single > 0 then
+        local any = false
+        for _, p in ipairs(single) do if QuestDone(p) then any = true; break end end
+        if not any then return single[1] end
+    end
+    local group = QuestieGet(questID, "preQuestGroup")
+    if type(group) == "table" then
+        for _, p in ipairs(group) do
+            if p > 0 and not QuestDone(p) then return p end
+        end
+    end
+    return nil
+end
+
+-- Walks back to the earlier quest that can be done now. Returns it and how many
+-- quests come before the reward quest (nil when nothing is missing).
+function Roadmap.QuestiePrereqs(questID)
+    local first = MissingPrereq(questID)
+    if not first then return nil end
+    local steps, seen = 1, { [questID] = true }
+    while steps < 30 do
+        seen[first] = true
+        local before = MissingPrereq(first)
+        if not before or seen[before] then break end
+        first, steps = before, steps + 1
+    end
+    return first, steps
+end
+
+local REP_LABEL = { { 42000, 8 }, { 21000, 7 }, { 9000, 6 }, { 3000, 5 }, { 0, 4 } }
+-- Reputation the quest needs and this character lacks: faction name, standing label.
+function Roadmap.QuestieRepShort(questID)
+    local req = QuestieGet(questID, "requiredMinRep")
+    if type(req) ~= "table" or not req[1] or not req[2] or req[2] <= 0 then return nil end
+    local name, cur
+    if C_Reputation and C_Reputation.GetFactionDataByID then
+        local ok, d = pcall(C_Reputation.GetFactionDataByID, req[1])
+        if ok and d then name, cur = d.name, d.currentStanding end
+    end
+    if not name and GetFactionInfoByID then
+        local ok, n, _, _, _, _, value = pcall(GetFactionInfoByID, req[1])
+        if ok then name, cur = n, value end
+    end
+    if cur and cur >= req[2] then return nil end
+    local label
+    for _, t in ipairs(REP_LABEL) do
+        if req[2] >= t[1] then label = _G["FACTION_STANDING_LABEL" .. t[2]]; break end
+    end
+    return name or "?", label or tostring(req[2])
+end
+
+function Roadmap.QuestieName(questID)
+    local n = QuestieGet(questID, "name")
+    return type(n) == "string" and n or nil
+end
+
+-- Name of the NPC (or object) that starts the quest.
+function Roadmap.QuestieGiver(questID)
+    local by = QuestieGet(questID, "startedBy")
+    if type(by) ~= "table" then return nil end
+    local npcs = by[1]
+    if type(npcs) == "table" and npcs[1] and type(_G.NpcDB) == "table" and _G.NpcDB.Get then
+        local ok, n = pcall(_G.NpcDB.Get, npcs[1], "name")
+        if ok and type(n) == "string" then return n end
+    end
+    local objs = by[2]
+    if type(objs) == "table" and objs[1] and type(_G.ObjectDB) == "table" and _G.ObjectDB.Get then
+        local ok, n = pcall(_G.ObjectDB.Get, objs[1], "name")
+        if ok and type(n) == "string" then return n end
+    end
+    return nil
+end
 
 local _, _, _, interfaceVersion = GetBuildInfo()
 Roadmap.IsEra = (SGJ.IsEra or SGJ.IsForever)
@@ -2177,7 +2290,7 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
         if info.questID then
             if (info.side and info.side ~= playerFaction) or (info.class and info.class ~= playerClass) or (info.race and info.race ~= playerRace) then
                 hiddenOther[info.questID] = true
-            elseif QuestDone(info.questID) then
+            elseif QuestDone(info.questID) or QuestLockedOut(info.questID) then
                 hiddenDone[info.questID] = true
             end
         end
@@ -2190,6 +2303,8 @@ function Roadmap:ScanZoneData(zoneKey, applySmartFilter, missOut)
         if info.race and info.race ~= playerRace then allowed = false end
         -- A quest this character has already turned in can't reward it again.
         if allowed and info.questID and QuestDone(info.questID) then allowed = false end
+        -- QuestieDB: a quest locked out by one already done (choose-one sets) can't be taken either.
+        if allowed and info.questID and QuestLockedOut(info.questID) then allowed = false end
         -- Dungeon rows mix boss loot and quest rewards; the source checkboxes pick which.
         if allowed and not ItemSourceAllowed(zoneKey, ZONE_META[zoneKey], info) then allowed = false end
         
@@ -2382,8 +2497,22 @@ local function QuestRowTooltip(self)
         local where = qi.zone and L[qi.zone] or ""
         if qi.x then where = string.format("%s (%.0f, %.0f)", where, qi.x, qi.y) end
         GameTooltip:AddLine(string.format(L["Starts with %s, %s"], qi.start, where), 1, 1, 1, true)
+    else
+        local giver = Roadmap.QuestieGiver(q.questID)
+        if giver then GameTooltip:AddLine(string.format(L["Starts with %s"], giver), 1, 1, 1, true) end
     end
     if qi and qi.steps then GameTooltip:AddLine(string.format(L["Step %d of a %d-quest chain"], qi.step, qi.steps), 0.7, 0.7, 0.7) end
+    if not q.inLog then
+        local first, steps = Roadmap.QuestiePrereqs(q.questID)
+        if first then
+            local fname = Roadmap.QuestieName(first) or ("#" .. first)
+            local fgiver = Roadmap.QuestieGiver(first)
+            GameTooltip:AddLine(steps == 1 and L["Needs 1 earlier quest first."] or string.format(L["Needs %d earlier quests first."], steps), 1, 0.5, 0.25, true)
+            GameTooltip:AddLine(string.format(fgiver and L["Start with: %s (%s)"] or L["Start with: %s"], fname, fgiver), 1, 1, 1, true)
+        end
+        local faction, standing = Roadmap.QuestieRepShort(q.questID)
+        if faction then GameTooltip:AddLine(string.format(L["Needs %s with %s."], standing, faction), 1, 0.5, 0.25, true) end
+    end
     if q.choices and q.choices > 1 then GameTooltip:AddLine(string.format(L["Pick this one of the %d rewards."], q.choices), 0.4, 1, 0.4) end
     GameTooltip:Show()
 end
@@ -2460,12 +2589,23 @@ function Roadmap:RefreshQuestPanel()
         if qi and qi.steps then table.insert(sub, string.format(L["step %d/%d"], qi.step, qi.steps)) end
         row.Sub:SetText(table.concat(sub, " · "))
         local need = math.max(q.info.reqLevel or 0, (qi and qi.req) or 0)
+        local preFirst, preSteps, repFaction, repStanding
+        if not q.inLog and not (chained and q.addedToChain) then
+            preFirst, preSteps = Roadmap.QuestiePrereqs(q.questID)
+            repFaction, repStanding = Roadmap.QuestieRepShort(q.questID)
+        end
         if chained and q.addedToChain then
             row.Status:SetText("|cffffd100" .. L["In your chain set"] .. "|r")
             row:SetBackdropBorderColor(1, 0.82, 0, 0.7)
         elseif q.inLog then
             row.Status:SetText("|cff55ff55" .. L["In your log"] .. "|r"); inLog = inLog + 1
             row:SetBackdropBorderColor(0.33, 0.85, 0.33, 0.7)
+        elseif preFirst then
+            row.Status:SetText("|cffff8040" .. (preSteps == 1 and L["After 1 quest"] or string.format(L["After %d quests"], preSteps)) .. "|r")
+            row:SetBackdropBorderColor(TC("Edge", 1, 1, 1, 0.12))
+        elseif repFaction then
+            row.Status:SetText("|cffff8040" .. string.format(L["Needs %s"], repStanding) .. "|r")
+            row:SetBackdropBorderColor(TC("Edge", 1, 1, 1, 0.12))
         elseif need > level then
             row.Status:SetText("|cff999999" .. string.format(L["At level %d"], need) .. "|r")
             row:SetBackdropBorderColor(TC("Edge", 1, 1, 1, 0.12))
@@ -2497,7 +2637,12 @@ function Roadmap:RefreshQuestPanel()
     local foot = {}
     if data.hiddenDone > 0 then table.insert(foot, string.format(L["%d done"], data.hiddenDone)) end
     if data.hiddenOther > 0 then table.insert(foot, string.format(L["%d for another faction, class or race"], data.hiddenOther)) end
-    qp.Foot:SetText(#foot > 0 and string.format(L["Hidden: %s"], table.concat(foot, ", ")) or "")
+    local footText = #foot > 0 and string.format(L["Hidden: %s"], table.concat(foot, ", ")) or ""
+    -- Without the companion addon, say what it would add.
+    if not Roadmap.HasQuestie() then
+        footText = (footText ~= "" and (footText .. "\n") or "") .. L["Install QuestieDB to see which earlier quests a reward needs."]
+    end
+    qp.Foot:SetText(footText)
 end
 
 -- =============================================================

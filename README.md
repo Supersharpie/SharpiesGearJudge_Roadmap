@@ -1,6 +1,6 @@
 # Roadmap Plugin for Sharpie's Gear Judge (SGJ)
 
-**Version 3.2.5** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
+**Version 3.3.0** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
 
 **Roadmap** is a progression planning tool for **Sharpie's Gear Judge**. It scans every dungeon, plus the quest rewards in every zone, to build a personalized "Upgrade Leaderboard" showing which dungeons and quest zones offer the biggest power gains for your character.
 
@@ -23,6 +23,7 @@
 * **Only quests you can get:** rewards from the other faction's quests, other classes' quests and other races' quests are hidden. For example, Zephras Isle and the rest of the Skyborne starting chain only show for Skyborne characters.
 * **Holiday quests only during the event:** Darkmoon Faire, Lunar Festival, Midsummer and Scourge Invasion rows show while the event runs (from the in-game calendar).
 * **PvP Quests:** Alterac Valley quest rewards have their own checkbox, off by default.
+* **QuestieDB companion (optional, WoW Forever):** with the free QuestieDB addon installed, the quest list shows which rewards need earlier quests or reputation first, names the quest to start with, and hides quests locked out by one you already did.
 * **Quest chains:** the Epic Quests and Legendary Quests rows are marked "(quest chains)".
 * **Profession quests only with the profession:** rows like "Fishing Quests" show only for characters who have that profession.
 * **Only quests you haven't done:** rewards from quests this character has already turned in are left out.

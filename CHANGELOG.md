@@ -1,5 +1,13 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.3.0
+
+### 🧩 QuestieDB Companion (WoW Forever)
+- With the free **QuestieDB** addon installed, the quest list shows which reward quests need earlier quests first ("After 3 quests") and which need reputation, and the tooltip names the quest to start with.
+- Quests locked out by one you already did (choose-one sets like the care packages) are hidden.
+- Quest givers missing from Roadmap's own data come from QuestieDB.
+- Without QuestieDB everything works as before; the quest list says what installing it adds.
+
 ## 🚀 v3.2.5
 
 ### 🐛 Fixes
