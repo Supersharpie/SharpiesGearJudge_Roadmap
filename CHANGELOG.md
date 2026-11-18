@@ -1,5 +1,21 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.3.1
+
+### 🐛 Fixes
+- WoW Forever: Expertise is valued on its cap curve in the gear plan, as the tooltips do.
+
+### 🗺️ New Dungeon Loot (WoW Forever)
+- **Four new dungeons on the leaderboard:** The Drowned City (33 drops, level 35), Krol'dok Stronghold (9, level 40), Alcaz Prison (24, level 48) and Blackmaw Hold (23, level 55), from the drops players have seen so far on Wowhead. Their quest rewards sit in the same rows.
+- Only Forever's own items are listed, not the Classic world drops that also show up there. Krol'dok Stronghold has trash drops only so far, and The Shaper's Terrace has no known loot yet (its quests have a row of their own).
+- Some older dungeon drops got small required-level fixes from the latest game data.
+
+### 📜 Quest Rewards Updated (WoW Forever)
+- **243 new quest rewards**, most at levels 30-60: Mount Hyjal (43) and Riverglades (43) are new, plus Stranglethorn Vale, Azshara, The Hinterlands, Feralas, Shen'dralas and others.
+- **Quests for the five new dungeons** are included: The Drowned City, Krol'dok Stronghold, Alcaz Prison, Blackmaw Hold and The Shaper's Terrace.
+- New quest rewards for the City of Dalaran, Zul'Farrak, Uldaman, Maraudon, Dire Maul, Blackrock Depths, the Sunken Temple and Razorfen Downs.
+- Ground to Keep (Arathi Highlands) no longer gives the chest piece.
+
 ## 🚀 v3.3.0
 
 ### 🧩 QuestieDB Companion (WoW Forever)

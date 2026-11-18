@@ -1,6 +1,6 @@
 # Roadmap Plugin for Sharpie's Gear Judge (SGJ)
 
-**Version 3.3.0** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
+**Version 3.3.1** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
 
 **Roadmap** is a progression planning tool for **Sharpie's Gear Judge**. It scans every dungeon, plus the quest rewards in every zone, to build a personalized "Upgrade Leaderboard" showing which dungeons and quest zones offer the biggest power gains for your character.
 
@@ -8,7 +8,7 @@
 
 ### 🗺️ Dungeon Leaderboard
 * Scans every dungeon for your game version:
-  * **WoW Forever:** every Forever dungeon with a known loot table, including the new ones such as Hall of Thanes, Ruins of Lordaeron, Excavation Site: Wetlands and City of Dalaran. Multi-wing dungeons (Scarlet Monastery, Dire Maul, Stratholme, Blackrock Spire) are one row each, with the wing shown next to the boss.
+  * **WoW Forever:** every Forever dungeon with a known loot table, including the new ones such as Hall of Thanes, Ruins of Lordaeron, Excavation Site: Wetlands, City of Dalaran, The Drowned City, Krol'dok Stronghold, Alcaz Prison and Blackmaw Hold (the last four with the drops players have seen so far). Multi-wing dungeons (Scarlet Monastery, Dire Maul, Stratholme, Blackrock Spire) are one row each, with the wing shown next to the boss.
   * **Classic Era:** all Classic dungeons, plus Zul'Gurub and Ruins of Ahn'Qiraj.
   * **TBC Anniversary:** all Classic and TBC dungeons (Normal and Heroic), plus the G'eras badge vendor.
 * Ranks them by **Total Upgrade Score**, so you know exactly where to go next.
@@ -19,7 +19,7 @@
 * **Quest list:** click a quest zone to see its quests in place of your character model: each quest's best reward and gain ("best of N" for a choose-one quest), its level and chain step, and whether it's in your log, available now, or at a later level. Hover for the quest giver and where to find them (WoW Forever).
 * **World Quests:** each zone gets its own "Quests" row in the leaderboard (for example "Elwynn Forest Quests"), including class, profession and event quests.
 * **Dungeon Quests:** rewards from a dungeon's quests sit in that dungeon's row next to its boss loot, marked "Quest:".
-* On WoW Forever, nearly 2,000 equippable quest rewards are included. Each counts from the level its quest can be picked up, not the lower level printed on the item.
+* On WoW Forever, about 2,270 equippable quest rewards are included, among them Mount Hyjal and the quests for the five new Forever dungeons. Each counts from the level its quest can be picked up, not the lower level printed on the item.
 * **Only quests you can get:** rewards from the other faction's quests, other classes' quests and other races' quests are hidden. For example, Zephras Isle and the rest of the Skyborne starting chain only show for Skyborne characters.
 * **Holiday quests only during the event:** Darkmoon Faire, Lunar Festival, Midsummer and Scourge Invasion rows show while the event runs (from the in-game calendar).
 * **PvP Quests:** Alterac Valley quest rewards have their own checkbox, off by default.
