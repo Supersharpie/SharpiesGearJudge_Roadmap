@@ -311,6 +311,10 @@ function Roadmap.QuestieGiver(questID)
     return nil
 end
 
+-- Shared with the Zone Quests window (ZoneQuests.lua).
+Roadmap.QuestDone, Roadmap.OnQuest, Roadmap.QuestLockedOut = QuestDone, OnQuest, QuestLockedOut
+Roadmap.HasProfession, Roadmap.ProfessionSkill = HasProfession, PROFESSION_SKILL
+
 local _, _, _, interfaceVersion = GetBuildInfo()
 Roadmap.IsEra = (SGJ.IsEra or SGJ.IsForever)
 Roadmap.IsTBC = SGJ.IsTBC
@@ -878,6 +882,25 @@ function Roadmap.InitView(parent)
     viewBtn:SetScript("OnLeave", GameTooltip_Hide)
     viewBtn:Hide()
     f.ViewToggle = viewBtn
+
+    -- Zone Quests: opens the small list of quests you can pick up where you stand.
+    if Roadmap.ToggleZoneQuests then
+        local zqBtn = CreateFrame("Button", nil, f.Center, "UIPanelButtonTemplate")
+        zqBtn:SetSize(96, 20)
+        zqBtn:SetPoint("TOPLEFT", f.Center, "TOPLEFT", SLOT_SIZE + 14, -46)
+        zqBtn:SetFrameLevel(f.Center:GetFrameLevel() + 5)
+        local zfs = zqBtn:GetFontString(); if zfs then zfs:SetFontObject("GameFontHighlightSmall") end
+        zqBtn:SetText(L["Zone Quests"])
+        zqBtn:SetScript("OnClick", function() Roadmap.ToggleZoneQuests() end)
+        zqBtn:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+            GameTooltip:SetText(L["Zone Quests"], 1, 1, 1)
+            GameTooltip:AddLine(L["Every quest you can pick up in the zone you're in."], nil, nil, nil, true)
+            GameTooltip:AddLine("/sgjq", 0.6, 0.6, 0.6)
+            GameTooltip:Show()
+        end)
+        zqBtn:SetScript("OnLeave", GameTooltip_Hide)
+    end
 
     f.HelpText = f.Center:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
     f.HelpText:SetPoint("BOTTOM", 0, 12)

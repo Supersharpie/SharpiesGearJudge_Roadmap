@@ -1,5 +1,17 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.4.0
+
+### 📍 Zone Quests (WoW Forever)
+- **New Zone Quests window** (`/sgjq`, or the Zone Quests button in Roadmap): every quest you can pick up in the zone you're in, for your class, race and level.
+- Optional minimap button, off by default: tick "Minimap button" in the window or type `/sgjq minimap`. Right-click the button to hide it again.
+- Done quests, quests that need earlier quests, reputation or a profession you lack, and holiday and repeatable quests are left out. The footer counts what was hidden; hover it to see which quests need another quest first (and the quest to start with) or a higher level.
+- Quests that start from an item (a drop) or that a giver only offers while you carry one (like An Apple Treat, signet and coin turn-ins, sealed crates) are listed dimmed as "From an item" or "Needs item"; the tooltip names the item.
+- Quests in your log are listed first. Gray quests and quests that open within 2 levels are shown dimmed at the bottom.
+- Each row shows the quest level and giver with map coordinates. Hover for the objectives; click to set a waypoint to the giver (TomTom when installed, else the game's map pin, which DaylightUI's marker and arrow follow).
+- Updates when you change zone, take or turn in a quest, or level up.
+- Needs the free QuestieDB addon, which knows every quest and who gives it.
+
 ## 🚀 v3.3.1
 
 ### 🐛 Fixes

@@ -1,6 +1,6 @@
 # Roadmap Plugin for Sharpie's Gear Judge (SGJ)
 
-**Version 3.3.1** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
+**Version 3.4.0** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
 
 **Roadmap** is a progression planning tool for **Sharpie's Gear Judge**. It scans every dungeon, plus the quest rewards in every zone, to build a personalized "Upgrade Leaderboard" showing which dungeons and quest zones offer the biggest power gains for your character.
 
@@ -28,6 +28,13 @@
 * **Profession quests only with the profession:** rows like "Fishing Quests" show only for characters who have that profession.
 * **Only quests you haven't done:** rewards from quests this character has already turned in are left out.
 * **One reward per choice:** when a quest lets you pick one of several rewards, the Roadmap suggests at most one of them.
+
+### 📍 Zone Quests (WoW Forever, needs QuestieDB)
+* **One small list:** type `/sgjq` or click **Zone Quests** in Roadmap to see every quest you can pick up in the zone you're in, for your class, race and level. An optional minimap button (off by default) can be turned on with the **Minimap button** checkbox in the window or `/sgjq minimap`; right-click it to hide it again.
+* Done quests, quests that need earlier quests, reputation or a profession you lack, and holiday and repeatable quests are left out; the footer counts what was hidden.
+* Quests in your log come first. Gray quests and quests that open within 2 levels are dimmed at the bottom.
+* Each row shows the quest level and the giver with map coordinates. Hover for the objectives; click to set a waypoint to the giver (TomTom when installed, else the game's map pin, which DaylightUI's quest marker and arrow follow).
+* Updates when you change zone, take or turn in a quest, or level up. Needs the free **QuestieDB** addon.
 
 ### 🧰 Scan Settings
 * **Mode:** score with PvE or PvP stat weights.
