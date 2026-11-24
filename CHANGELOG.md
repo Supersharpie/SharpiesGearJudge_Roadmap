@@ -1,5 +1,10 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.4.1
+
+### 🐛 Fixes
+- Russian and Traditional Chinese: "...and N more" is worded the same as in XP Bar and Roster, so the three addons no longer overwrite each other's text.
+
 ## 🚀 v3.4.0
 
 ### 📍 Zone Quests (WoW Forever)
