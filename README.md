@@ -1,6 +1,6 @@
 # Roadmap Plugin for Sharpie's Gear Judge (SGJ)
 
-**Version 3.4.1** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
+**Version 3.4.2** | Requires **Sharpie's Gear Judge** | Works on **WoW Forever**, **Classic Era** and **TBC Anniversary**
 
 **Roadmap** is a progression planning tool for **Sharpie's Gear Judge**. It scans every dungeon, plus the quest rewards in every zone, to build a personalized "Upgrade Leaderboard" showing which dungeons and quest zones offer the biggest power gains for your character.
 
@@ -8,7 +8,7 @@
 
 ### 🗺️ Dungeon Leaderboard
 * Scans every dungeon for your game version:
-  * **WoW Forever:** every Forever dungeon with a known loot table, including the new ones such as Hall of Thanes, Ruins of Lordaeron, Excavation Site: Wetlands, City of Dalaran, The Drowned City, Krol'dok Stronghold, Alcaz Prison and Blackmaw Hold (the last four with the drops players have seen so far). Multi-wing dungeons (Scarlet Monastery, Dire Maul, Stratholme, Blackrock Spire) are one row each, with the wing shown next to the boss.
+  * **WoW Forever:** every Forever dungeon with a known loot table, including the new ones such as Hall of Thanes, Ruins of Lordaeron, Excavation Site: Wetlands, City of Dalaran, The Drowned City, Krol'dok Stronghold, Alcaz Prison, Blackmaw Hold and The Shaper's Terrace (their boss loot plus the rare and zone drops players have seen). Multi-wing dungeons (Scarlet Monastery, Dire Maul, Stratholme, Blackrock Spire) are one row each, with the wing shown next to the boss.
   * **Classic Era:** all Classic dungeons, plus Zul'Gurub and Ruins of Ahn'Qiraj.
   * **TBC Anniversary:** all Classic and TBC dungeons (Normal and Heroic), plus the G'eras badge vendor.
 * Ranks them by **Total Upgrade Score**, so you know exactly where to go next.
@@ -53,7 +53,7 @@
 
 ### 🛡️ Same Scoring as Gear Judge
 * Roadmap uses the core addon's scoring engine, so its numbers match your tooltips: your profile, leveling weights, hit and defense caps, and **Gear for PvP** when it's on.
-* It also uses the **Buff Assumptions** from Protocol settings. Enable **Assume Raid Buffed** in SGJ settings so Roadmap stops recommending hit-heavy loot when you already get hit from raid buffs.
+* It also uses the **Buff Assumptions** from Gear Judge Settings. Enable **Assume Raid Buffed** in SGJ settings so Roadmap stops recommending hit-heavy loot when you already get hit from raid buffs.
 * After you equip an item or level up, the next scan uses your new gear and level.
 
 ### 🔗 Chain Mode (Progression Sim)
@@ -86,7 +86,7 @@
 
 1.  **Pick what to scan:** Set Mode, Profile and Focus, the level range, and which sources (Dungeon Loot, Dungeon Quests, World Quests) to include.
 2.  **Set Phase (TBC):** Choose your **Content Phase** from the dropdown (P1 for Kara launch, P5 for Sunwell/MgT).
-3.  **Configure Buffs (optional):** In SGJ **Protocol → Buff Assumptions**, enable **Assume Raid Buffed** if you run with a full raid comp.
+3.  **Configure Buffs (optional):** In SGJ **Settings → Buff Assumptions**, enable **Assume Raid Buffed** if you run with a full raid comp.
 4.  **Calculate:** Click "Calculate Roadmap" to scan eligible dungeons and quest zones.
 5.  **View:** Click any row in the right-hand leaderboard to see its upgrades.
 6.  **Chain Mode:**

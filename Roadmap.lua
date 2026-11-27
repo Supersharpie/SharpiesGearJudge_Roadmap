@@ -369,11 +369,12 @@ local ZONE_META = {
     ["Ruins of Lordaeron"]= { name="Ruins of Lordaeron", min=15 }, -- Forever only
     ["Excavation Site"]   = { name="Excavation Site: Wetlands", min=26 }, -- Forever only (2 Oct patch)
     ["City of Dalaran"]   = { name="City of Dalaran",   min=28 }, -- Forever only (8 Oct patch)
-    -- Forever only, loot from Wowhead's Forever drops (2026-11-16); levels from foreverchanges' dungeon list
+    -- Forever only: loot from foreverchanges' dungeon pages plus the drops Wowhead saw that they lack (2026-11-27; Wowhead only, 11-16)
     ["The Drowned City"]  = { name="The Drowned City",  min=35 },
     ["Krol'dok Stronghold"] = { name="Krol'dok Stronghold", min=40 },
     ["Alcaz Prison"]      = { name="Alcaz Prison",      min=48 },
     ["Blackmaw Hold"]     = { name="Blackmaw Hold",     min=55 },
+    ["Shaper's Terrace"]  = { name="The Shaper's Terrace", min=58 }, -- Forever only (loot on foreverchanges since late November)
     ["Shadowfang Keep"]   = { name="Shadowfang Keep",   min=22 },
     ["Blackfathom Deeps"] = { name="Blackfathom Deeps", min=24 },
     ["The Stockade"]      = { name="The Stockade",      min=24 },

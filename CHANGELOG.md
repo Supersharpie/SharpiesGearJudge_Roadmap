@@ -1,5 +1,11 @@
 # Sharpie's Gear Judge [Roadmap] - Version History
 
+## 🚀 v3.4.2
+
+### ✨ Dungeon Loot (WoW Forever)
+- Krol'dok Stronghold, The Drowned City, Alcaz Prison and Blackmaw Hold now list their full boss loot from foreverchanges.pro, plus the rare and zone drops players have seen (Krol'dok Stronghold went from 9 items to 28).
+- The Shaper's Terrace (58-60) is added, with 16 items.
+
 ## 🚀 v3.4.1
 
 ### 🐛 Fixes
